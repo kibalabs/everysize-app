@@ -1,0 +1,15 @@
+before_script:
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$FREEBOX_SSH_KEY")
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+deploy:
+  stage: deploy
+  script:
+    - ssh $FREEBOX_USER@$FREEBOX_URL "
+        cd ~/Projects/$CI_PROJECT_NAME &&
+        git reset --hard HEAD &&
+        git pull &&
+        ./run.sh
+      "

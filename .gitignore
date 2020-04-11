@@ -1,0 +1,51 @@
+# Mac
+*.DS_Store
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+
+# Autoenv
+.activate
+
+# Protobufs
+*_pb2.*
+
+# Testing
+coverage
+.coverage
+tests.xml
+lint.xml
+.noseids
+nosetests.xml
+eslint.xml
+jest.xml
+test.log
+lint.log
+pylint.log
+pipdeptree.log
+local_testing*
+mypy.log
+build*.log
+
+# Generated Code
+generated/
+
+# Python
+__pycache__/
+eggs/
+dist/
+build/
+*.egg-info/
+.env*
+.mypy_cache
+
+# JS
+node_modules/
+dist/
+build/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.d.ts
