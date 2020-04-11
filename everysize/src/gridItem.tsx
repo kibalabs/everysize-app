@@ -1,15 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const StyledInput = styled.input`
+  height: 25px;
+  background: none;
+  border: none;
+  border-bottom: white 1px solid;
+  color: white;
+  padding-left: 8px;
+  padding-right: 8px;
+  width: 30px;
+  text-align: center;
+`;
+
 interface IStyledGridItemProps {
-  width: string;
+  width: number;
 }
 
 const StyledGridItem = styled.div<IStyledGridItemProps> `
-width: ${(props: IStyledGridItemProps): string => props.width};
+  width: ${(props: IStyledGridItemProps): string => `${props.width}px`};
   background-color: #333333;
   display: flex;
   flex-direction: column;
+  min-width: 300px;
 `;
 
 const GridItemTitle = styled.div`
@@ -18,33 +31,36 @@ const GridItemTitle = styled.div`
   display: flex;
   flex-direction: row;
   color: white;
+  justify-content: space-around;
+  align-items: center;
 `;
 
 interface IGridItemChildrenHolderProps {
-  height: string;
+  height: number;
+  width: number;
 }
 
-
 const GridItemChildrenHolder = styled.div<IGridItemChildrenHolderProps>`
-  height: ${(props: IGridItemChildrenHolderProps): string => props.height};
+  height: ${(props: IGridItemChildrenHolderProps): string => `${props.height}px`};
+  width: ${(props: IGridItemChildrenHolderProps): string => `${props.width}px`};
 `;
 
 interface IGridItemProps {
-  initialHeight: string;
-  initialWidth: string;
+  initialHeight: number;
+  initialWidth: number;
   children: React.ReactChild | React.ReactChild[];
 }
 
 export const GridItem = (props: IGridItemProps): React.ReactElement => {
-  const [height, setHeight] = React.useState<string>(props.initialHeight);
-  const [width, setWidth] = React.useState<string>(props.initialWidth);
+  const [height, setHeight] = React.useState<number>(props.initialHeight);
+  const [width, setWidth] = React.useState<number>(props.initialWidth);
 
   const onHeightInputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setHeight(event.target.value);
+    setHeight(Number(event.target.value));
   };
 
   const onWidthInputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setWidth(event.target.value);
+    setWidth(Number(event.target.value));
   };
 
   return (
@@ -52,10 +68,10 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
       width={width}
     >
       <GridItemTitle>
-        height: <input value={height || '0'} onChange={onHeightInputChanged}></input>
-        width: <input value={width || '0'} onChange={onWidthInputChanged}></input>
+        <div>size: <StyledInput value={width || '0'} onChange={onWidthInputChanged} /> x <StyledInput value={height || '0'} onChange={onHeightInputChanged} /></div>
       </GridItemTitle>
       <GridItemChildrenHolder
+        width={width}
         height={height}
       >
         { props.children }
@@ -65,6 +81,6 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
 }
 
 GridItem.defaultProps = {
-  initialHeight: '100%',
-  initialWidth: '100%',
+  initialHeight: 100,
+  initialWidth: 100,
 };
