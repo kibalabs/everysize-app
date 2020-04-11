@@ -60,6 +60,7 @@ interface IGridItemProps {
   initialWidth: number;
   initialZoom: number;
   onCloseClicked: (itemId: string) => void;
+  onSizeChanged: (itemId: string, width: number, height: number) => void;
   children: React.ReactChild | React.ReactChild[];
 }
 
@@ -124,14 +125,19 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
       setZoom(candidate);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zoomInput]);
+}, [zoomInput]);
 
-  React.useEffect((): void => {
-    if (device) {
-      setHeightInput(String(device.height));
-      setWidthInput(String(device.width));
-    }
-  }, [device]);
+React.useEffect((): void => {
+  if (device) {
+    setHeightInput(String(device.height));
+    setWidthInput(String(device.width));
+  }
+}, [device]);
+
+React.useEffect((): void => {
+  props.onSizeChanged(props.itemId, width / zoom, height / zoom);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.itemId, width, height, zoom]);
 
   const onCloseClicked = (): void => {
     props.onCloseClicked(props.itemId);

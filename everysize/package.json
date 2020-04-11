@@ -9,8 +9,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@types/deep-equal": "^1.0.1",
+    "@types/react-grid-layout": "^0.17.1",
+    "deep-equal": "^2.0.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-grid-layout": "0.18.3",
     "styled-components": "5.1.0"
   },
   "devDependencies": {
