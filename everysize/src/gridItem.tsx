@@ -104,7 +104,8 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
         setDevice(null);
       }
     }
-  }, [heightInput, height, zoomInput, device]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [heightInput]);
 
   React.useEffect((): void => {
     const candidate = Number(widthInput);
@@ -114,15 +115,16 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
         setDevice(null);
       }
     }
-  }, [widthInput, width, zoomInput, device]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [widthInput]);
 
   React.useEffect((): void => {
     const candidate = Number(zoomInput);
     if (candidate && candidate !== zoom) {
       setZoom(candidate);
-      setDevice(null);
     }
-  }, [zoomInput, zoom]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zoomInput]);
 
   React.useEffect((): void => {
     if (device) {
@@ -152,7 +154,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
           <select value={device ? device.name : ''} onChange={onDeviceInputChanged}>
             <option value=''>Manual</option>
             {devices.map((device: IDevice): React.ReactElement => (
-              <option value={device.name} key={device.name}>{device.name} ({device.width}x{device.height})</option>
+              <option value={device.name} key={device.name}>{device.name}</option>
             ))}
           </select>
           <StyledInput value={widthInput} onChange={onWidthInputChanged} />
