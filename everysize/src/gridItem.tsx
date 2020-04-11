@@ -31,8 +31,10 @@ const GridItemTitle = styled.div`
   display: flex;
   flex-direction: row;
   color: white;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  padding-left: 8px;
+  padding-right: 8px;
 `;
 
 interface IGridItemChildrenHolderProps {
@@ -46,8 +48,10 @@ const GridItemChildrenHolder = styled.div<IGridItemChildrenHolderProps>`
 `;
 
 interface IGridItemProps {
+  itemId: string;
   initialHeight: number;
   initialWidth: number;
+  onCloseClicked: (itemId: string) => void;
   children: React.ReactChild | React.ReactChild[];
 }
 
@@ -63,12 +67,17 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
     setWidth(Number(event.target.value));
   };
 
+  const onCloseClicked = (): void => {
+    props.onCloseClicked(props.itemId);
+  }
+
   return (
     <StyledGridItem
       width={width}
     >
       <GridItemTitle>
         <div>size: <StyledInput value={width || '0'} onChange={onWidthInputChanged} /> x <StyledInput value={height || '0'} onChange={onHeightInputChanged} /></div>
+        <button onClick={onCloseClicked}>x</button>
       </GridItemTitle>
       <GridItemChildrenHolder
         width={width}
