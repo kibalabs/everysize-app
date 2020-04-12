@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import GridLayout, { Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { ReactComponent as Logo } from './everysize-wordmark.svg';
 
+import { NavBar } from './navBar';
 import { WebView } from './webView';
 import { GridItem } from './gridItem';
 
@@ -32,7 +32,7 @@ const GridItemWrapper = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
 
-function App() {
+const App = (): React.ReactElement => {
   const [nextItemId, setNextItemId] = React.useState<number>(1);
   const [url, setUrl] = React.useState<string>('https://example.com');
   const [boxes, setBoxes] = React.useState<IBox[]>([{itemId: String(nextItemId), initialWidth: 800, initialHeight: 500, height: 1, width: 1, zoom: 1, positionX: 0, positionY: 0}]);
@@ -41,10 +41,6 @@ function App() {
     setNextItemId(nextItemId + 1);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const onUrlChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setUrl(event.target.value);
-  };
 
   const onAddClicked = (): void => {
     setBoxes([...boxes, {itemId: String(nextItemId), initialWidth: 400, initialHeight: 300, height: 1, width: 1, zoom: 1, positionX: 0, positionY: 0}]);
@@ -97,21 +93,9 @@ function App() {
     });
   }
 
-  console.log('columnCount', columnCount)
-  console.log('width', totalWidth)
-  console.log('rowHeight', rowHeight)
-  console.log('boxes', boxes);
-  console.log('layouts', getLayout());
-
   return (
     <div>
-      <Logo height='50px' width='300px'/>
-      <br />
-      <input
-        value={url}
-        onChange={onUrlChanged}
-      />
-      <hr />
+      <NavBar url={url} onUrlChanged={setUrl}/>
       <button onClick={onAddClicked}>add</button>
       <hr />
       <div>
