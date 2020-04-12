@@ -33,7 +33,7 @@ const GridItemWrapper = styled.div`
 
 function App() {
   const [nextItemId, setNextItemId] = React.useState<number>(1);
-  const [url, setUrl] = React.useState<string>('http://example.com');
+  const [url, setUrl] = React.useState<string>('https://example.com');
   const [boxes, setBoxes] = React.useState<IBox[]>([{itemId: String(nextItemId), initialWidth: 800, initialHeight: 500, height: 1, width: 1, zoom: 1, positionX: 0, positionY: 0}]);
 
   React.useEffect((): void => {
