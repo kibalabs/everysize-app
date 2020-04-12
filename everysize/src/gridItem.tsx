@@ -14,19 +14,10 @@ const StyledInput = styled.input`
   text-align: center;
 `;
 
-interface IStyledGridItemProps {
-  width: number;
-  height: number;
-}
-
-const StyledGridItem = styled.div<IStyledGridItemProps>`
-  width: ${(props: IStyledGridItemProps): string => `${props.width}px`};
-  height: ${(props: IStyledGridItemProps): string => `calc(${props.height}px + 50px)`};
-  background-color: #333333;
+const StyledGridItem = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 300px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   align-items: center;
 `;
 
@@ -61,6 +52,7 @@ interface IGridItemProps {
   initialZoom: number;
   columnWidth: number;
   rowHeight: number;
+  paddingSize: number;
   onCloseClicked: (itemId: string) => void;
   onSizeChanged: (itemId: string, width: number, height: number) => void;
   children: React.ReactChild | React.ReactChild[];
@@ -148,10 +140,7 @@ React.useEffect((): void => {
   };
 
   return (
-    <StyledGridItem
-      width={Math.ceil((width / zoom) / props.columnWidth) * props.columnWidth}
-      height={Math.ceil((height / zoom) / props.rowHeight) * props.rowHeight}
-    >
+    <StyledGridItem>
       <GridItemTitle>
         <select value={zoomInput} onChange={onZoomInputChanged}>
           <option value="1">1x</option>

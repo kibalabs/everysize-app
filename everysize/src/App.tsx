@@ -20,18 +20,23 @@ interface IBox {
   zoom: number;
 }
 
-const rowHeight = 50;
-const columnWidth = 50;
+const rowHeight = 20;
+const columnWidth = 20;
+const paddingSize = 10;
 const totalWidth = 1000;
+const columnCount = (totalWidth - paddingSize) / (columnWidth + paddingSize);
 
 const GridItemWrapper = styled.div`
-
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: #333333;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
 
 function App() {
   const [nextItemId, setNextItemId] = React.useState<number>(1);
   const [url, setUrl] = React.useState<string>('https://kiwidocs.co');
-  const [boxes, setBoxes] = React.useState<IBox[]>([{itemId: String(nextItemId), initialHeight: 500, initialWidth: 750, height: 1, width: 1, zoom: 2, positionX: 0, positionY: 0}]);
+  const [boxes, setBoxes] = React.useState<IBox[]>([{itemId: String(nextItemId), initialWidth: 400, initialHeight: 300, height: 1, width: 1, zoom: 1, positionX: 0, positionY: 0}]);
   // const [layouts, setLayouts] = React.useState<Layout[]>([]);
 
   React.useEffect((): void => {
@@ -44,7 +49,7 @@ function App() {
   };
 
   const onAddClicked = (): void => {
-    setBoxes([...boxes, {itemId: String(nextItemId), initialHeight: 500, initialWidth: 750, height: 1, width: 1, zoom: 2, positionX: 10, positionY: 10}]);
+    setBoxes([...boxes, {itemId: String(nextItemId), initialWidth: 400, initialHeight: 300, height: 1, width: 1, zoom: 1, positionX: 10, positionY: 10}]);
     setNextItemId(nextItemId + 1);
   };
 
@@ -53,7 +58,7 @@ function App() {
   }
 
   const onBoxSizeChanged = (itemId: string, width: number, height: number) => {
-    console.log('updating box', itemId);
+    console.log('updating box', itemId, width, height);
     setBoxes(boxes.map((box: IBox): IBox => (
       box.itemId === itemId ? {...box, width: width, height: height} : box
     )));
@@ -71,20 +76,30 @@ function App() {
     }));
   };
 
+  const getColumnCount = (width: number): number => {
+    // TODO(krish): the 0.00001 is because if the division lands on a whole number
+    // it will be wrong because there is an extra padding taken into account which wont be there
+    return Math.ceil(width / (rowHeight + paddingSize) + 0.000001);
+  }
+
+  const getRowCount = (height: number): number => {
+    return Math.ceil(height / (columnWidth + paddingSize) + 0.00001);
+  }
+
   const getLayout = (): Layout[] => {
     return boxes.map((box: IBox): Layout => {
       return {
         i: box.itemId,
         x: box.positionX,
         y: box.positionY,
-        w: Math.ceil(box.width / columnWidth),
-        h: Math.ceil(box.height / rowHeight),
+        w: getColumnCount(box.width),
+        h: getRowCount(box.height),
         isResizable: false,
       };
     });
   }
 
-  console.log('columns', totalWidth / columnWidth)
+  console.log('columnCount', columnCount)
   console.log('width', totalWidth)
   console.log('rowHeight', rowHeight)
   console.log('boxes', boxes);
@@ -101,10 +116,10 @@ function App() {
       <hr />
       <GridLayout
         className="layout"
-        cols={totalWidth / columnWidth}
+        cols={columnCount}
         width={totalWidth}
         rowHeight={rowHeight}
-        margin={[0, 0]}
+        margin={[paddingSize, paddingSize]}
         layout={getLayout()}
         onLayoutChange={onLayoutChanged}
       >
@@ -114,6 +129,7 @@ function App() {
               itemId={box.itemId}
               columnWidth={columnWidth}
               rowHeight={rowHeight}
+              paddingSize={paddingSize}
               initialHeight={box.initialHeight}
               initialWidth={box.initialWidth}
               initialZoom={box.zoom}
