@@ -11,7 +11,7 @@ const App = (): React.ReactElement => {
   const [boxes, setBoxes] = React.useState<IBox[]>([]);
 
   const onAddClicked = (): void => {
-    setBoxes([...boxes, {itemId: String(nextBoxId), initialWidth: 400, initialHeight: 300, height: 1, width: 1, zoom: 1, positionX: 0, positionY: 0}]);
+    setBoxes([...boxes, {itemId: String(nextBoxId), initialWidth: 600, initialHeight: 900, height: 1, width: 1, zoom: 2, positionX: 0, positionY: 0}]);
     setNextBoxId(nextBoxId + 1);
   };
 
@@ -20,14 +20,12 @@ const App = (): React.ReactElement => {
   };
 
   const onBoxSizeChanged = (itemId: string, width: number, height: number) => {
-    console.log('updating box size', itemId, width, height);
     setBoxes(boxes.map((box: IBox): IBox => (
       box.itemId === itemId ? {...box, width: width, height: height} : box
     )));
   };
 
   const onBoxPositionChanged = (itemId: string, positionX: number, positionY: number): void => {
-    console.log('updating box position', itemId, positionX, positionY);
     setBoxes(boxes.map((box: IBox): IBox => (
       box.itemId === itemId ? {...box, positionX: positionX, positionY: positionY} : box
     )));
