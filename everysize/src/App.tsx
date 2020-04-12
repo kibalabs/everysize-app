@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import GridLayout, { Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import { ReactComponent as Logo } from './everysize-wordmark.svg';
 
 import { WebView } from './webView';
 import { GridItem } from './gridItem';
@@ -104,6 +105,8 @@ function App() {
 
   return (
     <div>
+      <Logo height='50px' width='300px'/>
+      <br />
       <input
         value={url}
         onChange={onUrlChanged}
