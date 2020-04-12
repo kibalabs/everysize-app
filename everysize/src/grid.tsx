@@ -21,6 +21,39 @@ const GridItemWrapper = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
 
+interface IGridBackgroundProps {
+  paddingSize: number;
+  columnWidth: number;
+  rowHeight: number;
+}
+
+const GridBackground = styled.div<IGridBackgroundProps>`
+  height: ${(props: IGridBackgroundProps): string => `calc(100% - 2 * ${props.paddingSize}px)`};
+  width: ${(props: IGridBackgroundProps): string => `calc(100% - 2 * ${props.paddingSize}px)`};
+  position: absolute;
+  transition: 0.3s;
+  padding: ${(props: IGridBackgroundProps): string => `${props.paddingSize}px`};
+`;
+
+const GridBackgroundInner = styled.div<IGridBackgroundProps>`
+  height: 100%;
+  width: 100%;
+  background-image: radial-gradient(circle, #bbb 1px, transparent 0.5px);
+  background-size: ${(props: IGridBackgroundProps): string => `${props.paddingSize}px ${props.paddingSize}px`};
+  background-position: 4px 4px;
+  box-sizing: border-box;
+  border: #bbb 1px solid;
+  overflow: hidden;
+`;
+
+const GridBackgroundInnerInner = styled.div<IGridBackgroundProps>`
+  height: 100%;
+  width: 100%;
+  background-image: radial-gradient(circle, #fff 10px, transparent 0px);
+  background-size: 30px 30px;
+  background-position: -1px -1px;
+`;
+
 interface IGridProps {
   url: string;
   boxes: IBox[];
@@ -30,6 +63,8 @@ interface IGridProps {
 }
 
 export const Grid = (props: IGridProps): React.ReactElement => {
+  const [isDragging, setIsDragging] = React.useState(false);
+
   const onBoxCloseClicked = (itemId: string): void => {
     props.onBoxCloseClicked(itemId);
   }
@@ -68,10 +103,25 @@ export const Grid = (props: IGridProps): React.ReactElement => {
         isResizable: false,
       };
     });
-  }
+  };
+
+  const onDragStarted = (): void => {
+    setIsDragging(true);
+  };
+
+  const onDragStopped = (): void => {
+    setIsDragging(false);
+  };
 
   return (
-    <div>
+    <div style={{position: 'relative', maxWidth: `${totalWidth}px`}}>
+      {isDragging && (
+        <GridBackground paddingSize={paddingSize} rowHeight={rowHeight} columnWidth={columnWidth}>
+          <GridBackgroundInner paddingSize={paddingSize} rowHeight={rowHeight} columnWidth={columnWidth}>
+            <GridBackgroundInnerInner paddingSize={paddingSize} rowHeight={rowHeight} columnWidth={columnWidth}></GridBackgroundInnerInner>
+          </GridBackgroundInner>
+        </GridBackground>
+      )}
       <GridLayout
         className="layout"
         cols={columnCount}
@@ -80,6 +130,8 @@ export const Grid = (props: IGridProps): React.ReactElement => {
         margin={[paddingSize, paddingSize]}
         layout={getLayout()}
         onLayoutChange={onLayoutChanged}
+        onDragStart={onDragStarted}
+        onDragStop={onDragStopped}
       >
         { props.boxes.map((box: IBox): React.ReactElement => (
           <GridItemWrapper key={box.itemId}>
