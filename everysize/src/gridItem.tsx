@@ -17,7 +17,7 @@ const StyledInput = styled.input`
 const StyledGridItem = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 300px;
+  min-width: 250px;
   align-items: center;
 `;
 
@@ -30,6 +30,11 @@ const GridItemTitle = styled.div`
   color: white;
   justify-content: space-between;
   align-items: center;
+`;
+
+const SizeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 interface IGridItemChildrenHolderProps {
@@ -110,7 +115,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
         setDevice(null);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [widthInput]);
 
   React.useEffect((): void => {
@@ -118,21 +123,20 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
     if (candidate && candidate !== zoom) {
       setZoom(candidate);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [zoomInput]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zoomInput]);
 
-React.useEffect((): void => {
-  if (device) {
-    setHeightInput(String(device.height));
-    setWidthInput(String(device.width));
-  }
-}, [device]);
+  React.useEffect((): void => {
+    if (device) {
+      setHeightInput(String(device.height));
+      setWidthInput(String(device.width));
+    }
+  }, [device]);
 
-React.useEffect((): void => {
-  // TOTO(krish): remove hardcoded values
-  console.log('updating size', props.itemId, width, height, zoom, Math.max(width / zoom, 300), (height / zoom) + 50);
-  props.onSizeChanged(props.itemId, Math.max(width / zoom, 300), (height / zoom) + 50);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  React.useEffect((): void => {
+    // TOTO(krish): remove hardcoded values
+    props.onSizeChanged(props.itemId, Math.max(width / zoom, 250), (height / zoom) + 50);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.itemId, width, height, zoom]);
 
   const onCloseClicked = (): void => {
@@ -149,17 +153,19 @@ React.useEffect((): void => {
           <option value="2.5">2.5x</option>
           <option value="5">5x</option>
         </select>
-        <div>
+        <SizeWrapper>
           <select value={device ? device.name : ''} onChange={onDeviceInputChanged}>
             <option value=''>Manual</option>
             {devices.map((device: IDevice): React.ReactElement => (
               <option value={device.name} key={device.name}>{device.name}</option>
             ))}
           </select>
-          <StyledInput value={widthInput} onChange={onWidthInputChanged} />
-          x
-          <StyledInput value={heightInput} onChange={onHeightInputChanged} />
-        </div>
+          <div>
+            <StyledInput value={widthInput} onChange={onWidthInputChanged} />
+            x
+            <StyledInput value={heightInput} onChange={onHeightInputChanged} />
+          </div>
+        </SizeWrapper>
         <button onClick={onCloseClicked}>x</button>
       </GridItemTitle>
       <GridItemChildrenHolder
