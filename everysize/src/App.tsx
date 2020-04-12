@@ -112,6 +112,8 @@ function App() {
           <GridItemWrapper key={box.itemId}>
             <GridItem
               itemId={box.itemId}
+              columnWidth={columnWidth}
+              rowHeight={rowHeight}
               initialHeight={box.initialHeight}
               initialWidth={box.initialWidth}
               initialZoom={box.zoom}

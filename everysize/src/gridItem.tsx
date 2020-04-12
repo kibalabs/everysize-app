@@ -59,6 +59,8 @@ interface IGridItemProps {
   initialHeight: number;
   initialWidth: number;
   initialZoom: number;
+  columnWidth: number;
+  rowHeight: number;
   onCloseClicked: (itemId: string) => void;
   onSizeChanged: (itemId: string, width: number, height: number) => void;
   children: React.ReactChild | React.ReactChild[];
@@ -147,8 +149,8 @@ React.useEffect((): void => {
 
   return (
     <StyledGridItem
-      width={width / zoom}
-      height={height / zoom}
+      width={Math.ceil((width / zoom) / props.columnWidth) * props.columnWidth}
+      height={Math.ceil((height / zoom) / props.rowHeight) * props.rowHeight}
     >
       <GridItemTitle>
         <select value={zoomInput} onChange={onZoomInputChanged}>
