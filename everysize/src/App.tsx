@@ -6,8 +6,6 @@ import 'react-resizable/css/styles.css';
 
 import { WebView } from './webView';
 import { GridItem } from './gridItem';
-// import { useDeepCompareEffect } from './useDeepCompareEffect';
-// import { getFirstWithKeyValue } from './util';
 
 interface IBox {
   itemId: string;
@@ -37,7 +35,6 @@ function App() {
   const [nextItemId, setNextItemId] = React.useState<number>(1);
   const [url, setUrl] = React.useState<string>('https://kiwidocs.co');
   const [boxes, setBoxes] = React.useState<IBox[]>([{itemId: String(nextItemId), initialWidth: 400, initialHeight: 300, height: 1, width: 1, zoom: 1, positionX: 0, positionY: 0}]);
-  // const [layouts, setLayouts] = React.useState<Layout[]>([]);
 
   React.useEffect((): void => {
     setNextItemId(nextItemId + 1);
@@ -49,7 +46,7 @@ function App() {
   };
 
   const onAddClicked = (): void => {
-    setBoxes([...boxes, {itemId: String(nextItemId), initialWidth: 400, initialHeight: 300, height: 1, width: 1, zoom: 1, positionX: 10, positionY: 10}]);
+    setBoxes([...boxes, {itemId: String(nextItemId), initialWidth: 400, initialHeight: 300, height: 1, width: 1, zoom: 1, positionX: 0, positionY: 0}]);
     setNextItemId(nextItemId + 1);
   };
 
@@ -114,47 +111,40 @@ function App() {
       <hr />
       <button onClick={onAddClicked}>add</button>
       <hr />
-      <GridLayout
-        className="layout"
-        cols={columnCount}
-        width={totalWidth}
-        rowHeight={rowHeight}
-        margin={[paddingSize, paddingSize]}
-        layout={getLayout()}
-        onLayoutChange={onLayoutChanged}
-      >
-        { boxes.map((box: IBox): React.ReactElement => (
-          <GridItemWrapper key={box.itemId}>
-            <GridItem
-              itemId={box.itemId}
-              columnWidth={columnWidth}
-              rowHeight={rowHeight}
-              paddingSize={paddingSize}
-              initialHeight={box.initialHeight}
-              initialWidth={box.initialWidth}
-              initialZoom={box.zoom}
-              onCloseClicked={onBoxCloseClicked}
-              onSizeChanged={onBoxSizeChanged}
-            >
-              <WebView
-                url={url}
-                errorView={<div>Error</div>}
-              />
-            </GridItem>
-          </GridItemWrapper>
-        ))}
-      </GridLayout>
-
-      {/* <div style={{width: '1000px', backgroundColor: '#555555'}}>
-        <GridLayout className="layout" layout={layout} cols={12} rowHeight={30} width={1000}>
-          <div key="a" style={{backgroundColor: 'red'}}>a</div>
-          <div key="b" style={{backgroundColor: 'blue'}}>b</div>
-          <div key="c" style={{backgroundColor: 'green'}}>c</div>
+      <div>
+        <GridLayout
+          className="layout"
+          cols={columnCount}
+          width={totalWidth}
+          rowHeight={rowHeight}
+          margin={[paddingSize, paddingSize]}
+          layout={getLayout()}
+          onLayoutChange={onLayoutChanged}
+        >
+          { boxes.map((box: IBox): React.ReactElement => (
+            <GridItemWrapper key={box.itemId}>
+              <GridItem
+                itemId={box.itemId}
+                columnWidth={columnWidth}
+                rowHeight={rowHeight}
+                paddingSize={paddingSize}
+                initialHeight={box.initialHeight}
+                initialWidth={box.initialWidth}
+                initialZoom={box.zoom}
+                onCloseClicked={onBoxCloseClicked}
+                onSizeChanged={onBoxSizeChanged}
+              >
+                <WebView
+                  url={url}
+                  errorView={<div>Error</div>}
+                />
+              </GridItem>
+            </GridItemWrapper>
+          ))}
         </GridLayout>
-      </div> */}
+      </div>
     </div>
   );
 }
-
 
 export default App;
