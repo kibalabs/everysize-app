@@ -19,7 +19,7 @@ interface IStyledGridItemProps {
   height: number;
 }
 
-const StyledGridItem = styled.div<IStyledGridItemProps> `
+const StyledGridItem = styled.div<IStyledGridItemProps>`
   width: ${(props: IStyledGridItemProps): string => `${props.width}px`};
   height: ${(props: IStyledGridItemProps): string => `calc(${props.height}px + 50px)`};
   background-color: #333333;
@@ -135,7 +135,9 @@ React.useEffect((): void => {
 }, [device]);
 
 React.useEffect((): void => {
-  props.onSizeChanged(props.itemId, width / zoom, height / zoom);
+  // TOTO(krish): remove hardcoded values
+  console.log('updating size', props.itemId, width, height, zoom, Math.max(width / zoom, 300), (height / zoom) + 50);
+  props.onSizeChanged(props.itemId, Math.max(width / zoom, 300), (height / zoom) + 50);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.itemId, width, height, zoom]);
 
