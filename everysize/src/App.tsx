@@ -5,6 +5,12 @@ import { Grid } from './grid';
 import { IBox } from './model';
 
 
+const rowHeight = 20;
+const columnWidth = 20;
+const paddingSize = 10;
+const totalWidth = 1000;
+const columnCount = (totalWidth - paddingSize) / (columnWidth + paddingSize);
+
 const App = (): React.ReactElement => {
   const [url, setUrl] = React.useState<string>('https://example.com');
   const [nextBoxId, setNextBoxId] = React.useState<number>(1);
@@ -37,6 +43,11 @@ const App = (): React.ReactElement => {
       <button onClick={onAddClicked}>add</button>
       <hr /><hr />
       <Grid
+        rowHeight={rowHeight}
+        columnWidth={columnWidth}
+        paddingSize={paddingSize}
+        totalWidth={totalWidth}
+        columnCount={columnCount}
         url={url}
         boxes={boxes}
         onBoxCloseClicked={onRemoveBoxClicked}

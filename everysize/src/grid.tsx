@@ -6,13 +6,9 @@ import 'react-resizable/css/styles.css';
 
 import { WebView } from './webView';
 import { GridItem } from './gridItem';
+import { GridBackground } from './gridBackground';
 import { IBox } from './model';
 
-const rowHeight = 20;
-const columnWidth = 20;
-const paddingSize = 10;
-const totalWidth = 1000;
-const columnCount = (totalWidth - paddingSize) / (columnWidth + paddingSize);
 
 const GridItemWrapper = styled.div`
   overflow: hidden;
@@ -21,40 +17,12 @@ const GridItemWrapper = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
 
-interface IGridBackgroundProps {
-  paddingSize: number;
-  columnWidth: number;
-  rowHeight: number;
-}
-
-const GridBackground = styled.div<IGridBackgroundProps>`
-  height: ${(props: IGridBackgroundProps): string => `calc(100% - 2 * ${props.paddingSize}px)`};
-  width: ${(props: IGridBackgroundProps): string => `calc(100% - 2 * ${props.paddingSize}px)`};
-  position: absolute;
-  transition: 0.3s;
-  padding: ${(props: IGridBackgroundProps): string => `${props.paddingSize}px`};
-`;
-
-const GridBackgroundInner = styled.div<IGridBackgroundProps>`
-  height: 100%;
-  width: 100%;
-  background-image: radial-gradient(circle, #bbb 1px, transparent 0.5px);
-  background-size: ${(props: IGridBackgroundProps): string => `${props.paddingSize}px ${props.paddingSize}px`};
-  background-position: 4px 4px;
-  box-sizing: border-box;
-  border: #bbb 1px solid;
-  overflow: hidden;
-`;
-
-const GridBackgroundInnerInner = styled.div<IGridBackgroundProps>`
-  height: 100%;
-  width: 100%;
-  background-image: radial-gradient(circle, #fff 10px, transparent 0px);
-  background-size: 30px 30px;
-  background-position: -1px -1px;
-`;
-
 interface IGridProps {
+  rowHeight: number;
+  columnWidth: number;
+  paddingSize: number;
+  totalWidth: number;
+  columnCount: number;
   url: string;
   boxes: IBox[];
   onBoxCloseClicked: (itemId: string) => void;
@@ -85,11 +53,11 @@ export const Grid = (props: IGridProps): React.ReactElement => {
   const getColumnCount = (width: number): number => {
     // TODO(krish): the 0.00001 is because if the division lands on a whole number
     // it will be wrong because there is an extra padding taken into account which wont be there
-    return Math.ceil(width / (rowHeight + paddingSize) + 0.000001);
+    return Math.ceil(width / (props.rowHeight + props.paddingSize) + 0.000001);
   }
 
   const getRowCount = (height: number): number => {
-    return Math.ceil(height / (columnWidth + paddingSize) + 0.00001);
+    return Math.ceil(height / (props.columnWidth + props.paddingSize) + 0.00001);
   }
 
   const getLayout = (): Layout[] => {
@@ -114,20 +82,16 @@ export const Grid = (props: IGridProps): React.ReactElement => {
   };
 
   return (
-    <div style={{position: 'relative', maxWidth: `${totalWidth}px`}}>
+    <div style={{position: 'relative', maxWidth: `${props.totalWidth}px`}}>
       {isDragging && (
-        <GridBackground paddingSize={paddingSize} rowHeight={rowHeight} columnWidth={columnWidth}>
-          <GridBackgroundInner paddingSize={paddingSize} rowHeight={rowHeight} columnWidth={columnWidth}>
-            <GridBackgroundInnerInner paddingSize={paddingSize} rowHeight={rowHeight} columnWidth={columnWidth}></GridBackgroundInnerInner>
-          </GridBackgroundInner>
-        </GridBackground>
+        <GridBackground paddingSize={props.paddingSize} rowHeight={props.rowHeight} columnWidth={props.columnWidth} />
       )}
       <GridLayout
         className="layout"
-        cols={columnCount}
-        width={totalWidth}
-        rowHeight={rowHeight}
-        margin={[paddingSize, paddingSize]}
+        cols={props.columnCount}
+        width={props.totalWidth}
+        rowHeight={props.rowHeight}
+        margin={[props.paddingSize, props.paddingSize]}
         layout={getLayout()}
         onLayoutChange={onLayoutChanged}
         onDragStart={onDragStarted}
@@ -137,9 +101,9 @@ export const Grid = (props: IGridProps): React.ReactElement => {
           <GridItemWrapper key={box.itemId}>
             <GridItem
               itemId={box.itemId}
-              columnWidth={columnWidth}
-              rowHeight={rowHeight}
-              paddingSize={paddingSize}
+              columnWidth={props.columnWidth}
+              rowHeight={props.rowHeight}
+              paddingSize={props.paddingSize}
               initialHeight={box.initialHeight}
               initialWidth={box.initialWidth}
               initialZoom={box.zoom}
