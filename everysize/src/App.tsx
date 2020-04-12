@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import GridLayout, { Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -23,11 +24,9 @@ const rowHeight = 50;
 const columnWidth = 50;
 const totalWidth = 1000;
 
-const layout = [
-  {i: 'a', x: 0, y: 0, w: 1, h: 2, isResizable: false},
-  {i: 'b', x: 1, y: 0, w: 3, h: 4, isResizable: false},
-  {i: 'c', x: 4, y: 0, w: 1, h: 6, isResizable: false}
-];
+const GridItemWrapper = styled.div`
+
+`;
 
 function App() {
   const [nextItemId, setNextItemId] = React.useState<number>(1);
@@ -39,18 +38,6 @@ function App() {
     setNextItemId(nextItemId + 1);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useDeepCompareEffect((): void => {
-  //   console.log('updating layouts');
-  //   setLayouts(boxes.map((box: IBox): Layout => {
-  //     const boxLayout = getFirstWithKeyValue(layouts, 'i', box.itemId) || { i: box.itemId, x: 0, y: 0, w: 0, h: 0 };
-  //     boxLayout.w = Math.ceil(box.width / columnWidth);
-  //     boxLayout.h = Math.ceil(box.height / rowHeight);
-  //     console.log(box.itemId, boxLayout);
-  //     return boxLayout
-  //   }));
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [boxes]);
 
   const onUrlChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setUrl(event.target.value);
@@ -122,7 +109,7 @@ function App() {
         onLayoutChange={onLayoutChanged}
       >
         { boxes.map((box: IBox): React.ReactElement => (
-          <div key={box.itemId} style={{backgroundColor: 'red'}}>
+          <GridItemWrapper key={box.itemId}>
             <GridItem
               itemId={box.itemId}
               initialHeight={box.initialHeight}
@@ -136,7 +123,7 @@ function App() {
                 errorView={<div>Error</div>}
               />
             </GridItem>
-          </div>
+          </GridItemWrapper>
         ))}
       </GridLayout>
 
