@@ -12,7 +12,7 @@ import { IBox } from './model';
 
 const GridItemWrapper = styled.div`
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: #333333;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
