@@ -45,6 +45,13 @@ const App = (): React.ReactElement => {
   const minimumGridItemWidth = 250;
   const columnCount = (totalWidth - paddingSize) / (columnWidth + paddingSize);
 
+  React.useEffect((): void => {
+    if (!url && !storedUrl) {
+      setUrl('https://kibalabs.com')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onUrlChanged = (url: string): void => {
     setStoredUrl(url);
   };
