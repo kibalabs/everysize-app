@@ -14,10 +14,14 @@ const StyledInput = styled.input`
   text-align: center;
 `;
 
-const StyledGridItem = styled.div`
+interface IStyledGridItemProps {
+  minimumWidth: number;
+}
+
+const StyledGridItem = styled.div<IStyledGridItemProps>`
   display: flex;
   flex-direction: column;
-  min-width: 250px;
+  min-width: ${(props: IStyledGridItemProps): string => `${props.minimumWidth}px`};;
   align-items: center;
 `;
 
@@ -54,12 +58,13 @@ interface IGridItemProps {
   itemId: string;
   initialHeight: number;
   initialWidth: number;
+  minimumWidth: number;
   initialZoom: number;
   columnWidth: number;
   rowHeight: number;
   paddingSize: number;
   onCloseClicked: (itemId: string) => void;
-  onSizeChanged: (itemId: string, width: number, height: number) => void;
+  onSizeChanged: (itemId: string, width: number, height: number, zoom: number) => void;
   children: React.ReactChild | React.ReactChild[];
 }
 
@@ -134,8 +139,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
   }, [device]);
 
   React.useEffect((): void => {
-    // TOTO(krish): remove hardcoded values
-    props.onSizeChanged(props.itemId, Math.max(width / zoom, 250), (height / zoom) + 50);
+    props.onSizeChanged(props.itemId, width, height, zoom);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.itemId, width, height, zoom]);
 
@@ -144,7 +148,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
   };
 
   return (
-    <StyledGridItem>
+    <StyledGridItem minimumWidth={props.minimumWidth}>
       <GridItemTitle>
         <select value={zoomInput} onChange={onZoomInputChanged}>
           <option value="1">1x</option>
@@ -182,5 +186,6 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
 GridItem.defaultProps = {
   initialHeight: 100,
   initialWidth: 100,
+  minimumWidth: 100,
   initialZoom: 1,
 };

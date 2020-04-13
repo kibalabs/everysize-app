@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { stringListToString, stringListFromString } from './serializationUtil';
+
 export default class LocalStorageClient {
   private localStorage: Storage;
 
@@ -43,4 +45,9 @@ export const useLocalStorageState = (name: string, overrideInitialValue?: string
   };
 
   return [value, valueSetter];
+};
+
+export const useStringListLocalStorageState = (name: string, delimiter: string = ',', overrideInitialValue?: string[] | null): [string[] | null, (newValue: string[] | null) => void] => {
+  const [value, setValue] = useLocalStorageState(name, stringListToString(overrideInitialValue));
+  return [stringListFromString(value, delimiter) as string[] | null, ((newValue: string[] | null): void => setValue(stringListToString(newValue, delimiter) as string | null))];
 };

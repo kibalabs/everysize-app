@@ -23,10 +23,11 @@ interface IGridProps {
   paddingSize: number;
   totalWidth: number;
   columnCount: number;
+  minimumGridItemWidth: number;
   url: string | null;
   boxes: IBox[];
   onBoxCloseClicked: (itemId: string) => void;
-  onBoxSizeChanged: (itemId: string, width: number, height: number) => void;
+  onBoxSizeChanged: (itemId: string, width: number, height: number, zoom: number) => void;
   onBoxPositionChanged: (itemId: string, positionX: number, positionY: number) => void;
 }
 
@@ -37,8 +38,8 @@ export const Grid = (props: IGridProps): React.ReactElement => {
     props.onBoxCloseClicked(itemId);
   }
 
-  const onBoxSizeChanged = (itemId: string, width: number, height: number) => {
-    props.onBoxSizeChanged(itemId, width, height);
+  const onBoxSizeChanged = (itemId: string, width: number, height: number, zoom: number) => {
+    props.onBoxSizeChanged(itemId, width, height, zoom);
   };
 
   const onLayoutChanged = (layouts: Layout[]): void => {
@@ -66,8 +67,9 @@ export const Grid = (props: IGridProps): React.ReactElement => {
         i: box.itemId,
         x: box.positionX,
         y: box.positionY,
-        w: getColumnCount(box.width),
-        h: getRowCount(box.height),
+        w: getColumnCount(Math.max(box.width / box.zoom, props.minimumGridItemWidth)),
+        // TOTO(krish): remove hardcoded 50 (which is the height of the top bit of each grid item)
+        h: getRowCount((box.height / box.zoom) + 50),
         isResizable: false,
       };
     });
@@ -104,9 +106,10 @@ export const Grid = (props: IGridProps): React.ReactElement => {
               columnWidth={props.columnWidth}
               rowHeight={props.rowHeight}
               paddingSize={props.paddingSize}
-              initialHeight={box.initialHeight}
-              initialWidth={box.initialWidth}
+              initialHeight={box.height}
+              initialWidth={box.width}
               initialZoom={box.zoom}
+              minimumWidth={props.minimumGridItemWidth}
               onCloseClicked={onBoxCloseClicked}
               onSizeChanged={onBoxSizeChanged}
             >
