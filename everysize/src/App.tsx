@@ -4,12 +4,13 @@ import { NavBar } from './navBar';
 import { Grid } from './grid';
 import { IBox } from './model';
 import { useSize } from './useSize';
+import { useUrlQueryState } from './useUrlQueryState';
 
 
 const App = (): React.ReactElement => {
   const gridRef = React.useRef<HTMLDivElement | null>(null);
   const size = useSize(gridRef.current);
-  const [url, setUrl] = React.useState<string>('https://example.com');
+  const [url, setUrl] = useUrlQueryState('url');
   const [nextBoxId, setNextBoxId] = React.useState<number>(1);
   const [boxes, setBoxes] = React.useState<IBox[]>([]);
 
@@ -48,7 +49,7 @@ const App = (): React.ReactElement => {
 
   return (
     <div ref={gridRef}>
-      <NavBar url={url} onUrlChanged={setUrl}/>
+      <NavBar url={url || null} onUrlChanged={setUrl}/>
       <button onClick={onAddClicked}>add</button>
       <hr /><hr />
       <Grid
@@ -57,7 +58,7 @@ const App = (): React.ReactElement => {
         paddingSize={paddingSize}
         totalWidth={totalWidth}
         columnCount={columnCount}
-        url={url}
+        url={url || null}
         boxes={boxes}
         onBoxCloseClicked={onRemoveBoxClicked}
         onBoxSizeChanged={onBoxSizeChanged}

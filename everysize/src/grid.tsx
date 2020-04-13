@@ -23,7 +23,7 @@ interface IGridProps {
   paddingSize: number;
   totalWidth: number;
   columnCount: number;
-  url: string;
+  url: string | null;
   boxes: IBox[];
   onBoxCloseClicked: (itemId: string) => void;
   onBoxSizeChanged: (itemId: string, width: number, height: number) => void;
@@ -110,10 +110,12 @@ export const Grid = (props: IGridProps): React.ReactElement => {
               onCloseClicked={onBoxCloseClicked}
               onSizeChanged={onBoxSizeChanged}
             >
-              <WebView
-                url={props.url}
-                errorView={<div>Error</div>}
-              />
+              {props.url ? (
+                <WebView
+                  url={props.url}
+                  errorView={<div>Error</div>}
+                />
+              ) : ''}
             </GridItem>
           </GridItemWrapper>
         ))}

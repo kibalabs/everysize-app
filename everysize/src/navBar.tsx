@@ -4,7 +4,7 @@ import { ReactComponent as Logo } from './everysize-wordmark.svg';
 
 
 interface INavBar {
-  url: string;
+  url: string | null;
   onUrlChanged: (url: string) => void;
 }
 
@@ -33,7 +33,7 @@ export const NavBar = (props: INavBar): React.ReactElement => {
     <StyledNavBar>
       <Logo height='30px' width='170px'/>
       <StyledInput
-        value={props.url}
+        value={props.url || ''}
         onChange={onUrlChanged}
       />
       <div />
