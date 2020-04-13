@@ -29,7 +29,6 @@ export const useBoxListLocalStorageState = (name: string, delimiter: string = ',
   return [boxListFromStringList(value), ((newValue: IBox[] | null): void => setValue(boxListToStringList(newValue)))];
 };
 
-
 const App = (): React.ReactElement => {
   const gridRef = React.useRef<HTMLDivElement | null>(null);
   const size = useSize(gridRef.current);
@@ -48,6 +47,30 @@ const App = (): React.ReactElement => {
   React.useEffect((): void => {
     if (!url && !storedUrl) {
       setUrl('https://kibalabs.com')
+    }
+    if (boxes.length === 0) {
+      setBoxes([{
+        itemId: 'default-1',
+        height: 1080,
+        width: 1920,
+        zoom: 5,
+        positionX: 0,
+        positionY: 0,
+      }, {
+        itemId: 'default-2',
+        height: 896,
+        width: 414,
+        zoom: 2.5,
+        positionX: 13,
+        positionY: 0,
+      }, {
+        itemId: 'default-3',
+        height: 812,
+        width: 375,
+        zoom: 2.5,
+        positionX: 22,
+        positionY: 0,
+      }])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
