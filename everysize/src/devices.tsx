@@ -17,4 +17,12 @@ export const devices = [{
   name: 'iPhone 3G',
   width: 320,
   height: 480,
-}]
+}, {
+  name: '1080p Desktop',
+  width: 1920,
+  height: 1080,
+}, {
+  name: '1080p Desktop (Vertical)',
+  width: 1080,
+  height: 1920,
+}];
