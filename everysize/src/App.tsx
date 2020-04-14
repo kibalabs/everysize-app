@@ -8,6 +8,7 @@ import { useUrlQueryState } from './useUrlQueryState';
 import { useLocalStorageState, useStringListLocalStorageState } from './useLocalStorageState';
 import { useValueSync } from './useValueSync';
 import { generateUUID } from './stringUtil';
+import { Analytics } from './analytics';
 
 
 const boxListFromStringList = (stringList: string[] | null): IBox[] => {
@@ -106,6 +107,7 @@ const App = (): React.ReactElement => {
 
   return (
     <div ref={gridRef}>
+      <Analytics />
       <NavBar url={url || null} onUrlChanged={onUrlChanged}/>
       <button onClick={onAddClicked}>add</button>
       <Grid
