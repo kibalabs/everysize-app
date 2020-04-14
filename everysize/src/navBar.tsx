@@ -9,7 +9,7 @@ interface INavBar {
 }
 
 const StyledNavBar = styled.div`
-  background-color: #c3c3c3;
+  background-color: #ffffff;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -19,7 +19,7 @@ const StyledNavBar = styled.div`
 
 const StyledInput = styled.input`
   min-width: 300px;
-  border: none;
+  border: #959595 1px solid;
   padding: 8px;
   height: 100%;
 `;

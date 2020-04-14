@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import { NavBar } from './navBar';
 import { Grid } from './grid';
@@ -9,7 +10,30 @@ import { useLocalStorageState, useStringListLocalStorageState } from './useLocal
 import { useValueSync } from './useValueSync';
 import { generateUUID } from './stringUtil';
 import { Analytics } from './analytics';
+import { FloatingActionButton } from './floatingActionButton';
+import { GlobalCss } from './globalCss';
+import { resetCss } from './resetCss';
 
+
+const AppWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+`;
+
+const NavbarWrapper = styled.div`
+  width: 100%;
+  flex-grow: 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+`;
+
+const GridWrapper = styled.div`
+  width: 100%;
+  flex-grow: 1;
+  overflow: auto;
+`;
 
 const boxListFromStringList = (stringList: string[] | null): IBox[] => {
   if (!stringList) {
@@ -106,24 +130,33 @@ const App = (): React.ReactElement => {
   }, [size]);
 
   return (
-    <div ref={gridRef}>
-      <Analytics />
-      <NavBar url={url || null} onUrlChanged={onUrlChanged}/>
-      <button onClick={onAddClicked}>add</button>
-      <Grid
-        rowHeight={rowHeight}
-        columnWidth={columnWidth}
-        paddingSize={paddingSize}
-        totalWidth={totalWidth}
-        minimumGridItemWidth={minimumGridItemWidth}
-        columnCount={columnCount}
-        url={url || null}
-        boxes={boxes}
-        onBoxCloseClicked={onRemoveBoxClicked}
-        onBoxSizeChanged={onBoxSizeChanged}
-        onBoxPositionChanged={onBoxPositionChanged}
+    <React.Fragment>
+      <GlobalCss
+        resetCss={resetCss}
       />
-    </div>
+      <Analytics />
+      <AppWrapper ref={gridRef}>
+        <NavbarWrapper>
+          <NavBar url={url || null} onUrlChanged={onUrlChanged}/>
+        </NavbarWrapper>
+        <GridWrapper>
+          <Grid
+            rowHeight={rowHeight}
+            columnWidth={columnWidth}
+            paddingSize={paddingSize}
+            totalWidth={totalWidth}
+            minimumGridItemWidth={minimumGridItemWidth}
+            columnCount={columnCount}
+            url={url || null}
+            boxes={boxes}
+            onBoxCloseClicked={onRemoveBoxClicked}
+            onBoxSizeChanged={onBoxSizeChanged}
+            onBoxPositionChanged={onBoxPositionChanged}
+          />
+        </GridWrapper>
+      </AppWrapper>
+      <FloatingActionButton onClicked={onAddClicked}/>
+    </React.Fragment>
   );
 }
 

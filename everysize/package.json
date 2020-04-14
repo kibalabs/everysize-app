@@ -11,6 +11,7 @@
   "dependencies": {
     "deep-equal": "2.0.2",
     "mixpanel-browser": "2.35.0",
+    "polished": "^3.5.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-ga": "2.7.0",

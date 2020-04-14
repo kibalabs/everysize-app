@@ -8,6 +8,20 @@ import { GridItem } from './gridItem';
 import { GridBackground } from './gridBackground';
 import { IBox } from './model';
 
+const StyledGrid = styled.div`
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+`;
+
+interface IStyledGridInnerProps {
+  totalWidth: number;
+}
+
+const StyledGridInner = styled.div<IStyledGridInnerProps>`
+  position: relative;
+  max-width: ${(props: IStyledGridInnerProps): string => `${props.totalWidth}px`};;
+`;
 
 const GridItemWrapper = styled.div`
   overflow: hidden;
@@ -83,39 +97,41 @@ export const Grid = (props: IGridProps): React.ReactElement => {
   };
 
   return (
-    <div style={{position: 'relative', maxWidth: `${props.totalWidth}px`}}>
-      {isDragging && (
-        <GridBackground paddingSize={props.paddingSize} rowHeight={props.rowHeight} columnWidth={props.columnWidth} />
-      )}
-      <GridLayout
-        className="layout"
-        cols={props.columnCount}
-        width={props.totalWidth}
-        rowHeight={props.rowHeight}
-        margin={[props.paddingSize, props.paddingSize]}
-        layout={getLayout()}
-        onLayoutChange={onLayoutChanged}
-        onDragStart={onDragStarted}
-        onDragStop={onDragStopped}
-      >
-        { props.boxes.map((box: IBox): React.ReactElement => (
-          <GridItemWrapper key={box.itemId}>
-            <GridItem
-              itemId={box.itemId}
-              url={props.url}
-              columnWidth={props.columnWidth}
-              rowHeight={props.rowHeight}
-              paddingSize={props.paddingSize}
-              initialHeight={box.height}
-              initialWidth={box.width}
-              initialZoom={box.zoom}
-              minimumWidth={props.minimumGridItemWidth}
-              onCloseClicked={onBoxCloseClicked}
-              onSizeChanged={onBoxSizeChanged}
-            />
-          </GridItemWrapper>
-        ))}
-      </GridLayout>
-    </div>
+    <StyledGrid>
+      <StyledGridInner totalWidth={props.totalWidth}>
+        {isDragging && (
+          <GridBackground paddingSize={props.paddingSize} rowHeight={props.rowHeight} columnWidth={props.columnWidth} />
+        )}
+        <GridLayout
+          className="layout"
+          cols={props.columnCount}
+          width={props.totalWidth}
+          rowHeight={props.rowHeight}
+          margin={[props.paddingSize, props.paddingSize]}
+          layout={getLayout()}
+          onLayoutChange={onLayoutChanged}
+          onDragStart={onDragStarted}
+          onDragStop={onDragStopped}
+        >
+          { props.boxes.map((box: IBox): React.ReactElement => (
+            <GridItemWrapper key={box.itemId}>
+              <GridItem
+                itemId={box.itemId}
+                url={props.url}
+                columnWidth={props.columnWidth}
+                rowHeight={props.rowHeight}
+                paddingSize={props.paddingSize}
+                initialHeight={box.height}
+                initialWidth={box.width}
+                initialZoom={box.zoom}
+                minimumWidth={props.minimumGridItemWidth}
+                onCloseClicked={onBoxCloseClicked}
+                onSizeChanged={onBoxSizeChanged}
+              />
+            </GridItemWrapper>
+          ))}
+        </GridLayout>
+      </StyledGridInner>
+    </StyledGrid>
   );
 };
