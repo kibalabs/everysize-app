@@ -25,4 +25,24 @@ export const devices = [{
   name: '1080p Desktop (Vertical)',
   width: 1080,
   height: 1920,
+}, {
+  name: 'Bootstrap xl',
+  width: 1200,
+  height: 1080,
+}, {
+  name: 'Bootstrap lg',
+  width: 992,
+  height: 1080,
+}, {
+  name: 'Bootstrap md',
+  width: 768,
+  height: 1080,
+}, {
+  name: 'Bootstrap sm',
+  width: 576,
+  height: 1080,
+}, {
+  name: 'Bootstrap xs',
+  width: 575,
+  height: 1080,
 }];
