@@ -8,7 +8,7 @@ interface IFloatingActionButtonProps {
 
 const StyledButton = styled.button`
   color: white;
-  background-color: #5C258D;
+  background-color: #333333;
   height: 50px;
   width: 50px;
   border-radius: 25px;
@@ -20,11 +20,11 @@ const StyledButton = styled.button`
   text-align: center;
 
   :hover {
-    background-color: ${darken(0.1, '#5C258D')};
+    background-color: ${darken(0.1, '#333333')};
   }
 
   :active {
-    background-color: ${darken(0.2, '#5C258D')};
+    background-color: ${darken(0.2, '#333333')};
   }
 `;
 

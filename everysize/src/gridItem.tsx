@@ -36,6 +36,14 @@ const GridItemTitle = styled.div`
   color: white;
   justify-content: space-between;
   align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+`;
+
+const StyledCloseButton = styled.button`
+  background-color: #555555;
+  color: white;
+  padding: 5px 10px;
 `;
 
 const SizeWrapper = styled.div`
@@ -183,7 +191,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
             <StyledInput value={heightInput} onChange={onHeightInputChanged} />
           </div>
         </SizeWrapper>
-        <button onClick={onCloseClicked}>x</button>
+        <StyledCloseButton onClick={onCloseClicked}>x</StyledCloseButton>
       </GridItemTitle>
       <GridItemChildrenHolder
         width={width}
