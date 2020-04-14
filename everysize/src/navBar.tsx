@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as Logo } from './everysize-wordmark.svg';
+import { ReactComponent as Logo } from './everysize-wordmark-dark.svg';
 
 
 interface INavBar {
@@ -9,7 +9,7 @@ interface INavBar {
 }
 
 const StyledNavBar = styled.div`
-  background-color: #ffffff;
+  background-color: #333333;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

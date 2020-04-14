@@ -24,6 +24,7 @@ const GridBackgroundInner = styled.div<IStyledGridBackgroundProps>`
   box-sizing: border-box;
   border: #bbb 1px solid;
   overflow: hidden;
+  background-color: white;
 `;
 
 const GridBackgroundInnerInner = styled.div<IStyledGridBackgroundProps>`
