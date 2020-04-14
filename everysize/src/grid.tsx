@@ -4,7 +4,6 @@ import GridLayout, { Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
-import { WebView } from './webView';
 import { GridItem } from './gridItem';
 import { GridBackground } from './gridBackground';
 import { IBox } from './model';
@@ -52,13 +51,13 @@ export const Grid = (props: IGridProps): React.ReactElement => {
   };
 
   const getColumnCount = (width: number): number => {
-    // TODO(krish): the 0.00001 is because if the division lands on a whole number
-    // it will be wrong because there is an extra padding taken into account which wont be there
-    return Math.ceil(width / (props.rowHeight + props.paddingSize) + 0.000001);
+    const estimate = Math.ceil(width / (props.columnWidth + props.paddingSize));
+    return (estimate * props.columnWidth) + ((estimate - 1) * props.paddingSize) >= width ? estimate : estimate + 1;
   }
 
   const getRowCount = (height: number): number => {
-    return Math.ceil(height / (props.columnWidth + props.paddingSize) + 0.00001);
+    const estimate = Math.ceil(height / (props.rowHeight + props.paddingSize));
+    return (estimate * props.rowHeight) + ((estimate - 1) * props.paddingSize) >= height ? estimate : estimate + 1;
   }
 
   const getLayout = (): Layout[] => {
@@ -103,6 +102,7 @@ export const Grid = (props: IGridProps): React.ReactElement => {
           <GridItemWrapper key={box.itemId}>
             <GridItem
               itemId={box.itemId}
+              url={props.url}
               columnWidth={props.columnWidth}
               rowHeight={props.rowHeight}
               paddingSize={props.paddingSize}
@@ -112,14 +112,7 @@ export const Grid = (props: IGridProps): React.ReactElement => {
               minimumWidth={props.minimumGridItemWidth}
               onCloseClicked={onBoxCloseClicked}
               onSizeChanged={onBoxSizeChanged}
-            >
-              {props.url ? (
-                <WebView
-                  url={props.url}
-                  errorView={<div>Error</div>}
-                />
-              ) : ''}
-            </GridItem>
+            />
           </GridItemWrapper>
         ))}
       </GridLayout>

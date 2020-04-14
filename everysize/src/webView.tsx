@@ -32,7 +32,7 @@ interface IWebViewProps {
 }
 
 
-export const WebView = (props: IWebViewProps): React.ReactElement => {
+export const WebView = React.forwardRef((props: IWebViewProps, ref: React.Ref<HTMLIFrameElement>): React.ReactElement => {
   const [currentUrl, setCurrentUrl] = React.useState<string | undefined>(undefined);
   const [hasFailedToLoad, setHasFailedToLoad] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -83,12 +83,13 @@ export const WebView = (props: IWebViewProps): React.ReactElement => {
             isLoading={isLoading}
             onLoad={handleOnLoad}
             onError={handleOnError}
+            ref={ref}
           />
         </React.Fragment>
       }
     </StyledWebView>
   );
-};
+});
 
 WebView.defaultProps = {
 };

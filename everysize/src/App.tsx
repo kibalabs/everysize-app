@@ -3,7 +3,7 @@ import React from 'react';
 import { NavBar } from './navBar';
 import { Grid } from './grid';
 import { IBox, deserializeBox, serializeBox } from './model';
-import { useSize } from './useSize';
+import { useSizingRef } from './useSize';
 import { useUrlQueryState } from './useUrlQueryState';
 import { useLocalStorageState, useStringListLocalStorageState } from './useLocalStorageState';
 import { useValueSync } from './useValueSync';
@@ -30,11 +30,10 @@ export const useBoxListLocalStorageState = (name: string, delimiter: string = ',
 };
 
 const App = (): React.ReactElement => {
-  const gridRef = React.useRef<HTMLDivElement | null>(null);
-  const size = useSize(gridRef.current);
-  const [boxes, setBoxes] = useBoxListLocalStorageState('boxes');
+  const [size, gridRef] = useSizingRef<HTMLDivElement>();
+  const [boxes, setBoxes] = useBoxListLocalStorageState('boxes_v1');
   const [url, setUrl] = useUrlQueryState('url');
-  const [storedUrl, setStoredUrl] = useLocalStorageState('url', url);
+  const [storedUrl, setStoredUrl] = useLocalStorageState('url_v1', url);
   useValueSync(storedUrl, setUrl);
 
   const [totalWidth, setTotalWidth] = React.useState(10000);
@@ -109,7 +108,6 @@ const App = (): React.ReactElement => {
     <div ref={gridRef}>
       <NavBar url={url || null} onUrlChanged={onUrlChanged}/>
       <button onClick={onAddClicked}>add</button>
-      <hr /><hr />
       <Grid
         rowHeight={rowHeight}
         columnWidth={columnWidth}

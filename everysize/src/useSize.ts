@@ -4,16 +4,17 @@ import { useEventListener } from './useEventListener';
 export interface ISize {
   width: number;
   height: number;
+  scrollWidth: number;
+  scrollHeight: number;
 }
 
-export const useSize = (node: HTMLDivElement | null): ISize | null => {
+export const useSize = <T extends HTMLElement>(node: T | null): ISize | null => {
   const [size, setSize] = React.useState<ISize | null>(null);
 
   const measure = (): void => {
     if (node) {
       window.requestAnimationFrame((): void => {
-        const rect = node.getBoundingClientRect();
-        setSize({ width: rect.width, height: rect.height });
+        setSize({ width: node.clientWidth, height: node.clientHeight, scrollHeight: node.scrollHeight, scrollWidth: node.scrollWidth });
       });
     }
   };
@@ -27,4 +28,10 @@ export const useSize = (node: HTMLDivElement | null): ISize | null => {
   useEventListener(window, 'scroll', measure);
 
   return size;
+}
+
+export const useSizingRef = <T extends HTMLElement>(): [ISize | null, React.RefObject<T>] => {
+  const sizingRef = React.useRef<T | null>(null);
+  const size = useSize(sizingRef.current);
+  return [size, sizingRef];
 }

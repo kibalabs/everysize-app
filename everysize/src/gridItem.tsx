@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { IDevice, devices } from './devices';
+import { WebView } from './webView';
 
 const StyledInput = styled.input`
   height: 25px;
@@ -52,10 +54,22 @@ const GridItemChildrenHolder = styled.div<IGridItemChildrenHolderProps>`
   width: ${(props: IGridItemChildrenHolderProps): string => `${props.width}px`};
   transform-origin: 50% 0%;
   transform: ${(props: IGridItemChildrenHolderProps): string => `scale(${props.zoom})`};
+  overflow: hidden;
+`;
+
+interface IGridItemChildrenHolderInnerProps {
+  heightOffset: number;
+  widthOffset: number;
+}
+
+const GridItemChildrenHolderInner = styled.div<IGridItemChildrenHolderInnerProps>`
+  height: ${(props: IGridItemChildrenHolderInnerProps): string => `calc(100% + ${props.heightOffset}px)`};
+  width: ${(props: IGridItemChildrenHolderInnerProps): string => `calc(100% + ${props.widthOffset}px)`};
 `;
 
 interface IGridItemProps {
   itemId: string;
+  url: string | null;
   initialHeight: number;
   initialWidth: number;
   minimumWidth: number;
@@ -65,7 +79,6 @@ interface IGridItemProps {
   paddingSize: number;
   onCloseClicked: (itemId: string) => void;
   onSizeChanged: (itemId: string, width: number, height: number, zoom: number) => void;
-  children: React.ReactChild | React.ReactChild[];
 }
 
 export const GridItem = (props: IGridItemProps): React.ReactElement => {
@@ -151,11 +164,11 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
     <StyledGridItem minimumWidth={props.minimumWidth}>
       <GridItemTitle>
         <select value={zoomInput} onChange={onZoomInputChanged}>
-          <option value="1">1x</option>
-          <option value="1.5">1.5x</option>
-          <option value="2">2x</option>
-          <option value="2.5">2.5x</option>
-          <option value="5">5x</option>
+          <option value="1">100%</option>
+          <option value="1.5">66%</option>
+          <option value="2">50%</option>
+          <option value="2.5">40%</option>
+          <option value="5">20%</option>
         </select>
         <SizeWrapper>
           <select value={device ? device.name : ''} onChange={onDeviceInputChanged}>
@@ -177,7 +190,14 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
         height={height}
         zoom={1.0 / zoom}
       >
-        { props.children }
+        <GridItemChildrenHolderInner heightOffset={0} widthOffset={0}>
+          {props.url ? (
+            <WebView
+              url={props.url}
+              errorView={<div>Error</div>}
+            />
+          ) : ''}
+        </GridItemChildrenHolderInner>
       </GridItemChildrenHolder>
     </StyledGridItem>
   );
