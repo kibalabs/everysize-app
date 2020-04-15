@@ -67,7 +67,7 @@ export const GridPage = (): React.ReactElement => {
 
   React.useEffect((): void => {
     if (!url && !storedUrl) {
-      setUrl('https://kibalabs.com');
+      setUrl('https://www.kibalabs.com');
     }
     if (boxes.length === 0) {
       setBoxes(defaultLayout);
