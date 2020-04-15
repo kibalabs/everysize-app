@@ -17,7 +17,6 @@
     "react-ga": "2.7.0",
     "react-grid-layout": "0.17.1",
     "react-helmet": "6.0.0",
-    "react-mixpanel": "1.0.5",
     "styled-components": "5.1.0"
   },
   "devDependencies": {

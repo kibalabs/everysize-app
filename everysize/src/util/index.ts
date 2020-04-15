@@ -1,5 +1,6 @@
 export * from './serializationUtil';
 export * from './stringUtil';
+export * from './useAnalytics';
 export * from './useEventListener';
 export * from './useFavicon';
 export * from './useLocalStorageState';
