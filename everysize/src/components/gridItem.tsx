@@ -1,20 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { IDevice, devices } from '../model/devices';
 import { WebView } from './webView';
+import { GridItemTitle } from './gridItemTitle';
 
-const StyledInput = styled.input`
-  height: 25px;
-  background: none;
-  border: none;
-  border-bottom: white 1px solid;
-  color: white;
-  padding-left: 8px;
-  padding-right: 8px;
-  width: 30px;
-  text-align: center;
-`;
 
 interface IStyledGridItemProps {
   minimumWidth: number;
@@ -25,30 +14,6 @@ const StyledGridItem = styled.div<IStyledGridItemProps>`
   flex-direction: column;
   min-width: ${(props: IStyledGridItemProps): string => `${props.minimumWidth}px`};;
   align-items: center;
-`;
-
-const GridItemTitle = styled.div`
-  width: 100%;
-  min-height: 50px;
-  flex-grow: 0;
-  display: flex;
-  flex-direction: row;
-  color: white;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 15px;
-  padding-right: 15px;
-`;
-
-const StyledCloseButton = styled.button`
-  background-color: #555555;
-  color: white;
-  padding: 5px 10px;
-`;
-
-const SizeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 interface IGridItemChildrenHolderProps {
@@ -80,8 +45,8 @@ interface IGridItemProps {
   url: string | null;
   initialHeight: number;
   initialWidth: number;
-  minimumWidth: number;
   initialZoom: number;
+  minimumWidth: number;
   columnWidth: number;
   rowHeight: number;
   paddingSize: number;
@@ -90,74 +55,21 @@ interface IGridItemProps {
 }
 
 export const GridItem = (props: IGridItemProps): React.ReactElement => {
-  const [heightInput, setHeightInput] = React.useState<string>(String(props.initialHeight));
   const [height, setHeight] = React.useState<number>(props.initialHeight);
-  const [widthInput, setWidthInput] = React.useState<string>(String(props.initialWidth));
   const [width, setWidth] = React.useState<number>(props.initialWidth);
-  const [zoomInput, setZoomInput] = React.useState<string>(String(props.initialZoom));
   const [zoom, setZoom] = React.useState<number>(props.initialZoom);
-  const [device, setDevice] = React.useState<IDevice | null>(null);
 
-  const onHeightInputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setHeightInput(event.target.value);
+  const onHeightChanged = (height: number): void => {
+    setHeight(height);
   };
 
-  const onWidthInputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setWidthInput(event.target.value);
+  const onWidthChanged = (width: number): void => {
+    setWidth(width);
   };
 
-  const onZoomInputChanged = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    setZoomInput(event.target.value);
+  const onZoomChanged = (zoom: number): void => {
+    setZoom(zoom);
   };
-
-  const onDeviceInputChanged = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    if (device?.name === event.target.value) {
-      return;
-    }
-    const matchedDevice = devices.filter((device: IDevice): boolean => device.name === event.target.value);
-    if (matchedDevice.length > 0) {
-      setDevice(matchedDevice[0]);
-    } else {
-      setDevice(null);
-    }
-  }
-
-  React.useEffect((): void => {
-    const candidate = Number(heightInput);
-    if (candidate && candidate !== height) {
-      setHeight(candidate);
-      if (device && candidate !== device.height) {
-        setDevice(null);
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [heightInput]);
-
-  React.useEffect((): void => {
-    const candidate = Number(widthInput);
-    if (candidate && candidate !== width) {
-      setWidth(candidate);
-      if (device && candidate !== device.width) {
-        setDevice(null);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [widthInput]);
-
-  React.useEffect((): void => {
-    const candidate = Number(zoomInput);
-    if (candidate && candidate !== zoom) {
-      setZoom(candidate);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zoomInput]);
-
-  React.useEffect((): void => {
-    if (device) {
-      setHeightInput(String(device.height));
-      setWidthInput(String(device.width));
-    }
-  }, [device]);
 
   React.useEffect((): void => {
     props.onSizeChanged(props.itemId, width, height, zoom);
@@ -170,29 +82,15 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
 
   return (
     <StyledGridItem minimumWidth={props.minimumWidth}>
-      <GridItemTitle>
-        <select value={zoomInput} onChange={onZoomInputChanged}>
-          <option value="1">100%</option>
-          <option value="1.5">66%</option>
-          <option value="2">50%</option>
-          <option value="2.5">40%</option>
-          <option value="5">20%</option>
-        </select>
-        <SizeWrapper>
-          <select value={device ? device.name : ''} onChange={onDeviceInputChanged}>
-            <option value=''>Manual</option>
-            {devices.map((device: IDevice): React.ReactElement => (
-              <option value={device.name} key={device.name}>{device.name}</option>
-            ))}
-          </select>
-          <div>
-            <StyledInput value={widthInput} onChange={onWidthInputChanged} />
-            x
-            <StyledInput value={heightInput} onChange={onHeightInputChanged} />
-          </div>
-        </SizeWrapper>
-        <StyledCloseButton onClick={onCloseClicked}>x</StyledCloseButton>
-      </GridItemTitle>
+      <GridItemTitle
+        initialHeight={props.initialHeight}
+        initialWidth={props.initialWidth}
+        initialZoom={props.initialZoom}
+        onHeightChanged={onHeightChanged}
+        onWidthChanged={onWidthChanged}
+        onZoomChanged={onZoomChanged}
+        onCloseClicked={onCloseClicked}
+      />
       <GridItemChildrenHolder
         width={width}
         height={height}
