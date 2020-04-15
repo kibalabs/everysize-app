@@ -141,27 +141,6 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
     props.onCloseClicked();
   };
 
-  // React.useEffect((): void => {
-  //   props.onHeightChanged(candidate);
-  //   // if (device && candidate !== device.height) {
-  //   //   setDevice(null);
-  //   // }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [heightInput]);
-
-  // React.useEffect((): void => {
-  //   props.onWidthChanged(candidate);
-  //   // if (device && candidate !== device.width) {
-  //   //   setDevice(null);
-  //   // }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [widthInput]);
-
-  // React.useEffect((): void => {
-  //   props.onZoomChanged(candidate);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [zoomInput]);
-
   React.useEffect((): void => {
     props.onSizeChanged(Number(heightInput), Number(widthInput), Number(zoomInput), device?.code || null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -191,11 +170,6 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
           ))}
         </StyledSelect>
         <LeftInnerHolder>
-          <SizeHolder>
-            <StyledInput value={widthInput} onChange={onWidthInputChanged} />
-            <div style={{width: '10px'}}><CloseIcon /></div>
-            <StyledInput value={heightInput} onChange={onHeightInputChanged} />
-          </SizeHolder>
           <StyledSelectSmall value={zoomInput} onChange={onZoomInputChanged}>
             <option value="1">100%</option>
             <option value="1.5">66%</option>
@@ -203,6 +177,11 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
             <option value="2.5">40%</option>
             <option value="5">20%</option>
           </StyledSelectSmall>
+          <SizeHolder>
+            <StyledInput value={widthInput} onChange={onWidthInputChanged} />
+            <div style={{width: '10px'}}><CloseIcon /></div>
+            <StyledInput value={heightInput} onChange={onHeightInputChanged} />
+          </SizeHolder>
         </LeftInnerHolder>
       </LeftHolder>
       <RightHolder>
