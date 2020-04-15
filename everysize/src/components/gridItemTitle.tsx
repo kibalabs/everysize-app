@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { IDevice, devices } from '../model/devices';
+import { CloseIcon } from './closeIcon';
 
 const StyledInput = styled.input`
   height: 25px;
@@ -24,14 +25,33 @@ const StyledGridItemTitle = styled.div`
   color: white;
   justify-content: space-between;
   align-items: center;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 
 const StyledCloseButton = styled.button`
-  background-color: #555555;
-  color: white;
-  padding: 5px 10px;
+  background-color: #393939;
+  color: #dddddd;
+  padding: 5px;
+  border-radius: 4px;
+  width: 25px;
+  height: 25px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  transition: 0.3s;
+
+  :hover {
+    background-color: #292929;
+    color: white;
+  }
+
+  :active {
+    background-color: #191919;
+  }
 `;
 
 const SizeWrapper = styled.div`
@@ -142,7 +162,7 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
           <StyledInput value={heightInput} onChange={onHeightInputChanged} />
         </div>
       </SizeWrapper>
-      <StyledCloseButton onClick={onCloseClicked}>x</StyledCloseButton>
+      <StyledCloseButton onClick={onCloseClicked}><CloseIcon /></StyledCloseButton>
     </StyledGridItemTitle>
   );
 };

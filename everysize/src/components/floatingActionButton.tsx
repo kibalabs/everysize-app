@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
+import { AddIcon } from './closeIcon';
 
 interface IFloatingActionButtonProps {
   onClicked: () => void;
@@ -11,6 +12,7 @@ const StyledButton = styled.button`
   background-color: #333333;
   height: 50px;
   width: 50px;
+  padding: 10px;
   border-radius: 25px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   outline: none;
@@ -29,12 +31,6 @@ const StyledButton = styled.button`
   }
 `;
 
-const addIconContent = '<path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/><path d="M0 0h24v24H0z" fill="none"/>';
-
-const StyledIcon = styled.svg`
-  fill: currentColor;
-`;
-
 export const FloatingActionButton = (props: IFloatingActionButtonProps): React.ReactElement | null => {
   const onClicked = (): void => {
     props.onClicked()
@@ -42,11 +38,7 @@ export const FloatingActionButton = (props: IFloatingActionButtonProps): React.R
 
   return (
     <StyledButton onClick={onClicked}>
-      <StyledIcon
-        height={24}
-        width={24}
-        dangerouslySetInnerHTML={{ __html: addIconContent }}
-      />
+      <AddIcon />
     </StyledButton>
   );
 }
