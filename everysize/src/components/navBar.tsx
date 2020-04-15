@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as Logo } from '../assets/everysize-wordmark-dark.svg';
+import logo from '../assets/everysize-wordmark-dark.svg';
+import favicon from '../assets/favicon.svg';
 
 
 interface INavBar {
@@ -31,7 +32,10 @@ export const NavBar = (props: INavBar): React.ReactElement => {
 
   return (
     <StyledNavBar>
-      <Logo height='30px' width='170px'/>
+      <div>
+        <img height='30px' width='30px' src={favicon} alt='logo'/>
+        <img height='30px' width='170px' src={logo} alt='everypage'/>
+      </div>
       <StyledInput
         value={props.url || ''}
         onChange={onUrlChanged}

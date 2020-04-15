@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
 
 import { NavBar } from './components/navBar';
 import { Grid } from './components/grid';
 import { IBox, deserializeBox, serializeBox } from './model';
-import { useSizingRef, useUrlQueryState, useLocalStorageState, useStringListLocalStorageState, useValueSync, generateUUID } from './util';
+import { useSizingRef, useUrlQueryState, useLocalStorageState, useStringListLocalStorageState, useValueSync, generateUUID, useFavicon } from './util';
 import { Analytics } from './analytics';
 import { FloatingActionButton } from './components/floatingActionButton';
 import { GlobalCss } from './globalCss';
 import { resetCss } from './resetCss';
+import { defaultLayout } from './model/defaultLayout';
+import favicon from './assets/favicon.svg';
 
 
 const AppWrapper = styled.div`
@@ -51,6 +54,7 @@ export const useBoxListLocalStorageState = (name: string, delimiter: string = ',
 };
 
 const App = (): React.ReactElement => {
+  useFavicon(favicon);
   const [size, gridRef] = useSizingRef<HTMLDivElement>();
   const [boxes, setBoxes] = useBoxListLocalStorageState('boxes_v1');
   const [url, setUrl] = useUrlQueryState('url');
@@ -66,31 +70,10 @@ const App = (): React.ReactElement => {
 
   React.useEffect((): void => {
     if (!url && !storedUrl) {
-      setUrl('https://kibalabs.com')
+      setUrl('https://kibalabs.com');
     }
     if (boxes.length === 0) {
-      setBoxes([{
-        itemId: 'default-1',
-        height: 1080,
-        width: 1920,
-        zoom: 5,
-        positionX: 0,
-        positionY: 0,
-      }, {
-        itemId: 'default-2',
-        height: 896,
-        width: 414,
-        zoom: 2.5,
-        positionX: 13,
-        positionY: 0,
-      }, {
-        itemId: 'default-3',
-        height: 812,
-        width: 375,
-        zoom: 2.5,
-        positionX: 22,
-        positionY: 0,
-      }])
+      setBoxes(defaultLayout);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -127,6 +110,12 @@ const App = (): React.ReactElement => {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <meta charSet='utf-8' />
+        <title>everysize - Check your responsive site in every sizes in one go!</title>
+        <meta name='description' content='' />
+        <link rel='canonical' href='https://everysize.kibalabs.com' />
+      </Helmet>
       <GlobalCss
         resetCss={resetCss}
       />
