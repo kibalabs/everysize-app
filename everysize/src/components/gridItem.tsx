@@ -46,12 +46,13 @@ interface IGridItemProps {
   initialHeight: number;
   initialWidth: number;
   initialZoom: number;
+  initialDeviceCode: string | null;
   minimumWidth: number;
   columnWidth: number;
   rowHeight: number;
   paddingSize: number;
   onCloseClicked: (itemId: string) => void;
-  onSizeChanged: (itemId: string, width: number, height: number, zoom: number) => void;
+  onSizeChanged: (itemId: string, width: number, height: number, zoom: number, deviceCode: string | null) => void;
 }
 
 export const GridItem = (props: IGridItemProps): React.ReactElement => {
@@ -59,22 +60,12 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
   const [width, setWidth] = React.useState<number>(props.initialWidth);
   const [zoom, setZoom] = React.useState<number>(props.initialZoom);
 
-  const onHeightChanged = (height: number): void => {
+  const onSizeChanged = (height: number, width: number, zoom: number, deviceCode: string | null): void => {
     setHeight(height);
-  };
-
-  const onWidthChanged = (width: number): void => {
     setWidth(width);
-  };
-
-  const onZoomChanged = (zoom: number): void => {
     setZoom(zoom);
+    props.onSizeChanged(props.itemId, width, height, zoom, deviceCode);
   };
-
-  React.useEffect((): void => {
-    props.onSizeChanged(props.itemId, width, height, zoom);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.itemId, width, height, zoom]);
 
   const onCloseClicked = (): void => {
     props.onCloseClicked(props.itemId);
@@ -85,10 +76,9 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
       <GridItemTitle
         initialHeight={props.initialHeight}
         initialWidth={props.initialWidth}
+        initialDeviceCode={props.initialDeviceCode}
         initialZoom={props.initialZoom}
-        onHeightChanged={onHeightChanged}
-        onWidthChanged={onWidthChanged}
-        onZoomChanged={onZoomChanged}
+        onSizeChanged={onSizeChanged}
         onCloseClicked={onCloseClicked}
       />
       <GridItemChildrenHolder

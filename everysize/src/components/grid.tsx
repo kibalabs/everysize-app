@@ -40,7 +40,7 @@ interface IGridProps {
   url: string | null;
   boxes: IBox[];
   onBoxCloseClicked: (itemId: string) => void;
-  onBoxSizeChanged: (itemId: string, width: number, height: number, zoom: number) => void;
+  onBoxSizeChanged: (itemId: string, width: number, height: number, zoom: number, deviceCode: string | null) => void;
   onBoxPositionChanged: (itemId: string, positionX: number, positionY: number) => void;
 }
 
@@ -51,8 +51,8 @@ export const Grid = (props: IGridProps): React.ReactElement => {
     props.onBoxCloseClicked(itemId);
   }
 
-  const onBoxSizeChanged = (itemId: string, width: number, height: number, zoom: number) => {
-    props.onBoxSizeChanged(itemId, width, height, zoom);
+  const onBoxSizeChanged = (itemId: string, width: number, height: number, zoom: number, deviceCode: string | null) => {
+    props.onBoxSizeChanged(itemId, width, height, zoom, deviceCode);
   };
 
   const onLayoutChanged = (layouts: Layout[]): void => {
@@ -124,6 +124,7 @@ export const Grid = (props: IGridProps): React.ReactElement => {
                 initialHeight={box.height}
                 initialWidth={box.width}
                 initialZoom={box.zoom}
+                initialDeviceCode={box.deviceCode}
                 minimumWidth={props.minimumGridItemWidth}
                 onCloseClicked={onBoxCloseClicked}
                 onSizeChanged={onBoxSizeChanged}

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { IDevice, devices } from '../model/devices';
+import { IDevice, devices, getDeviceByCode } from '../model/devices';
 import { CloseIcon } from './closeIcon';
 
 const StyledSelect = styled.select`
@@ -108,25 +108,29 @@ const SizeHolder = styled.div`
 interface IGridItemTitleProps {
   initialHeight: number;
   initialWidth: number;
+  initialDeviceCode: string | null;
   initialZoom: number;
-  onHeightChanged: (height: number) => void;
-  onWidthChanged: (width: number) => void;
-  onZoomChanged: (zoom: number) => void;
+  onSizeChanged: (height: number, width: number, zoom: number, deviceCode: string | null) => void;
   onCloseClicked: () => void;
 }
 
 export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement => {
-  const [heightInput, setHeightInput] = React.useState<string>(String(props.initialHeight));
-  const [widthInput, setWidthInput] = React.useState<string>(String(props.initialWidth));
+  const initialDevice = getDeviceByCode(props.initialDeviceCode);
+  const [device, setDevice] = React.useState<IDevice | null>(initialDevice);
+  const [heightInput, setHeightInput] = React.useState<string>(String(initialDevice ? initialDevice.height : props.initialHeight));
+  const [widthInput, setWidthInput] = React.useState<string>(String(initialDevice ? initialDevice.width : props.initialWidth));
   const [zoomInput, setZoomInput] = React.useState<string>(String(props.initialZoom));
-  const [device, setDevice] = React.useState<IDevice | null>(null);
 
   const onHeightInputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setHeightInput(event.target.value);
+    if (Number(event.target.value)) {
+      setHeightInput(event.target.value);
+    }
   };
 
   const onWidthInputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setWidthInput(event.target.value);
+    if (Number(event.target.value)) {
+      setWidthInput(event.target.value);
+    }
   };
 
   const onZoomInputChanged = (event: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -137,42 +141,31 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
     props.onCloseClicked();
   };
 
-  React.useEffect((): void => {
-    const candidate = Number(heightInput);
-    if (candidate) {
-      props.onHeightChanged(candidate);
-      if (device && candidate !== device.height) {
-        setDevice(null);
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [heightInput]);
+  // React.useEffect((): void => {
+  //   props.onHeightChanged(candidate);
+  //   // if (device && candidate !== device.height) {
+  //   //   setDevice(null);
+  //   // }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [heightInput]);
+
+  // React.useEffect((): void => {
+  //   props.onWidthChanged(candidate);
+  //   // if (device && candidate !== device.width) {
+  //   //   setDevice(null);
+  //   // }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [widthInput]);
+
+  // React.useEffect((): void => {
+  //   props.onZoomChanged(candidate);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [zoomInput]);
 
   React.useEffect((): void => {
-    const candidate = Number(widthInput);
-    if (candidate) {
-      props.onWidthChanged(candidate);
-      if (device && candidate !== device.width) {
-        setDevice(null);
-      }
-    }
+    props.onSizeChanged(Number(heightInput), Number(widthInput), Number(zoomInput), device?.code || null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [widthInput]);
-
-  React.useEffect((): void => {
-    const candidate = Number(zoomInput);
-    if (candidate) {
-      props.onZoomChanged(candidate);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zoomInput]);
-
-  React.useEffect((): void => {
-    if (device) {
-      setHeightInput(String(device.height));
-      setWidthInput(String(device.width));
-    }
-  }, [device]);
+  }, [heightInput, widthInput, zoomInput, device]);
 
   const onDeviceInputChanged = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     if (device?.name === event.target.value) {
@@ -181,6 +174,8 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
     const matchedDevice = devices.filter((device: IDevice): boolean => device.name === event.target.value);
     if (matchedDevice.length > 0) {
       setDevice(matchedDevice[0]);
+      setHeightInput(String(matchedDevice[0].height));
+      setWidthInput(String(matchedDevice[0].width));
     } else {
       setDevice(null);
     }

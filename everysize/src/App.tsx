@@ -4,13 +4,12 @@ import { Helmet } from 'react-helmet';
 
 import { NavBar } from './components/navBar';
 import { Grid } from './components/grid';
-import { IBox, deserializeBox, serializeBox } from './model';
-import { useSizingRef, useUrlQueryState, useLocalStorageState, useStringListLocalStorageState, useValueSync, generateUUID, useFavicon } from './util';
+import { IBox, deserializeBox, serializeBox, defaultLayout, createDefaultDevice } from './model';
+import { useSizingRef, useUrlQueryState, useLocalStorageState, useStringListLocalStorageState, useValueSync, useFavicon } from './util';
 import { Analytics } from './analytics';
 import { FloatingActionButton } from './components/floatingActionButton';
 import { GlobalCss } from './globalCss';
 import { resetCss } from './resetCss';
-import { defaultLayout } from './model/defaultLayout';
 import favicon from './assets/favicon.svg';
 
 
@@ -56,7 +55,7 @@ export const useBoxListLocalStorageState = (name: string, delimiter: string = ',
 const App = (): React.ReactElement => {
   useFavicon(favicon);
   const [size, gridRef] = useSizingRef<HTMLDivElement>();
-  const [boxes, setBoxes] = useBoxListLocalStorageState('boxes_v1');
+  const [boxes, setBoxes] = useBoxListLocalStorageState('boxes_v2');
   const [url, setUrl] = useUrlQueryState('url');
   const [storedUrl, setStoredUrl] = useLocalStorageState('url_v1', url);
   useValueSync(storedUrl, setUrl);
@@ -83,16 +82,16 @@ const App = (): React.ReactElement => {
   };
 
   const onAddClicked = (): void => {
-    setBoxes([...boxes, {itemId: generateUUID(), height: 600, width: 900, zoom: 2, positionX: 0, positionY: 0}]);
+    setBoxes([...boxes, createDefaultDevice()]);
   };
 
   const onRemoveBoxClicked = (itemId: string): void => {
     setBoxes(boxes.filter((box: IBox): boolean => box.itemId !== itemId));
   };
 
-  const onBoxSizeChanged = (itemId: string, width: number, height: number, zoom: number) => {
+  const onBoxSizeChanged = (itemId: string, width: number, height: number, zoom: number, deviceCode: string | null) => {
     setBoxes(boxes.map((box: IBox): IBox => (
-      box.itemId === itemId ? {...box, width: width, height: height, zoom: zoom} : box
+      box.itemId === itemId ? {...box, width: width, height: height, zoom: zoom, deviceCode: deviceCode} : box
     )));
   };
 

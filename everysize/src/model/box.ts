@@ -6,13 +6,22 @@ export interface IBox {
   positionX: number;
   positionY: number;
   zoom: number;
+  deviceCode: string | null;
 }
 
 export const serializeBox = (box: IBox): string => {
   if (box.itemId.includes('$')) {
     throw Error(`Box itemIds cannot contain '$'. Offending box: ${box}`);
   }
-  return [box.itemId, box.width, box.height, box.positionX, box.positionY, box.zoom].join('$');
+  return [
+    box.itemId,
+    box.width,
+    box.height,
+    box.positionX,
+    box.positionY,
+    box.zoom,
+    box.deviceCode || '',
+  ].join('$');
 }
 
 export const deserializeBox = (boxString: string): IBox | null => {
@@ -25,6 +34,7 @@ export const deserializeBox = (boxString: string): IBox | null => {
       positionX: Number(stringParts[3]),
       positionY: Number(stringParts[4]),
       zoom: Number(stringParts[5]),
+      deviceCode: stringParts[6] || null,
     }
   } catch (error) {
     return null;

@@ -23,6 +23,7 @@ const StyledInput = styled.input`
   border: #959595 1px solid;
   padding: 8px;
   height: 100%;
+  border-radius: 4px;
 `;
 
 export const NavBar = (props: INavBar): React.ReactElement => {
