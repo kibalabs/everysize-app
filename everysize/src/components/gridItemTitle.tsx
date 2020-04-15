@@ -4,16 +4,38 @@ import styled from 'styled-components';
 import { IDevice, devices } from '../model/devices';
 import { CloseIcon } from './closeIcon';
 
+const StyledSelect = styled.select`
+  background: none;
+  appearance: none;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+  color: white;
+  padding: 2px 5px;
+  font-size: 14px;
+`;
+
+const StyledSelectSmall = styled.select`
+  background: none;
+  appearance: none;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 2px 5px;
+  text-align: center;
+  font-size: 12px;
+`;
+
 const StyledInput = styled.input`
-  height: 25px;
   background: none;
   border: none;
-  border-bottom: white 1px solid;
-  color: white;
-  padding-left: 8px;
-  padding-right: 8px;
-  width: 30px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 2px 5px;
   text-align: center;
+  font-size: 12px;
+  max-width: 5ch;
 `;
 
 const StyledGridItemTitle = styled.div`
@@ -54,9 +76,33 @@ const StyledCloseButton = styled.button`
   }
 `;
 
-const SizeWrapper = styled.div`
+const LeftHolder = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  justify-content: left;
+  align-items: start;
+`;
+
+const RightHolder = styled.div`
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: 15px;
+`;
+
+const LeftInnerHolder = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
+const SizeHolder = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 interface IGridItemTitleProps {
@@ -142,27 +188,31 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
 
   return (
     <StyledGridItemTitle>
-      <select value={zoomInput} onChange={onZoomInputChanged}>
-        <option value="1">100%</option>
-        <option value="1.5">66%</option>
-        <option value="2">50%</option>
-        <option value="2.5">40%</option>
-        <option value="5">20%</option>
-      </select>
-      <SizeWrapper>
-        <select value={device ? device.name : ''} onChange={onDeviceInputChanged}>
+      <LeftHolder>
+        <StyledSelect value={device ? device.name : ''} onChange={onDeviceInputChanged}>
           <option value=''>Manual</option>
           {devices.map((device: IDevice): React.ReactElement => (
             <option value={device.name} key={device.name}>{device.name}</option>
           ))}
-        </select>
-        <div>
-          <StyledInput value={widthInput} onChange={onWidthInputChanged} />
-          x
-          <StyledInput value={heightInput} onChange={onHeightInputChanged} />
-        </div>
-      </SizeWrapper>
-      <StyledCloseButton onClick={onCloseClicked}><CloseIcon /></StyledCloseButton>
+        </StyledSelect>
+        <LeftInnerHolder>
+          <SizeHolder>
+            <StyledInput value={widthInput} onChange={onWidthInputChanged} />
+            <div style={{width: '10px'}}><CloseIcon /></div>
+            <StyledInput value={heightInput} onChange={onHeightInputChanged} />
+          </SizeHolder>
+          <StyledSelectSmall value={zoomInput} onChange={onZoomInputChanged}>
+            <option value="1">100%</option>
+            <option value="1.5">66%</option>
+            <option value="2">50%</option>
+            <option value="2.5">40%</option>
+            <option value="5">20%</option>
+          </StyledSelectSmall>
+        </LeftInnerHolder>
+      </LeftHolder>
+      <RightHolder>
+        <StyledCloseButton onClick={onCloseClicked}><CloseIcon /></StyledCloseButton>
+      </RightHolder>
     </StyledGridItemTitle>
   );
 };
