@@ -6,7 +6,7 @@ import 'react-resizable/css/styles.css';
 
 import { GridItem } from './gridItem';
 import { GridBackground } from './gridBackground';
-import { IBox } from './model';
+import { IBox } from '../model';
 
 const StyledGrid = styled.div`
   height: 100%;
@@ -27,7 +27,7 @@ const GridItemWrapper = styled.div`
   overflow: hidden;
   border-radius: 8px;
   background-color: #333333;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 interface IGridProps {

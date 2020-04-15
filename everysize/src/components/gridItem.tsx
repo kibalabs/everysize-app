@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { IDevice, devices } from './devices';
+import { IDevice, devices } from '../model/devices';
 import { WebView } from './webView';
 
 const StyledInput = styled.input`

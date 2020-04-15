@@ -12,12 +12,13 @@ const StyledButton = styled.button`
   height: 50px;
   width: 50px;
   border-radius: 25px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   outline: none;
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  right: 20px;
+  bottom: 20px;
   text-align: center;
+  cursor: pointer;
 
   :hover {
     background-color: ${darken(0.1, '#333333')};

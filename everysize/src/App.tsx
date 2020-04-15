@@ -1,16 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { NavBar } from './navBar';
-import { Grid } from './grid';
+import { NavBar } from './components/navBar';
+import { Grid } from './components/grid';
 import { IBox, deserializeBox, serializeBox } from './model';
-import { useSizingRef } from './useSize';
-import { useUrlQueryState } from './useUrlQueryState';
-import { useLocalStorageState, useStringListLocalStorageState } from './useLocalStorageState';
-import { useValueSync } from './useValueSync';
-import { generateUUID } from './stringUtil';
+import { useSizingRef, useUrlQueryState, useLocalStorageState, useStringListLocalStorageState, useValueSync, generateUUID } from './util';
 import { Analytics } from './analytics';
-import { FloatingActionButton } from './floatingActionButton';
+import { FloatingActionButton } from './components/floatingActionButton';
 import { GlobalCss } from './globalCss';
 import { resetCss } from './resetCss';
 
@@ -26,7 +22,7 @@ const AppWrapper = styled.div`
 const NavbarWrapper = styled.div`
   width: 100%;
   flex-grow: 0;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const GridWrapper = styled.div`

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as Logo } from './everysize-wordmark-dark.svg';
+import { ReactComponent as Logo } from '../assets/everysize-wordmark-dark.svg';
 
 
 interface INavBar {
