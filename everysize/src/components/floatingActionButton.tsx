@@ -18,7 +18,7 @@ const StyledButton = styled.button`
   outline: none;
   position: absolute;
   right: 20px;
-  bottom: 20px;
+  bottom: 50px;
   text-align: center;
   cursor: pointer;
 

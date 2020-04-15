@@ -47,8 +47,7 @@ const StyledGridItemTitle = styled.div`
   color: white;
   justify-content: space-between;
   align-items: center;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 5px 10px;
 `;
 
 const StyledCloseButton = styled.button`
@@ -96,6 +95,7 @@ const LeftInnerHolder = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-top: 2px;
 `;
 
 const SizeHolder = styled.div`

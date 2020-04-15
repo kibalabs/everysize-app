@@ -4,7 +4,7 @@ import logo from '../assets/everysize-wordmark-dark.svg';
 import favicon from '../assets/favicon.svg';
 
 
-interface INavBar {
+interface INavBarProps {
   url: string | null;
   onUrlChanged: (url: string) => void;
 }
@@ -15,18 +15,19 @@ const StyledNavBar = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px;
+  padding: 10px 15px;
 `;
 
 const StyledInput = styled.input`
   min-width: 300px;
   border: #959595 1px solid;
-  padding: 8px;
+  padding: 8px 10px;
   height: 100%;
   border-radius: 4px;
+  background-color: white;
 `;
 
-export const NavBar = (props: INavBar): React.ReactElement => {
+export const NavBar = (props: INavBarProps): React.ReactElement => {
   const onUrlChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
     props.onUrlChanged(event.target.value);
   };

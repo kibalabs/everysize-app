@@ -11,6 +11,7 @@ import { FloatingActionButton } from './components/floatingActionButton';
 import { GlobalCss } from './globalCss';
 import { resetCss } from './resetCss';
 import favicon from './assets/favicon.svg';
+import { Footer } from './components/footer';
 
 
 const AppWrapper = styled.div`
@@ -114,6 +115,7 @@ const App = (): React.ReactElement => {
         <title>everysize - Check your responsive site in every sizes in one go!</title>
         <meta name='description' content='' />
         <link rel='canonical' href='https://everysize.kibalabs.com' />
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900' rel='stylesheet' />
       </Helmet>
       <GlobalCss
         resetCss={resetCss}
@@ -138,6 +140,7 @@ const App = (): React.ReactElement => {
             onBoxPositionChanged={onBoxPositionChanged}
           />
         </GridWrapper>
+        <Footer />
       </AppWrapper>
       <FloatingActionButton onClicked={onAddClicked}/>
     </React.Fragment>
