@@ -29,6 +29,7 @@ const StyledIframe = styled.iframe<IStyledIframeProps>`
 interface IWebViewProps {
   url: string;
   errorView: React.ReactElement;
+  onLoaded: () => void;
 }
 
 
@@ -66,6 +67,7 @@ export const WebView = React.forwardRef((props: IWebViewProps, ref: React.Ref<HT
     //     iframe.contentWindow.console.log = (): void => { /* no-op */ };
     //   }
     // }, 1000);
+    props.onLoaded();
   };
 
   return (

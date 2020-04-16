@@ -4,12 +4,20 @@ import styled from 'styled-components';
 import { WebView } from './webView';
 import { GridItemTitle } from './gridItemTitle';
 
+const LoadingView = styled.div`
+  flex-grow: 1;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 interface IStyledGridItemProps {
   minimumWidth: number;
 }
 
 const StyledGridItem = styled.div<IStyledGridItemProps>`
+  height: 100%;
   display: flex;
   flex-direction: column;
   min-width: ${(props: IStyledGridItemProps): string => `${props.minimumWidth}px`};;
@@ -20,6 +28,7 @@ interface IGridItemChildrenHolderProps {
   height: number;
   width: number;
   zoom: number;
+  isWebViewLoaded: boolean;
 }
 
 const GridItemChildrenHolder = styled.div<IGridItemChildrenHolderProps>`
@@ -27,7 +36,7 @@ const GridItemChildrenHolder = styled.div<IGridItemChildrenHolderProps>`
   width: ${(props: IGridItemChildrenHolderProps): string => `${props.width}px`};
   transform-origin: 50% 0%;
   transform: ${(props: IGridItemChildrenHolderProps): string => `scale(${props.zoom})`};
-  overflow: hidden;
+  display: ${(props: IGridItemChildrenHolderProps): string => props.isWebViewLoaded ? 'block' : 'none'};
 `;
 
 interface IGridItemChildrenHolderInnerProps {
@@ -38,6 +47,7 @@ interface IGridItemChildrenHolderInnerProps {
 const GridItemChildrenHolderInner = styled.div<IGridItemChildrenHolderInnerProps>`
   height: ${(props: IGridItemChildrenHolderInnerProps): string => `calc(100% + ${props.heightOffset}px)`};
   width: ${(props: IGridItemChildrenHolderInnerProps): string => `calc(100% + ${props.widthOffset}px)`};
+  overflow: hidden;
 `;
 
 interface IGridItemProps {
@@ -60,6 +70,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
   const [height, setHeight] = React.useState<number>(props.initialHeight);
   const [width, setWidth] = React.useState<number>(props.initialWidth);
   const [zoom, setZoom] = React.useState<number>(props.initialZoom);
+  const [isWebViewLoaded, setIsWebViewLoaded] = React.useState<boolean>(false);
 
   const onSizeChanged = (height: number, width: number, zoom: number, deviceCode: string | null): void => {
     setHeight(height);
@@ -72,6 +83,10 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
     props.onCloseClicked(props.itemId);
   };
 
+  const onWebViewLoaded = (): void => {
+    setIsWebViewLoaded(true);
+  }
+
   return (
     <StyledGridItem minimumWidth={props.minimumWidth}>
       <GridItemTitle
@@ -83,16 +98,19 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
         onCloseClicked={onCloseClicked}
         dragHandleClass={props.dragHandleClass}
       />
+      { !isWebViewLoaded && <LoadingView>Loading...</LoadingView>}
       <GridItemChildrenHolder
         width={width}
         height={height}
         zoom={1.0 / zoom}
+        isWebViewLoaded={isWebViewLoaded}
       >
         <GridItemChildrenHolderInner heightOffset={0} widthOffset={0}>
           {props.url ? (
             <WebView
               url={props.url}
               errorView={<div>Error</div>}
+              onLoaded={onWebViewLoaded}
             />
           ) : ''}
         </GridItemChildrenHolderInner>
