@@ -5,9 +5,31 @@ import favicon from '../assets/favicon.svg';
 
 
 interface INavBarProps {
-  url: string | null;
+  url: string;
   onUrlChanged: (url: string) => void;
 }
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: row;
+`;
+
+const StyledButton = styled.button`
+  color: white;
+  padding: 10px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  margin-left: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  :hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  :active {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+`;
 
 const StyledNavBar = styled.div`
   background-color: #333333;
@@ -28,9 +50,16 @@ const StyledInput = styled.input`
 `;
 
 export const NavBar = (props: INavBarProps): React.ReactElement => {
+  const [url, setUrl] = React.useState<string>(props.url);
+
   const onUrlChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    props.onUrlChanged(event.target.value);
+    setUrl(event.target.value);
   };
+
+  const onFormSubmitted = (event: React.FormEvent<HTMLFormElement>): void => {
+    props.onUrlChanged(url);
+    event.preventDefault();
+  }
 
   return (
     <StyledNavBar>
@@ -38,10 +67,13 @@ export const NavBar = (props: INavBarProps): React.ReactElement => {
         <img height='30px' width='30px' src={favicon} alt='logo'/>
         <img height='30px' width='170px' src={logo} alt='everypage'/>
       </div>
-      <StyledInput
-        value={props.url || ''}
-        onChange={onUrlChanged}
-      />
+      <StyledForm onSubmit={onFormSubmitted}>
+        <StyledInput
+          value={url || ''}
+          onChange={onUrlChanged}
+        />
+        <StyledButton type='submit'>GO</StyledButton>
+      </StyledForm>
       <div />
       <div />
     </StyledNavBar>

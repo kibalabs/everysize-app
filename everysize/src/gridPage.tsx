@@ -117,7 +117,7 @@ export const GridPage = (): React.ReactElement => {
     <React.Fragment>
       <GridPageWrapper ref={gridRef}>
         <NavbarWrapper>
-          <NavBar url={url || null} onUrlChanged={onUrlChanged}/>
+          <NavBar url={url!} onUrlChanged={onUrlChanged}/>
         </NavbarWrapper>
         <GridWrapper>
           <Grid
@@ -127,7 +127,7 @@ export const GridPage = (): React.ReactElement => {
             totalWidth={totalWidth}
             minimumGridItemWidth={minimumGridItemWidth}
             columnCount={columnCount}
-            url={url || null}
+            url={url!}
             boxes={boxes}
             onBoxCloseClicked={onRemoveBoxClicked}
             onBoxSizeChanged={onBoxSizeChanged}
