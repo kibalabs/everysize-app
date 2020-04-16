@@ -8,11 +8,10 @@ interface IStyledGridBackgroundProps {
 }
 
 const StyledGridBackground = styled.div<IStyledGridBackgroundProps>`
-  height: ${(props: IStyledGridBackgroundProps): string => `calc(100% - 2 * ${props.paddingSize}px)`};
-  width: ${(props: IStyledGridBackgroundProps): string => `calc(100% - 2 * ${props.paddingSize}px)`};
+  height: 100%;
+  width: 100%;
   position: absolute;
   transition: 0.3s;
-  padding: ${(props: IStyledGridBackgroundProps): string => `${props.paddingSize}px`};
 `;
 
 const GridBackgroundInner = styled.div<IStyledGridBackgroundProps>`
@@ -32,7 +31,7 @@ const GridBackgroundInnerInner = styled.div<IStyledGridBackgroundProps>`
   width: 100%;
   background-image: radial-gradient(circle, #fff 10px, transparent 0px);
   background-size: 30px 30px;
-  background-position: -1px -1px;
+  background-position: 10px 10px;
 `;
 
 interface IGridBackgroundProps {

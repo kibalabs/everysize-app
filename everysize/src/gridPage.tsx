@@ -109,7 +109,8 @@ export const GridPage = (): React.ReactElement => {
 
   React.useEffect((): void => {
     if (size) {
-      setTotalWidth(Math.floor((size.width - paddingSize) / (columnWidth + paddingSize)) * (columnWidth + paddingSize));
+      // s-p / c+p > n
+      setTotalWidth(Math.floor((size.width - paddingSize) / (columnWidth + paddingSize)) * (columnWidth + paddingSize) - (2 * paddingSize));
     }
   }, [size]);
 
