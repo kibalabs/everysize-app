@@ -50,7 +50,7 @@ export const useBoxListLocalStorageState = (name: string, delimiter: string = ',
 };
 
 export const GridPage = (): React.ReactElement => {
-  usePageView();
+  usePageView('grid');
   const mixpanel = React.useContext(MixpanelContext)!;
   const [size, gridRef] = useSizingRef<HTMLDivElement>();
   const [boxes, setBoxes] = useBoxListLocalStorageState('boxes_v2');
