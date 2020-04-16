@@ -3,13 +3,16 @@ import styled from 'styled-components';
 
 import { WebView } from './webView';
 import { GridItemTitle } from './gridItemTitle';
+import { LoadingIndicator } from './loadingIndicator';
 
 const LoadingView = styled.div`
+  width: 100%;
   flex-grow: 1;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.1);
 `;
 
 interface IStyledGridItemProps {
@@ -98,7 +101,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
         onCloseClicked={onCloseClicked}
         dragHandleClass={props.dragHandleClass}
       />
-      { !isWebViewLoaded && <LoadingView>Loading...</LoadingView>}
+      { !isWebViewLoaded && <LoadingView><LoadingIndicator /></LoadingView>}
       <GridItemChildrenHolder
         width={width}
         height={height}
