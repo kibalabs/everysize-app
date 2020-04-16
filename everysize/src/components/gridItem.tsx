@@ -12,7 +12,6 @@ const LoadingView = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.1);
 `;
 
 interface IStyledGridItemProps {
@@ -36,6 +35,9 @@ interface IGridItemChildrenHolderProps {
 
 const GridItemChildrenHolder = styled.div<IGridItemChildrenHolderProps>`
   height: ${(props: IGridItemChildrenHolderProps): string => `${props.height}px`};
+  /* Min and max set here to make it work in firefox :( */
+  min-height: ${(props: IGridItemChildrenHolderProps): string => `${props.height}px`};
+  max-height: ${(props: IGridItemChildrenHolderProps): string => `${props.height}px`};
   width: ${(props: IGridItemChildrenHolderProps): string => `${props.width}px`};
   transform-origin: 50% 0%;
   transform: ${(props: IGridItemChildrenHolderProps): string => `scale(${props.zoom})`};

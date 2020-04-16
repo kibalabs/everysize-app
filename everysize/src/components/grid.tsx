@@ -98,9 +98,6 @@ export const Grid = (props: IGridProps): React.ReactElement => {
     setIsDragging(false);
   };
 
-  console.log('boxes', props.boxes);
-  console.log('layout', getLayout());
-
   return (
     <StyledGrid>
       <StyledGridInner totalWidth={props.totalWidth}>
