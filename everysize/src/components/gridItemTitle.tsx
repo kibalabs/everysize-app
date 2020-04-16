@@ -2,7 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { IDevice, devices, getDeviceByCode } from '../model/devices';
-import { CloseIcon } from './closeIcon';
+import { CloseIcon, DragHandleIcon } from './closeIcon';
+
+const DargHandle = styled.div`
+  width: 24px;
+  height: 44px;
+  color: rgba(255, 255, 255, 0.25);
+`;
 
 const StyledSelect = styled.select`
   background: none;
@@ -45,7 +51,6 @@ const StyledGridItemTitle = styled.div`
   display: flex;
   flex-direction: row;
   color: white;
-  justify-content: space-between;
   align-items: center;
   padding: 5px 10px;
 `;
@@ -83,6 +88,10 @@ const LeftHolder = styled.div`
   align-items: start;
 `;
 
+const MiddleHolder = styled.div`
+  flex-grow: 1;
+`;
+
 const RightHolder = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
@@ -110,6 +119,7 @@ interface IGridItemTitleProps {
   initialWidth: number;
   initialDeviceCode: string | null;
   initialZoom: number;
+  dragHandleClass?: string;
   onSizeChanged: (height: number, width: number, zoom: number, deviceCode: string | null) => void;
   onCloseClicked: () => void;
 }
@@ -162,6 +172,9 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
 
   return (
     <StyledGridItemTitle>
+      <DargHandle className={`${props.dragHandleClass ? props.dragHandleClass : ''}`}>
+        <DragHandleIcon />
+      </DargHandle>
       <LeftHolder>
         <StyledSelect value={device ? device.name : ''} onChange={onDeviceInputChanged}>
           <option value=''>Manual</option>
@@ -184,6 +197,7 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
           </SizeHolder>
         </LeftInnerHolder>
       </LeftHolder>
+      <MiddleHolder />
       <RightHolder>
         <StyledCloseButton onClick={onCloseClicked}><CloseIcon /></StyledCloseButton>
       </RightHolder>

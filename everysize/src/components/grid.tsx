@@ -8,6 +8,8 @@ import { GridItem } from './gridItem';
 import { GridBackground } from './gridBackground';
 import { IBox } from '../model';
 
+const DRAG_HANDLE_CLASS = 'drag-handle';
+
 const StyledGrid = styled.div`
   height: 100%;
   width: 100%;
@@ -103,7 +105,6 @@ export const Grid = (props: IGridProps): React.ReactElement => {
           <GridBackground paddingSize={props.paddingSize} rowHeight={props.rowHeight} columnWidth={props.columnWidth} />
         )}
         <GridLayout
-          className="layout"
           cols={props.columnCount}
           width={props.totalWidth}
           rowHeight={props.rowHeight}
@@ -112,6 +113,7 @@ export const Grid = (props: IGridProps): React.ReactElement => {
           onLayoutChange={onLayoutChanged}
           onDragStart={onDragStarted}
           onDragStop={onDragStopped}
+          draggableHandle={`.${DRAG_HANDLE_CLASS}`}
         >
           { props.boxes.map((box: IBox): React.ReactElement => (
             <GridItemWrapper key={box.itemId}>
@@ -128,6 +130,7 @@ export const Grid = (props: IGridProps): React.ReactElement => {
                 minimumWidth={props.minimumGridItemWidth}
                 onCloseClicked={onBoxCloseClicked}
                 onSizeChanged={onBoxSizeChanged}
+                dragHandleClass={DRAG_HANDLE_CLASS}
               />
             </GridItemWrapper>
           ))}

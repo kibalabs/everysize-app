@@ -51,6 +51,7 @@ interface IGridItemProps {
   columnWidth: number;
   rowHeight: number;
   paddingSize: number;
+  dragHandleClass?: string;
   onCloseClicked: (itemId: string) => void;
   onSizeChanged: (itemId: string, width: number, height: number, zoom: number, deviceCode: string | null) => void;
 }
@@ -80,6 +81,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
         initialZoom={props.initialZoom}
         onSizeChanged={onSizeChanged}
         onCloseClicked={onCloseClicked}
+        dragHandleClass={props.dragHandleClass}
       />
       <GridItemChildrenHolder
         width={width}
