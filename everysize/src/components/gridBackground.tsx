@@ -12,16 +12,17 @@ const StyledGridBackground = styled.div<IStyledGridBackgroundProps>`
   width: 100%;
   position: absolute;
   transition: 0.3s;
+  opacity: 0.4;
 `;
 
 const GridBackgroundInner = styled.div<IStyledGridBackgroundProps>`
   height: 100%;
   width: 100%;
-  background-image: radial-gradient(circle, #bbb 1px, transparent 0.5px);
+  background-image: radial-gradient(circle, #aaa 1px, transparent 1px);
   background-size: ${(props: IStyledGridBackgroundProps): string => `${props.paddingSize}px ${props.paddingSize}px`};
   background-position: 4px 4px;
   box-sizing: border-box;
-  border: #bbb 1px solid;
+  border: #aaa 1px solid;
   overflow: hidden;
   background-color: white;
 `;
