@@ -88,8 +88,8 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
     props.onCloseClicked(props.itemId);
   };
 
-  const onWebViewLoaded = (): void => {
-    setIsWebViewLoaded(true);
+  const onWebViewLoaded = (isLoading: boolean): void => {
+    setIsWebViewLoaded(!isLoading);
   }
 
   return (
