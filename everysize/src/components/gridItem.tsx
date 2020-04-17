@@ -9,13 +9,17 @@ const ErrorView = styled.div`
   width: 100%;
   flex-grow: 10;
   line-height: 2em;
-  color: red;
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
   text-align: center;
   flex-direction: column;
+`;
+
+const ErrorSpan = styled.span`
+  color: red;
 `;
 
 const LoadingView = styled.div`
@@ -118,7 +122,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
         dragHandleClass={props.dragHandleClass}
       />
       {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
-      { props.isIframeBlocked && <ErrorView>{props.url} doesn't suppport iframes which we use to protect you 🔒<br /><br />If you're developing it, use localhost and everything should work 👌</ErrorView>}
+      { true && <ErrorView><span><ErrorSpan>Oh no!</ErrorSpan><br /><br />{props.url} doesn't support iframes, which we use to ensure your privacy 🔒<br /><br />If you're developing it, use localhost and everything should work 👌</span></ErrorView>}
       { !props.isIframeBlocked && !isWebViewLoaded && <LoadingView><LoadingIndicator /></LoadingView>}
       { !props.isIframeBlocked && (
         <GridItemChildrenHolder
