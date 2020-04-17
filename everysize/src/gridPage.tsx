@@ -7,7 +7,7 @@ import { IBox, deserializeBox, serializeBox, defaultLayout, createDefaultDevice 
 import { useSizingRef, useUrlQueryState, useLocalStorageState, useStringListLocalStorageState, useValueSync } from './util';
 import { FloatingActionButton } from './components/floatingActionButton';
 import { Footer } from './components/footer';
-import { usePageView, trackEvent,  MixpanelContext } from './util/useAnalytics';
+import { usePageView, trackEvent } from './util/useAnalytics';
 
 
 const GridPageWrapper = styled.div`
@@ -51,7 +51,6 @@ export const useBoxListLocalStorageState = (name: string, delimiter: string = ',
 
 export const GridPage = (): React.ReactElement => {
   usePageView('grid');
-  const mixpanel = React.useContext(MixpanelContext)!;
   const [size, gridRef] = useSizingRef<HTMLDivElement>();
   const [boxes, setBoxes] = useBoxListLocalStorageState('boxes_v2');
   const [url, setUrl] = useUrlQueryState('url');
@@ -76,25 +75,25 @@ export const GridPage = (): React.ReactElement => {
   }, []);
 
   const onUrlChanged = (url: string): void => {
-    trackEvent(mixpanel, 'interaction', 'add_url', url);
+    trackEvent('interaction', 'add_url', url);
     setStoredUrl(url);
   };
 
   const onAddClicked = (): void => {
-    trackEvent(mixpanel, 'interaction', 'add_box');
+    trackEvent('interaction', 'add_box');
     setBoxes([...boxes, createDefaultDevice()]);
   };
 
   const onRemoveBoxClicked = (itemId: string): void => {
-    trackEvent(mixpanel, 'interaction', 'remove_box');
+    trackEvent('interaction', 'remove_box');
     setBoxes(boxes.filter((box: IBox): boolean => box.itemId !== itemId));
   };
 
   const onBoxSizeChanged = (itemId: string, width: number, height: number, zoom: number, deviceCode: string | null) => {
     if (deviceCode) {
-      trackEvent(mixpanel, 'interaction', 'change_box_device', deviceCode || 'manual', zoom);
+      trackEvent('interaction', 'change_box_device', deviceCode || 'manual', zoom);
     } else {
-      trackEvent(mixpanel, 'interaction', 'change_box_manual', `${width}x${height}`, zoom);
+      trackEvent('interaction', 'change_box_manual', `${width}x${height}`, zoom);
     }
     setBoxes(boxes.map((box: IBox): IBox => (
       box.itemId === itemId ? {...box, width: width, height: height, zoom: zoom, deviceCode: deviceCode} : box

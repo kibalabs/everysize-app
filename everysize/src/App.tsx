@@ -1,22 +1,20 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
-import mixpanel from 'mixpanel-browser';
 
-import { useFavicon, MixpanelContext } from './util';
+import { useFavicon } from './util';
 import { GlobalCss } from './globalCss';
 import { resetCss } from './resetCss';
 import { GridPage } from './gridPage';
 import favicon from './assets/favicon.svg';
 
 ReactGA.initialize('UA-31771231-10');
-mixpanel.init('7fc4d95d4dc75d9841828257737030ee');
 
 export const App = (): React.ReactElement => {
   useFavicon(favicon);
 
   return (
-    <MixpanelContext.Provider value={mixpanel}>
+    <React.Fragment>
       <Helmet>
         <meta charSet='utf-8' />
         <title>everysize - Check your responsive site in every sizes in one go!</title>
@@ -28,6 +26,6 @@ export const App = (): React.ReactElement => {
         resetCss={resetCss}
       />
       <GridPage />
-    </MixpanelContext.Provider>
+    </React.Fragment>
   );
 }
