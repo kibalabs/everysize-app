@@ -9,6 +9,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "deep-equal": "2.0.2",
     "polished": "3.5.1",
     "react": "16.13.1",

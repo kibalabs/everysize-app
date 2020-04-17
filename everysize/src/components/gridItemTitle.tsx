@@ -8,6 +8,7 @@ const DargHandle = styled.div`
   width: 24px;
   height: 44px;
   color: rgba(255, 255, 255, 0.25);
+  margin-right: 5px;
 `;
 
 const StyledSelect = styled.select`

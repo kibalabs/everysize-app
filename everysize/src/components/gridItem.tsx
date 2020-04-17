@@ -5,6 +5,18 @@ import { WebView } from './webView';
 import { GridItemTitle } from './gridItemTitle';
 import { LoadingIndicator } from './loadingIndicator';
 
+const ErrorView = styled.div`
+  width: 100%;
+  flex-grow: 10;
+  line-height: 2em;
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+`;
+
 const LoadingView = styled.div`
   width: 100%;
   flex-grow: 1;
@@ -67,6 +79,7 @@ interface IGridItemProps {
   rowHeight: number;
   paddingSize: number;
   dragHandleClass?: string;
+  isIframeBlocked: boolean;
   onCloseClicked: (itemId: string) => void;
   onSizeChanged: (itemId: string, width: number, height: number, zoom: number, deviceCode: string | null) => void;
 }
@@ -103,23 +116,26 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
         onCloseClicked={onCloseClicked}
         dragHandleClass={props.dragHandleClass}
       />
-      { !isWebViewLoaded && <LoadingView><LoadingIndicator /></LoadingView>}
-      <GridItemChildrenHolder
-        width={width}
-        height={height}
-        zoom={1.0 / zoom}
-        isWebViewLoaded={isWebViewLoaded}
-      >
-        <GridItemChildrenHolderInner heightOffset={0} widthOffset={0}>
-          {props.url ? (
-            <WebView
-              url={props.url}
-              errorView={<div>Error</div>}
-              onLoaded={onWebViewLoaded}
-            />
-          ) : ''}
-        </GridItemChildrenHolderInner>
-      </GridItemChildrenHolder>
+      { props.isIframeBlocked && <ErrorView>{props.url} doesn't suppport iframes 😢<br />If you're developing it, use localhost and everything should work 👌</ErrorView>}
+      { !props.isIframeBlocked && !isWebViewLoaded && <LoadingView><LoadingIndicator /></LoadingView>}
+      { !props.isIframeBlocked && (
+        <GridItemChildrenHolder
+          width={width}
+          height={height}
+          zoom={1.0 / zoom}
+          isWebViewLoaded={isWebViewLoaded}
+        >
+          <GridItemChildrenHolderInner heightOffset={0} widthOffset={0}>
+            {props.url ? (
+              <WebView
+                url={props.url}
+                errorView={<div>Error</div>}
+                onLoaded={onWebViewLoaded}
+              />
+            ) : ''}
+          </GridItemChildrenHolderInner>
+        </GridItemChildrenHolder>
+      )}
     </StyledGridItem>
   );
 }

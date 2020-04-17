@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import GridLayout, { Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 
 import { GridItem } from './gridItem';
 import { GridBackground } from './gridBackground';
@@ -39,7 +40,7 @@ interface IGridProps {
   totalWidth: number;
   columnCount: number;
   minimumGridItemWidth: number;
-  url: string | null;
+  url: string;
   boxes: IBox[];
   onBoxCloseClicked: (itemId: string) => void;
   onBoxSizeChanged: (itemId: string, width: number, height: number, zoom: number, deviceCode: string | null) => void;
@@ -48,6 +49,7 @@ interface IGridProps {
 
 export const Grid = (props: IGridProps): React.ReactElement => {
   const [isDragging, setIsDragging] = React.useState(false);
+  const [isIframeBlocked, setIsIframeBlocked] = React.useState(false);
 
   const onBoxCloseClicked = (itemId: string): void => {
     props.onBoxCloseClicked(itemId);
@@ -96,7 +98,17 @@ export const Grid = (props: IGridProps): React.ReactElement => {
 
   const onDragStopped = (): void => {
     setIsDragging(false);
-  };
+  }
+
+  React.useEffect((): void => {
+    setIsIframeBlocked(false);
+    axios.post('https://api.kiba.dev/v1/retrieve-headers', {'url': props.url}).then((response: AxiosResponse) => {
+      const frameHeaders = response.data.headers.filter((header: {key: string, value: string}): boolean => header.key === 'x-frame-options');
+      setIsIframeBlocked(frameHeaders.length > 0);
+    }).catch((error: AxiosError): void => {
+      console.log('error getting headers', error);
+    });
+  }, [props.url]);
 
   return (
     <StyledGrid>
@@ -120,6 +132,7 @@ export const Grid = (props: IGridProps): React.ReactElement => {
               <GridItem
                 itemId={box.itemId}
                 url={props.url}
+                isIframeBlocked={isIframeBlocked}
                 columnWidth={props.columnWidth}
                 rowHeight={props.rowHeight}
                 paddingSize={props.paddingSize}
