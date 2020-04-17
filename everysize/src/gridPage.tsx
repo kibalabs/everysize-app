@@ -6,6 +6,7 @@ import { Grid } from './components/grid';
 import { IBox, deserializeBox, serializeBox, defaultLayout, createDefaultDevice } from './model';
 import { useSizingRef, useUrlQueryState, useLocalStorageState, useStringListLocalStorageState, useValueSync } from './util';
 import { FloatingActionButton } from './components/floatingActionButton';
+import { EmailBanner } from './components/emailBanner';
 import { Footer } from './components/footer';
 import { usePageView, trackEvent } from './util/useAnalytics';
 
@@ -138,6 +139,7 @@ export const GridPage = (): React.ReactElement => {
             onBoxPositionChanged={onBoxPositionChanged}
           />
         </GridWrapper>
+        {/* <EmailBanner /> */}
         <Footer />
       </GridPageWrapper>
       <FloatingActionButton onClicked={onAddClicked}/>

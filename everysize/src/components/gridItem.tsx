@@ -122,7 +122,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
         dragHandleClass={props.dragHandleClass}
       />
       {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
-      { true && <ErrorView><span><ErrorSpan>Oh no!</ErrorSpan><br /><br />{props.url} doesn't support iframes, which we use to ensure your privacy 🔒<br /><br />If you're developing it, use localhost and everything should work 👌</span></ErrorView>}
+      { props.isIframeBlocked && <ErrorView><span><ErrorSpan>Oh no!</ErrorSpan><br /><br />{props.url} doesn't support iframes, which we use to ensure your privacy 🔒<br /><br />If you're developing it, use localhost and everything should work 👌</span></ErrorView>}
       { !props.isIframeBlocked && !isWebViewLoaded && <LoadingView><LoadingIndicator /></LoadingView>}
       { !props.isIframeBlocked && (
         <GridItemChildrenHolder

@@ -17,7 +17,7 @@ export const App = (): React.ReactElement => {
     <React.Fragment>
       <Helmet>
         <meta charSet='utf-8' />
-        <title>everysize - Check your responsive site in every sizes in one go!</title>
+        <title>everysize - Check your responsive site in every size in one go!</title>
         <meta name='description' content='' />
         <link rel='canonical' href='https://everysize.kibalabs.com' />
         <link href='https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900' rel='stylesheet' />
