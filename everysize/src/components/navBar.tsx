@@ -57,7 +57,12 @@ export const NavBar = (props: INavBarProps): React.ReactElement => {
   };
 
   const onFormSubmitted = (event: React.FormEvent<HTMLFormElement>): void => {
-    props.onUrlChanged(url);
+    var newUrl = url;
+    if (!newUrl.startsWith('http')) {
+      newUrl = newUrl.startsWith('localhost') ? `http://${url}` : `https://${url}`;
+      setUrl(newUrl);
+    }
+    props.onUrlChanged(newUrl);
     event.preventDefault();
   }
 
