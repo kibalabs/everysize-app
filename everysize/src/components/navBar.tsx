@@ -2,11 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import logo from '../assets/everysize-wordmark-dark.svg';
 import favicon from '../assets/favicon.svg';
+import { TwitterIcon } from './icons';
 
 
 interface INavBarProps {
   url: string;
   onUrlChanged: (url: string) => void;
+  onTwitterShareClicked: () => void;
 }
 
 const StyledForm = styled.form`
@@ -14,7 +16,25 @@ const StyledForm = styled.form`
   flex-direction: row;
 `;
 
-const StyledButton = styled.button`
+const TwitterButton = styled.button`
+  color: white;
+  /* padding: 5px; */
+  height: 30px;
+  width: 30px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  margin-left: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  :hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  :active {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+`;
+
+const GoButton = styled.button`
   color: white;
   padding: 10px;
   height: 100%;
@@ -56,6 +76,10 @@ export const NavBar = (props: INavBarProps): React.ReactElement => {
     setUrl(event.target.value);
   };
 
+  const onTwitterShareClicked = (): void => {
+    props.onTwitterShareClicked();
+  };
+
   const onFormSubmitted = (event: React.FormEvent<HTMLFormElement>): void => {
     var newUrl = url;
     if (!newUrl.startsWith('http')) {
@@ -77,10 +101,10 @@ export const NavBar = (props: INavBarProps): React.ReactElement => {
           value={url || ''}
           onChange={onUrlChanged}
         />
-        <StyledButton type='submit'>GO</StyledButton>
+        <GoButton type='submit'>GO</GoButton>
       </StyledForm>
       <div />
-      <div />
+      <TwitterButton onClick={onTwitterShareClicked}><TwitterIcon /></TwitterButton>
     </StyledNavBar>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
-import { AddIcon } from './closeIcon';
+import { AddIcon } from './icons';
 
 interface IFloatingActionButtonProps {
   onClicked: () => void;

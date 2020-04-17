@@ -116,7 +116,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
         onCloseClicked={onCloseClicked}
         dragHandleClass={props.dragHandleClass}
       />
-      { props.isIframeBlocked && <ErrorView>{props.url} doesn't suppport iframes 😢<br />If you're developing it, use localhost and everything should work 👌</ErrorView>}
+      { props.isIframeBlocked && <ErrorView>{props.url} doesn't suppport iframes which we use to pretoect your security reasons<span role='img' aria-label=''>😢</span><br />If you're developing it, use localhost and everything should work <span role='img' aria-label=''>👌</span></ErrorView>}
       { !props.isIframeBlocked && !isWebViewLoaded && <LoadingView><LoadingIndicator /></LoadingView>}
       { !props.isIframeBlocked && (
         <GridItemChildrenHolder

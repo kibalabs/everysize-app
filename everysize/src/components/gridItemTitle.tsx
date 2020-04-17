@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { IDevice, devices, getDeviceByCode } from '../model/devices';
-import { CloseIcon, DragHandleIcon } from './closeIcon';
+import { CloseIcon, DragHandleIcon } from './icons';
 
 const DargHandle = styled.div`
   width: 24px;

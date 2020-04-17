@@ -106,6 +106,10 @@ export const GridPage = (): React.ReactElement => {
     )));
   };
 
+  const onTwitterShareClicked = (): void => {
+    window.open('https://twitter.com/intent/tweet?url=https%3A%2F%2Feverysize.kibalabs.com&related=kibalabs&text=Check%20out%20everysize%20by%20@kibalabs%20to%20test%20your%20responsive%20site%20in%20every%20size%20%20🖥%20💻%20📱', 'Data', 'height=350,width=750');
+  };
+
   React.useEffect((): void => {
     if (size) {
       // s-p / c+p > n
@@ -117,7 +121,7 @@ export const GridPage = (): React.ReactElement => {
     <React.Fragment>
       <GridPageWrapper ref={gridRef}>
         <NavbarWrapper>
-          <NavBar url={url!} onUrlChanged={onUrlChanged}/>
+          <NavBar url={url!} onUrlChanged={onUrlChanged} onTwitterShareClicked={onTwitterShareClicked}/>
         </NavbarWrapper>
         <GridWrapper>
           <Grid
