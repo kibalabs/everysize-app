@@ -114,7 +114,6 @@ export const GridPage = (): React.ReactElement => {
 
   React.useEffect((): void => {
     if (size) {
-      // s-p / c+p > n
       setTotalWidth(Math.floor((size.width - paddingSize) / (columnWidth + paddingSize)) * (columnWidth + paddingSize) - (2 * paddingSize));
     }
   }, [size]);
@@ -151,7 +150,7 @@ export const GridPage = (): React.ReactElement => {
         { !hideEmailBanner && <EmailBanner onCloseClicked={onEmailBannerCloseClicked} onEmailSubmitted={onEmailBannerSubmitted}/>}
         <Footer />
       </GridPageWrapper>
-      <FloatingActionButton onClicked={onAddClicked} bottomOffset={'80px'} />
+      <FloatingActionButton onClicked={onAddClicked} bottomOffset={hideEmailBanner ? '20px' : '80px'} />
     </React.Fragment>
   );
 }
