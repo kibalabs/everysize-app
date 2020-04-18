@@ -9,6 +9,11 @@ export interface ISize {
 }
 
 export const useSize = <T extends HTMLElement>(node: T | null): ISize | null => {
+  if (typeof window === 'undefined') {
+    console.warn('Cannot use useSize without a window present!')
+    return null;
+  }
+
   const [size, setSize] = React.useState<ISize | null>(null);
 
   const measure = (): void => {

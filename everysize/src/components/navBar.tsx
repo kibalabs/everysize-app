@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import logo from '../assets/everysize-wordmark-dark.svg';
-import favicon from '../assets/favicon.svg';
+// import logo from 'assets/everysize-wordmark-dark.svg';
+// import favicon from 'assets/favicon.svg';
 import { TwitterIcon } from './icons';
+
+const logo = require('assets/everysize-wordmark-dark.svg');
+const favicon = require('assets/favicon.svg');
 
 
 interface INavBarProps {
@@ -18,7 +21,6 @@ const StyledForm = styled.form`
 
 const TwitterButton = styled.button`
   color: white;
-  /* padding: 5px; */
   height: 30px;
   width: 30px;
   background-color: rgba(0, 0, 0, 0.3);

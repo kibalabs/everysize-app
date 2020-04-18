@@ -33,7 +33,7 @@ const StyledFooter = styled.div`
 
 export const Footer = (props: IFooterProps): React.ReactElement => {
   return (
-    <StyledFooter>
+    <StyledFooter className='footer'>
       <div />
       <TextHolder>Made by <Link href='https://www.kibalabs.com'>Kiba Labs</Link></TextHolder>
       <div />

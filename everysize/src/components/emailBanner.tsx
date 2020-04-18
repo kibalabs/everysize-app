@@ -138,7 +138,7 @@ export const EmailBanner = (props: IEmailBannerProps): React.ReactElement => {
   }
 
   return (
-    <StyledEmailBanner>
+    <StyledEmailBanner className='emailBanner'>
       <div />
       <BannerInner>
         <StyledText>You should totally sign up for our newsletter!</StyledText>

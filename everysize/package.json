@@ -1,12 +1,14 @@
 {
-  "name": "everysize",
+  "name": "everysize-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-static start",
+    "stage": "react-static build --staging",
+    "build": "react-static build",
+    "bundle": "react-static bundle",
+    "export": "react-static export",
+    "serve": "serve dist -p 3000 -s"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -16,13 +18,10 @@
     "react-dom": "16.13.1",
     "react-ga": "2.7.0",
     "react-grid-layout": "0.17.1",
-    "react-helmet": "6.0.0",
-    "styled-components": "5.1.0"
+    "react-helmet": "5.2.1",
+    "styled-components": "5.0.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "4.2.4",
-    "@testing-library/react": "9.5.0",
-    "@testing-library/user-event": "7.2.1",
     "@types/deep-equal": "1.0.1",
     "@types/jest": "24.9.1",
     "@types/node": "12.12.35",
@@ -31,8 +30,13 @@
     "@types/react-grid-layout": "0.17.1",
     "@types/react-helmet": "5.0.15",
     "@types/styled-components": "5.0.1",
+    "@types/webpack-env": "1.15.1",
     "favicons-webpack-plugin": "3.0.1",
-    "react-scripts": "3.4.1",
+    "react-static": "7.2.3",
+    "react-static-plugin-sitemap": "7.2.3",
+    "react-static-plugin-styled-components": "7.2.2",
+    "react-static-plugin-typescript": "7.2.3",
+    "serve": "11.3.0",
     "typescript": "3.8.3"
   },
   "eslintConfig": {

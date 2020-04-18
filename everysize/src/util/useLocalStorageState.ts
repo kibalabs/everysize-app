@@ -50,6 +50,11 @@ export default class LocalStorageClient {
 }
 
 export const useLocalStorageState = (name: string, overrideInitialValue?: string | null): [string | null, (newValue: string | null) => void] => {
+  if (typeof window === 'undefined') {
+    console.warn('Cannot use useLocalStorageState without a window present!')
+    return [null, () => {}];
+  }
+
   const localStorage = new LocalStorageClient(window.localStorage);
   const [value, setValue] = React.useState<string | null>((): string | null => {
     if (overrideInitialValue !== undefined) {

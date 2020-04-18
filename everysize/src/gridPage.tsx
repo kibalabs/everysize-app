@@ -51,6 +51,11 @@ export const useBoxListLocalStorageState = (name: string, delimiter: string = ',
 };
 
 export const GridPage = (): React.ReactElement => {
+  // Ignore when pre-rendering with react-static
+  if (typeof window === 'undefined') {
+    return <React.Fragment />;
+  }
+
   usePageView('grid');
   const [size, gridRef] = useSizingRef<HTMLDivElement>();
   const [hideEmailBanner, setHideEmailBanner] = useBooleanUserPreferenceState('hide_email_banner');
@@ -147,7 +152,9 @@ export const GridPage = (): React.ReactElement => {
             onBoxPositionChanged={onBoxPositionChanged}
           />
         </GridWrapper>
-        { !hideEmailBanner && <EmailBanner onCloseClicked={onEmailBannerCloseClicked} onEmailSubmitted={onEmailBannerSubmitted}/>}
+        { !hideEmailBanner && (
+          <EmailBanner onCloseClicked={onEmailBannerCloseClicked} onEmailSubmitted={onEmailBannerSubmitted}/>
+        )}
         <Footer />
       </GridPageWrapper>
       <FloatingActionButton onClicked={onAddClicked} bottomOffset={hideEmailBanner ? '20px' : '80px'} />

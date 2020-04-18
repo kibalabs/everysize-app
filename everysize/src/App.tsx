@@ -1,4 +1,5 @@
 import React from 'react';
+import { Root } from 'react-static'
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
 
@@ -6,7 +7,9 @@ import { useFavicon } from './util';
 import { GlobalCss } from './globalCss';
 import { resetCss } from './resetCss';
 import { GridPage } from './gridPage';
-import favicon from './assets/favicon.svg';
+// import favicon from 'assets/favicon.svg';
+
+const favicon = require('assets/favicon.svg');
 
 ReactGA.initialize('UA-31771231-10');
 
@@ -14,7 +17,7 @@ export const App = (): React.ReactElement => {
   useFavicon(favicon);
 
   return (
-    <React.Fragment>
+    <Root>
       <Helmet>
         <meta charSet='utf-8' />
         {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
@@ -36,6 +39,6 @@ export const App = (): React.ReactElement => {
         resetCss={resetCss}
       />
       <GridPage />
-    </React.Fragment>
+    </Root>
   );
 }
