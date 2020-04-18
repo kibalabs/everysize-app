@@ -4,10 +4,15 @@ import { darken } from 'polished';
 import { AddIcon } from './icons';
 
 interface IFloatingActionButtonProps {
+  bottomOffset: string;
   onClicked: () => void;
 }
 
-const StyledButton = styled.button`
+interface IStyledButtonProps {
+  bottomOffset: string;
+}
+
+const StyledButton = styled.button<IStyledButtonProps>`
   color: white;
   background-color: #333333;
   height: 50px;
@@ -18,7 +23,7 @@ const StyledButton = styled.button`
   outline: none;
   position: absolute;
   right: 20px;
-  bottom: 50px;
+  bottom: ${(props: IStyledButtonProps): string => `calc(20px + ${props.bottomOffset})`};
   text-align: center;
   cursor: pointer;
 
@@ -37,8 +42,11 @@ export const FloatingActionButton = (props: IFloatingActionButtonProps): React.R
   }
 
   return (
-    <StyledButton onClick={onClicked}>
+    <StyledButton bottomOffset={props.bottomOffset} onClick={onClicked}>
       <AddIcon />
     </StyledButton>
   );
+}
+FloatingActionButton.defaultProps = {
+  bottomOffset: '0px',
 }

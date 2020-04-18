@@ -102,7 +102,7 @@ export const Grid = (props: IGridProps): React.ReactElement => {
 
   React.useEffect((): void => {
     setIsIframeBlocked(false);
-    axios.post('https://api.kiba.dev/v1/retrieve-headers', {'url': props.url}).then((response: AxiosResponse) => {
+    axios.post('https://api.kiba.dev/v1/retrieve-headers', {url: props.url}).then((response: AxiosResponse) => {
       const frameHeaders = response.data.headers.filter((header: {key: string, value: string}): boolean => header.key === 'x-frame-options');
       setIsIframeBlocked(frameHeaders.length > 0);
     }).catch((error: AxiosError): void => {

@@ -39,7 +39,7 @@ const StyledGridItem = styled.div<IStyledGridItemProps>`
   height: 100%;
   display: flex;
   flex-direction: column;
-  min-width: ${(props: IStyledGridItemProps): string => `${props.minimumWidth}px`};;
+  min-width: ${(props: IStyledGridItemProps): string => `${props.minimumWidth}px`};
   align-items: center;
 `;
 

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { NavBar } from './components/navBar';
 import { Grid } from './components/grid';
 import { IBox, deserializeBox, serializeBox, defaultLayout, createDefaultDevice } from './model';
-import { useSizingRef, useUrlQueryState, useLocalStorageState, useStringListLocalStorageState, useValueSync } from './util';
+import { useSizingRef, useUrlQueryState, useLocalStorageState, useStringListLocalStorageState, useValueSync, useBooleanUserPreferenceState } from './util';
 import { FloatingActionButton } from './components/floatingActionButton';
 import { EmailBanner } from './components/emailBanner';
 import { Footer } from './components/footer';
@@ -53,6 +53,7 @@ export const useBoxListLocalStorageState = (name: string, delimiter: string = ',
 export const GridPage = (): React.ReactElement => {
   usePageView('grid');
   const [size, gridRef] = useSizingRef<HTMLDivElement>();
+  const [hideEmailBanner, setHideEmailBanner] = useBooleanUserPreferenceState('hide_email_banner');
   const [boxes, setBoxes] = useBoxListLocalStorageState('boxes_v2');
   const [url, setUrl] = useUrlQueryState('url');
   const [storedUrl, setStoredUrl] = useLocalStorageState('url_v1', url);
@@ -118,6 +119,14 @@ export const GridPage = (): React.ReactElement => {
     }
   }, [size]);
 
+  const onEmailBannerCloseClicked = (): void => {
+    setHideEmailBanner(true);
+  }
+
+  const onEmailBannerSubmitted = (): void => {
+    setHideEmailBanner(true);
+  }
+
   return (
     <React.Fragment>
       <GridPageWrapper ref={gridRef}>
@@ -139,10 +148,10 @@ export const GridPage = (): React.ReactElement => {
             onBoxPositionChanged={onBoxPositionChanged}
           />
         </GridWrapper>
-        {/* <EmailBanner /> */}
+        { !hideEmailBanner && <EmailBanner onCloseClicked={onEmailBannerCloseClicked} onEmailSubmitted={onEmailBannerSubmitted}/>}
         <Footer />
       </GridPageWrapper>
-      <FloatingActionButton onClicked={onAddClicked}/>
+      <FloatingActionButton onClicked={onAddClicked} bottomOffset={'80px'} />
     </React.Fragment>
   );
 }

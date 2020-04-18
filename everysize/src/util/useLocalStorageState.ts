@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { stringListToString, stringListFromString } from './serializationUtil';
+import { stringListToString, stringListFromString, booleanToString, booleanFromString } from './serializationUtil';
 
 export default class LocalStorageClient {
   private localStorage: Storage;
@@ -18,6 +18,25 @@ export default class LocalStorageClient {
       this.removeValue(key);
     } else {
       this.localStorage.setItem(key, value);
+    }
+  }
+
+  public getBoolean(key: string): boolean | null {
+    const value = this.getValue(key);
+    if (value === '1') {
+      return true;
+    }
+    if (value === '0') {
+      return false;
+    }
+    return null;
+  }
+
+  public setBoolean(key: string, value: boolean | null | undefined): void {
+    if (value === null || value === undefined) {
+      this.removeValue(key);
+    } else {
+      this.setValue(key, value ? '1' : '0');
     }
   }
 
@@ -50,4 +69,9 @@ export const useLocalStorageState = (name: string, overrideInitialValue?: string
 export const useStringListLocalStorageState = (name: string, delimiter: string = ',', overrideInitialValue?: string[] | null): [string[] | null, (newValue: string[] | null) => void] => {
   const [value, setValue] = useLocalStorageState(name, stringListToString(overrideInitialValue));
   return [stringListFromString(value, delimiter) as string[] | null, ((newValue: string[] | null): void => setValue(stringListToString(newValue, delimiter) as string | null))];
+};
+
+export const useBooleanUserPreferenceState = (name: string, overrideInitialValue?: boolean): [boolean | null, (newValue: boolean | null) => void] => {
+  const [value, setValue] = useLocalStorageState(name, booleanToString(overrideInitialValue));
+  return [booleanFromString(value) as boolean | null, ((newValue: boolean | null): void => setValue(booleanToString(newValue) as string | null))];
 };
