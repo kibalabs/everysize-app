@@ -1,11 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-// import logo from 'assets/everysize-wordmark-dark.svg';
-// import favicon from 'assets/favicon.svg';
 import { TwitterIcon } from './icons';
-
-const logo = require('assets/everysize-wordmark-dark.svg');
-const favicon = require('assets/favicon.svg');
 
 
 interface INavBarProps {
@@ -95,8 +90,8 @@ export const NavBar = (props: INavBarProps): React.ReactElement => {
   return (
     <StyledNavBar>
       <div>
-        <img height='30px' width='30px' src={favicon} alt='logo'/>
-        <img height='30px' width='170px' src={logo} alt='everypage'/>
+        <img height='30px' width='30px' src='/assets/favicon.svg' alt='logo'/>
+        <img height='30px' width='170px' src='/assets/everysize-wordmark-dark.svg' alt='everypage'/>
       </div>
       <StyledForm onSubmit={onFormSubmitted}>
         <StyledInput
