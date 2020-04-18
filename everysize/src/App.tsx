@@ -22,14 +22,14 @@ export const App = (): React.ReactElement => {
         <meta name='description' content='' />
         <link rel='canonical' href='https://everysize.kibalabs.com' />
         <link href='https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900' rel='stylesheet' />
-        <meta property='og:image' content='/assets/banner.png' />
+        <meta property='og:image' content='https://everysize.kibalabs.com/assets/banner.png' />
         <meta property='og:site_name' content='everysize' />
         <meta property='og:type' content='website' />
         <meta property='og:title' content='everysize' />
         <meta property='og:description' content='Check your responsive site in every size 🖥 💻 📱' />
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:title' content='everysize' />
-        <meta name='twitter:image' content='/assets/banner.png' />
+        <meta name='twitter:image' content='https://everysize.kibalabs.com/assets/banner.png' />
         <meta name='twitter:description' content='Check your responsive site in every size 🖥 💻 📱' />
       </Helmet>
       <GlobalCss
