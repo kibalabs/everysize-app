@@ -29,6 +29,7 @@ const SuccessText = styled.div`
 
 const StyledText = styled.div`
   flex-grow: 1;
+  line-height: 1.5em;
 `;
 
 const StyledForm = styled.form`
@@ -141,7 +142,7 @@ export const EmailBanner = (props: IEmailBannerProps): React.ReactElement => {
     <StyledEmailBanner className='emailBanner'>
       <div />
       <BannerInner>
-        <StyledText>You should totally sign up for our newsletter!</StyledText>
+        <StyledText>Sign up to hear about our upcoming products 🚀<br/>We don't spam and you can unsubscribe any time 👌</StyledText>
         <FormWrapper>
           <StyledForm onSubmit={onFormSubmitted}>
             <StyledInput type='text' name='email' placeholder='awesome@dev.com' value={email} onChange={onEmailInputChanged}/>
