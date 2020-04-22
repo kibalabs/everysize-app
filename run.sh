@@ -9,6 +9,6 @@ docker run \
     --publish-all \
     --env-file ~/.everysize.vars \
     --restart on-failure \
-    --env VIRTUAL_HOST=everysize.kibalabs.com \
-    --env LETSENCRYPT_HOST=everysize.kibalabs.com \
+    --env VIRTUAL_HOST=everysize-app.kibalabs.com \
+    --env LETSENCRYPT_HOST=everysize-app.kibalabs.com \
     registry.gitlab.com/kibalabs/everypage/everysize-app:latest

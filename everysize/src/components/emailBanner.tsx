@@ -109,7 +109,7 @@ const StyledEmailBanner = styled.div`
 
 export const EmailBanner = (props: IEmailBannerProps): React.ReactElement => {
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-  const [successMessage, setSucessMessage] = React.useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(null);
   const [email, setEmail] = React.useState<string>('');
 
   const onEmailInputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -124,7 +124,7 @@ export const EmailBanner = (props: IEmailBannerProps): React.ReactElement => {
       return;
     }
     axios.post('https://api.kiba.dev/v1/newsletter-subscriptions', {email: email, topic: 'everysize'}).then((response: AxiosResponse) => {
-      setSucessMessage('You\'re all signed up. Have fun!')
+      setSuccessMessage('You\'re all signed up. Have fun!')
       setTimeout(function() {
         props.onEmailSubmitted();
       }, 3000)
