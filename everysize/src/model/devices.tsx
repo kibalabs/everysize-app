@@ -57,26 +57,31 @@ export const devices: IDevice[] = [{
 //   height: 3200,
 //   width: 1440,
 // }, {
-//   code: 'gs-10p',
-//   name: 'Samsung Galaxy S10, S10+',
-//   height: 740,
-//   width: 360,
-// }, {
-//   code: 'gs-10n',
-//   name: 'Samsung Galaxy Note 10, 10+',
-//   height: 718,
-//   width: 360,
-// }, {
-//   code: 'px-4l',
-//   name: 'Google Pixel 4 XL',
-//   height: 3040,
-//   width: 1440,
-// }, {
-//   code: 'px-4l',
-//   name: 'Google Pixel 4',
-//   height: 2280,
-//   width: 1080,
-// }, {
+  code: 'gs-10p',
+  name: 'Samsung Galaxy S10, S10+',
+  height: 740,
+  width: 360,
+}, {
+  code: 'gs-10n',
+  name: 'Samsung Galaxy Note 10, 10+',
+  height: 718,
+  width: 360,
+}, {
+  code: 'op-7tp',
+  name: 'OnePlus 7T Pro',
+  height: 892,
+  width: 412,
+}, {
+  code: 'op-7t',
+  name: 'OnePlus 7T',
+  height: 914,
+  width: 412,
+}, {
+  code: 'px-4',
+  name: 'Google Pixel 4, 4 XL',
+  height: 869,
+  width: 411,
+}, {
   code: 'dp-1080',
   name: '1080p Desktop',
   width: 1920,
