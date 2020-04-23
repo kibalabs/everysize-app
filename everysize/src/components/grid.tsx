@@ -104,7 +104,7 @@ export const Grid = (props: IGridProps): React.ReactElement => {
     setIsIframeBlocked(false);
     axios.post('https://api.kiba.dev/v1/retrieve-headers', {url: props.url}).then((response: AxiosResponse) => {
       const frameHeaders = response.data.headers.filter((header: {key: string, value: string}): boolean => header.key === 'x-frame-options');
-      setIsIframeBlocked(frameHeaders.length > 0);
+      setIsIframeBlocked(frameHeaders.length > 0 && !frameHeaders[0].value.includes('https://everysize-app.kibalabs.com'));
     }).catch((error: AxiosError): void => {
       console.log('error getting headers', error);
     });
