@@ -9,6 +9,7 @@ const DargHandle = styled.div`
   height: 44px;
   color: rgba(255, 255, 255, 0.25);
   margin-right: 5px;
+  flex-shrink: 0;
 `;
 
 const StyledSelect = styled.select`
@@ -87,6 +88,9 @@ const LeftHolder = styled.div`
   justify-content: space-between;
   justify-content: left;
   align-items: start;
+  flex-shrink: 1;
+  max-width: 70%;
+  overflow: hidden;
 `;
 
 const MiddleHolder = styled.div`
