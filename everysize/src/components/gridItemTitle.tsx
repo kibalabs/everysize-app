@@ -135,12 +135,18 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
   const onHeightInputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (Number(event.target.value)) {
       setHeightInput(event.target.value);
+      if (device && Number(event.target.value) !== device.height) {
+        setDevice(null);
+      }
     }
   };
 
   const onWidthInputChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (Number(event.target.value)) {
       setWidthInput(event.target.value);
+      if (device && Number(event.target.value) !== device.width) {
+        setDevice(null);
+      }
     }
   };
 
