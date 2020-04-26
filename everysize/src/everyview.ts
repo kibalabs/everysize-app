@@ -97,6 +97,14 @@ export class EveryviewTracker {
     return this.track('page_open', path, undefined, query, undefined, {referrer: document.referrer || undefined});
   };
 
+  trackButtonClick = (buttonName: string) => {
+    return this.track('button_click', buttonName);
+  };
+
+  trackFormSubmit = (formName: string, value1?: number, field2?: string, value2?: number, extra?: object) => {
+    return this.track('form_submit', formName, value1, field2, value2, extra);
+  };
+
   private sendEvent = (event: IEvent): void => {
     if (this.initializationFailed) {
       console.warn('everyview initialization failed so events will not be sent.');

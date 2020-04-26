@@ -84,17 +84,17 @@ export const GridPage = (): React.ReactElement => {
   }, []);
 
   const onUrlChanged = (url: string): void => {
-    tracker.track('set_url', url);
+    tracker.trackFormSubmit('url_form', undefined, url);
     setStoredUrl(url);
   };
 
   const onAddClicked = (): void => {
-    tracker.track('button_click', 'add_box');
+    tracker.trackButtonClick('add_box');
     setBoxes([...boxes, createDefaultDevice()]);
   };
 
   const onRemoveBoxClicked = (itemId: string): void => {
-    tracker.track('button_click', 'remove_box');
+    tracker.trackButtonClick('remove_box');
     setBoxes(boxes.filter((box: IBox): boolean => box.itemId !== itemId));
   };
 
@@ -119,6 +119,7 @@ export const GridPage = (): React.ReactElement => {
   };
 
   const onTwitterShareClicked = (): void => {
+    tracker.trackButtonClick('twitter_share');
     window.open('https://twitter.com/intent/tweet?url=https%3A%2F%2Feverysize.kibalabs.com&related=kibalabs&text=Check%20out%20everysize%20by%20@kibalabs%20to%20test%20your%20responsive%20site%20in%20every%20size%20%20🖥%20💻%20📱', 'Data', 'height=350,width=750');
   };
 
@@ -129,10 +130,12 @@ export const GridPage = (): React.ReactElement => {
   }, [size]);
 
   const onEmailBannerCloseClicked = (): void => {
+    tracker.trackButtonClick('email_banner_close');
     setHideEmailBanner(true);
   }
 
   const onEmailBannerSubmitted = (): void => {
+    tracker.trackFormSubmit('email_form');
     setHideEmailBanner(true);
   }
 

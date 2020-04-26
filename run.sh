@@ -5,17 +5,22 @@ name="everysize-app"
 url="${name}.kibalabs.com"
 dockerImageName="registry.gitlab.com/kibalabs/everypage/everysize-app"
 dockerTag="latest"
-dockerImage="${dockerImage}:${dockerTag}"
+dockerImage="${dockerImageName}:${dockerTag}"
+version="$(git rev-list --count HEAD)"
+varsFile=~/.${name}.vars
 
-docker pull $dockerImage
+touch ${varsFile}
+
+docker pull ${dockerImage}
 docker stop ${name} && docker rm ${name} || true
 docker run \
-    --detach \
     --name ${name} \
+    --detach \
     --publish-all \
-    --env-file ~/.${name}.vars \
     --restart on-failure \
-    --env VERSION=$(git rev-list --count HEAD) \
+    --env NAME=$name \
+    --env VERSION=$version \
     --env VIRTUAL_HOST=$url \
     --env LETSENCRYPT_HOST=$url \
-    $dockerImage
+    --env-file ${varsFile} \
+    ${dockerImage}
