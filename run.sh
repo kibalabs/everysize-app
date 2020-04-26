@@ -1,14 +1,21 @@
 #!/usr/bin/env bash
 set -e -o pipefail
 
-docker pull registry.gitlab.com/kibalabs/everypage/everysize-app:latest
-docker stop everysize-app && docker rm everysize-app || true
+name="everysize-app"
+url="${name}.kibalabs.com"
+dockerImageName="registry.gitlab.com/kibalabs/everypage/everysize-app"
+dockerTag="latest"
+dockerImage="${dockerImage}:${dockerTag}"
+
+docker pull $dockerImage
+docker stop ${name} && docker rm ${name} || true
 docker run \
     --detach \
-    --name everysize-app \
+    --name ${name} \
     --publish-all \
-    --env-file ~/.everysize-app.vars \
+    --env-file ~/.${name}.vars \
     --restart on-failure \
-    --env VIRTUAL_HOST=everysize-app.kibalabs.com \
-    --env LETSENCRYPT_HOST=everysize-app.kibalabs.com \
-    registry.gitlab.com/kibalabs/everypage/everysize-app:latest
+    --env VERSION=$(git rev-list --count HEAD) \
+    --env VIRTUAL_HOST=$url \
+    --env LETSENCRYPT_HOST=$url \
+    $dockerImage

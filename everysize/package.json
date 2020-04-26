@@ -11,8 +11,13 @@
     "serve": "serve dist -p 3000 -s"
   },
   "dependencies": {
+    "@types/fingerprintjs2": "^2.0.0",
     "axios": "^0.19.2",
+    "bowser": "^2.9.0",
     "deep-equal": "2.0.2",
+    "fingerprintjs2": "^2.1.0",
+    "install": "^0.13.0",
+    "npm": "^6.14.4",
     "polished": "3.5.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",

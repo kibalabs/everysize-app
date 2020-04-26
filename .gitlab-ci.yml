@@ -6,22 +6,25 @@ build and push image:
   stage: deploy
   only:
     - master
-  image: docker:1.11
+  image: docker:19.03.8
   services:
-    - docker:dind
-  script:
-    # NOTE(krish): this is the only way i found to get commit count but it always gives 50!
-    - apk update && apk add git
-    - COMMIT_COUNT=$(git rev-list --count HEAD)
-    - echo $COMMIT_COUNT
+    - docker:19.03.8-dind
+  before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:latest everysize
-    # - docker tag $CI_REGISTRY_IMAGE:latest $CI_REGISTRY_IMAGE:$COMMIT_COUNT
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+  script:
+    # # NOTE(krish): this is the only way i found to get commit count but it always gives 50!
+    # - apk update && apk add git
+    # - COMMIT_COUNT=$(git rev-list --count HEAD)
+    # - echo $COMMIT_COUNT
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:latest everysize # --tag $CI_REGISTRY_IMAGE:$COMMIT_COUNT
     - docker push $CI_REGISTRY_IMAGE:latest # $CI_REGISTRY_IMAGE:$COMMIT_COUNT
 
 run on freebox:
   stage: run
   image: debian:buster-slim
+  variables:
+    RUNNABLE_DIRECTORY: "~/deployments/$CI_PROJECT_PATH/$CI_COMMIT_SHORT_SHA"
   before_script:
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
@@ -30,8 +33,8 @@ run on freebox:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - ssh $FREEBOX_USER@$FREEBOX_URL "
-        cd ~/Projects/$CI_PROJECT_NAME &&
-        git reset --hard HEAD &&
-        git pull &&
+        rm -rf $CI_REPOSITORY_URL $RUNNABLE_DIRECTORY &&
+        git clone $CI_REPOSITORY_URL $RUNNABLE_DIRECTORY &&
+        cd $RUNNABLE_DIRECTORY &&
         ./run.sh
       "

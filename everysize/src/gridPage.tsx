@@ -8,7 +8,7 @@ import { useSizingRef, useUrlQueryState, useLocalStorageState, useStringListLoca
 import { FloatingActionButton } from './components/floatingActionButton';
 import { EmailBanner } from './components/emailBanner';
 import { Footer } from './components/footer';
-import { usePageView, trackEvent } from './util/useAnalytics';
+import { usePageView, useTracker } from './everyviewReact';
 
 
 const GridPageWrapper = styled.div`
@@ -57,11 +57,13 @@ export const GridPage = (): React.ReactElement => {
   }
 
   usePageView('grid');
+  const tracker = useTracker();
   const [size, gridRef] = useSizingRef<HTMLDivElement>();
   const [hideEmailBanner, setHideEmailBanner] = useBooleanUserPreferenceState('hide_email_banner');
   const [boxes, setBoxes] = useBoxListLocalStorageState('boxes_v2');
   const [url, setUrl] = useUrlQueryState('url');
   const [storedUrl, setStoredUrl] = useLocalStorageState('url_v1', url);
+  const [startTime, setStartTime] = React.useState<Date>(new Date());
   useValueSync(storedUrl, setUrl);
 
   const [totalWidth, setTotalWidth] = React.useState(10000);
@@ -82,25 +84,28 @@ export const GridPage = (): React.ReactElement => {
   }, []);
 
   const onUrlChanged = (url: string): void => {
-    trackEvent('interaction', 'add_url', url);
+    tracker.track('set_url', url);
     setStoredUrl(url);
   };
 
   const onAddClicked = (): void => {
-    trackEvent('interaction', 'add_box');
+    tracker.track('button_click', 'add_box');
     setBoxes([...boxes, createDefaultDevice()]);
   };
 
   const onRemoveBoxClicked = (itemId: string): void => {
-    trackEvent('interaction', 'remove_box');
+    tracker.track('button_click', 'remove_box');
     setBoxes(boxes.filter((box: IBox): boolean => box.itemId !== itemId));
   };
 
   const onBoxSizeChanged = (itemId: string, width: number, height: number, zoom: number, deviceCode: string | null) => {
-    if (deviceCode) {
-      trackEvent('interaction', 'change_box_device', deviceCode || 'manual', zoom);
-    } else {
-      trackEvent('interaction', 'change_box_manual', `${width}x${height}`, zoom);
+    // Prevent sending events for initial loading movement
+    if ((new Date()).getTime() - startTime.getTime() > 1000) {
+      if (deviceCode) {
+        tracker.track('change_box_device', deviceCode || 'manual', zoom);
+      } else {
+        tracker.track('change_box_manual', String(zoom), width, undefined, height);
+      }
     }
     setBoxes(boxes.map((box: IBox): IBox => (
       box.itemId === itemId ? {...box, width: width, height: height, zoom: zoom, deviceCode: deviceCode} : box
