@@ -37,6 +37,15 @@ export class EveryviewTracker {
   }
 
   private initialize = (): void => {
+    if (typeof window === 'undefined') {
+      const message = 'Cannot initialize everypage without a window!';
+      if (this.onInitializationFailed) {
+        this.onInitializationFailed(message);
+      } else {
+        console.error(`Failed to initialize everyview: ${message}`);
+      }
+      return;
+  }
     Fingerprint2.get((fingerprintComponents: Component[]) => {
       const values = fingerprintComponents.map((component: Component): string => component.value);
       const hashedFingerprint = Fingerprint2.x64hash128(values.join(''), 31);
@@ -71,6 +80,10 @@ export class EveryviewTracker {
   };
 
   trackApplicationOpen = (): void => {
+    if (typeof window === 'undefined') {
+      console.error('Cannot track application open without a window!');
+      return;
+    }
     const browserDetails = Bowser.parse(window.navigator.userAgent);
     return this.track('app_open', document.referrer || undefined, undefined, undefined, undefined, {
       browser: {
