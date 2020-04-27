@@ -9,6 +9,7 @@ const StyledWebView = styled.div`
   justify-content: center;
   display: flex;
   -ms-overflow-style: none;
+  background-color: white;
 `;
 
 const LoadingWrapper = styled.div`
