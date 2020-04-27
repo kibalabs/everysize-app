@@ -22,14 +22,16 @@ export class EveryviewTracker {
   waitingEvents: IEvent[] | null = [];
   failedEvents: IEvent[] = [];
   pingFrequencySeconds = 30;
+  shouldIncludeBackgroundPings: boolean;
 
-  constructor(applicationCode: string, baseUrl?: string, shouldDisablePings: boolean = false, onInitializationFailed?: () => void) {
+  constructor(applicationCode: string, baseUrl?: string, shouldDisablePings: boolean = false, shouldIncludeBackgroundPings: boolean = false, onInitializationFailed?: () => void) {
     this.applicationCode = applicationCode;
     this.baseUrl = baseUrl || 'https://everyview-api.kiba.dev';
     this.sessionId = null;
     this.windowId = generateUUID();
     this.initializationFailed = false;
     this.onInitializationFailed = onInitializationFailed;
+    this.shouldIncludeBackgroundPings = shouldIncludeBackgroundPings;
     setTimeout(this.initialize, 500);
     if (!shouldDisablePings) {
       this.startPings();
@@ -76,7 +78,10 @@ export class EveryviewTracker {
   };
 
   private trackPing = (): void => {
-    this.track('ping', undefined, isDocumentVisible() ? 1 : 0);
+    const isVisible = isDocumentVisible();
+    if (isVisible || this.shouldIncludeBackgroundPings) {
+      this.track('ping', undefined, isVisible ? 1 : 0);
+    }
   };
 
   trackApplicationOpen = (): void => {
