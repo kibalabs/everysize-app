@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useBooleanLocalStorageState, useSizingRef, useLocalStorageState, useUrlQueryState, useStringListLocalStorageState, useValueSync } from '@kibalabs/core-react';
+import { usePageView, useTracker } from '@kibalabs/everyview-tracker-react';
 
 import { NavBar } from './components/navBar';
 import { Grid } from './components/grid';
 import { IBox, deserializeBox, serializeBox, defaultLayout, createDefaultDevice } from './model';
-import { useSizingRef, useUrlQueryState, useLocalStorageState, useStringListLocalStorageState, useValueSync, useBooleanUserPreferenceState } from './util';
 import { FloatingActionButton } from './components/floatingActionButton';
 import { EmailBanner } from './components/emailBanner';
 import { Footer } from './components/footer';
-import { usePageView, useTracker } from './everyviewReact';
 
 
 const GridPageWrapper = styled.div`
@@ -40,7 +40,7 @@ const boxListFromStringList = (stringList: string[] | null): IBox[] => {
 
 const  boxListToStringList = (boxes: IBox[] | null): string[] | null => {
   if (boxes === null) {
-    return boxes;
+    return null;
   }
   return boxes.map((box: IBox): string => serializeBox(box));
 }
@@ -51,15 +51,13 @@ export const useBoxListLocalStorageState = (name: string, delimiter: string = ',
 };
 
 export const GridPage = (): React.ReactElement => {
-  // Ignore when pre-rendering with react-static
-  if (typeof window === 'undefined') {
-    return <React.Fragment />;
-  }
-
+  console.log('here');
   usePageView('grid');
+  console.log('here2');
   const tracker = useTracker();
+  console.log('here3');
   const [size, gridRef] = useSizingRef<HTMLDivElement>();
-  const [hideEmailBanner, setHideEmailBanner] = useBooleanUserPreferenceState('hide_email_banner');
+  const [hideEmailBanner, setHideEmailBanner] = useBooleanLocalStorageState('hide_email_banner');
   const [boxes, setBoxes] = useBoxListLocalStorageState('boxes_v2');
   const [url, setUrl] = useUrlQueryState('url');
   const [storedUrl, setStoredUrl] = useLocalStorageState('url_v1', url);

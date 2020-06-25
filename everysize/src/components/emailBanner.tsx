@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import { isValidEmail, Requester, RestMethod, KibaResponse } from '@kibalabs/core';
 
 import { CloseIcon } from './icons';
-import { isValidEmail } from '../util';
 
 
 interface IEmailBannerProps {
@@ -124,12 +123,12 @@ export const EmailBanner = (props: IEmailBannerProps): React.ReactElement => {
       setErrorMessage('Please enter a valid email address');
       return;
     }
-    axios.post('https://api.kiba.dev/v1/newsletter-subscriptions', {email: email, topic: 'everysize'}).then((response: AxiosResponse) => {
+    new Requester().makeRequest(RestMethod.POST, 'https://api.kiba.dev/v1/newsletter-subscriptions', {email: email, topic: 'everysize'}).then((response: KibaResponse) => {
       setSuccessMessage('You\'re all signed up. Have fun!')
       setTimeout(function() {
         props.onEmailSubmitted();
       }, 3000)
-    }).catch((error: AxiosError): void => {
+    }).catch((error: Error): void => {
       setErrorMessage(error.message);
     });
   }

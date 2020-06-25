@@ -3,55 +3,31 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-static start",
-    "stage": "react-static build --staging",
-    "build": "react-static build",
-    "bundle": "react-static bundle",
-    "export": "react-static export",
-    "serve": "serve dist -p 3000 -s"
+    "build": "build-react-app",
+    "start": "build-react-app --start",
+    "start-dev": "build-react-app --start --dev"
   },
   "dependencies": {
-    "axios": "0.19.2",
-    "bowser": "2.9.0",
-    "fingerprintjs2": "2.1.0",
+    "@kibalabs/core": "0.3.10",
+    "@kibalabs/core-react": "0.3.9",
+    "@kibalabs/ui-react": "0.3.20",
+    "@kibalabs/everyview-tracker": "0.1.0",
+    "@kibalabs/everyview-tracker-react": "0.1.0",
     "polished": "3.5.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-ga": "2.7.0",
     "react-grid-layout": "0.17.1",
     "react-helmet": "5.2.1",
-    "styled-components": "5.0.1"
+    "styled-components": "5.1.0"
   },
   "devDependencies": {
-    "@types/fingerprintjs2": "2.0.0",
+    "@kibalabs/build": "0.2.13",
     "@types/node": "12.12.35",
     "@types/react": "16.9.34",
     "@types/react-dom": "16.9.6",
     "@types/react-grid-layout": "0.17.1",
     "@types/react-helmet": "5.0.15",
-    "@types/styled-components": "5.0.1",
-    "@types/webpack-env": "1.15.1",
-    "favicons-webpack-plugin": "3.0.1",
-    "react-static": "7.2.3",
-    "react-static-plugin-sitemap": "7.2.3",
-    "react-static-plugin-styled-components": "7.2.2",
-    "react-static-plugin-typescript": "7.2.3",
-    "serve": "11.3.0",
-    "typescript": "3.8.3"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "@types/styled-components": "5.0.1"
   }
 }

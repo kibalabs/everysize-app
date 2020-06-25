@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Requester, RestMethod, KibaResponse } from '@kibalabs/core';
 import GridLayout, { Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import axios, { AxiosResponse, AxiosError } from 'axios';
 
 import { GridItem } from './gridItem';
 import { GridBackground } from './gridBackground';
@@ -102,10 +102,10 @@ export const Grid = (props: IGridProps): React.ReactElement => {
 
   React.useEffect((): void => {
     setIsIframeBlocked(false);
-    axios.post('https://api.kiba.dev/v1/retrieve-headers', {url: props.url}).then((response: AxiosResponse) => {
-      const frameHeaders = response.data.headers.filter((header: {key: string, value: string}): boolean => header.key === 'x-frame-options');
+    new Requester().makeRequest(RestMethod.POST, 'https://api.kiba.dev/v1/retrieve-headers', {url: props.url}).then((response: KibaResponse) => {
+      const frameHeaders = JSON.parse(response.content).headers.filter((header: {key: string, value: string}): boolean => header.key === 'x-frame-options');
       setIsIframeBlocked(frameHeaders.length > 0 && !frameHeaders[0].value.includes('https://everysize-app.kibalabs.com'));
-    }).catch((error: AxiosError): void => {
+    }).catch((error: Error): void => {
       console.log('error getting headers', error);
     });
   }, [props.url]);

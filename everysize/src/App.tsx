@@ -1,17 +1,18 @@
 import React from 'react';
-import { Root } from 'react-static'
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
+import { useFavicon } from '@kibalabs/core-react';
+import { Requester } from '@kibalabs/core';
+import { EveryviewTracker, EveryviewClient } from '@kibalabs/everyview-tracker';
+import { EveryviewProvider } from '@kibalabs/everyview-tracker-react';
 
-import { useFavicon } from './util';
 import { GlobalCss } from './globalCss';
 import { resetCss } from './resetCss';
 import { GridPage } from './gridPage';
-import { EveryviewTracker } from './everyview';
-import { EveryviewProvider } from './everyviewReact';
 
 ReactGA.initialize('UA-31771231-10');
 const tracker = new EveryviewTracker('f88fde06d2e94fd6bf4c917907e87480');
+// const tracker = new EveryviewTracker('f88fde06d2e94fd6bf4c917907e87480', false, false, new EveryviewClient(new Requester(), 'http://localhost:5001'));
 tracker.trackApplicationOpen();
 
 export const App = (): React.ReactElement => {
@@ -19,7 +20,7 @@ export const App = (): React.ReactElement => {
 
   return (
     <EveryviewProvider tracker={tracker}>
-      <Root>
+      <React.Fragment>
         <Helmet>
           <meta charSet='utf-8' />
           {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
@@ -41,7 +42,7 @@ export const App = (): React.ReactElement => {
           resetCss={resetCss}
         />
         <GridPage />
-      </Root>
+      </React.Fragment>
     </EveryviewProvider>
   );
 }

@@ -1,4 +1,5 @@
-import { generateUUID } from '../util';
+import { generateUUID } from '@kibalabs/core';
+
 import { IBox } from './box';
 
 export const defaultLayout: IBox[] = [{
