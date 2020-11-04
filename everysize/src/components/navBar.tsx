@@ -1,6 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import { TwitterIcon } from './icons';
+import { IconButton, KibaIcon, Box, Image, Direction, Stack, Alignment, PaddingSize, ColorSettingView, Button, SingleLineInput, Form, Spacing } from '@kibalabs/ui-react';
 
 
 interface INavBarProps {
@@ -9,99 +8,69 @@ interface INavBarProps {
   onTwitterShareClicked: () => void;
 }
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: row;
-`;
-
-const TwitterButton = styled.button`
-  color: white;
-  height: 30px;
-  width: 30px;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-  margin-left: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  :hover {
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-  :active {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-`;
-
-const GoButton = styled.button`
-  color: white;
-  padding: 10px;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-  margin-left: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  :hover {
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-  :active {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-`;
-
-const StyledNavBar = styled.div`
-  background-color: #333333;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 15px;
-`;
-
-const StyledInput = styled.input`
-  min-width: 300px;
-  border: #959595 1px solid;
-  padding: 8px 10px;
-  height: 100%;
-  border-radius: 4px;
-  background-color: white;
-`;
-
 export const NavBar = (props: INavBarProps): React.ReactElement => {
   const [url, setUrl] = React.useState<string>(props.url);
 
-  const onUrlChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setUrl(event.target.value);
+  const onUrlChanged = (value: string): void => {
+    setUrl(value);
   };
-
+``
   const onTwitterShareClicked = (): void => {
     props.onTwitterShareClicked();
   };
 
-  const onFormSubmitted = (event: React.FormEvent<HTMLFormElement>): void => {
+  const onFormSubmitted = (): void => {
     var newUrl = url;
     if (!newUrl.startsWith('http')) {
       newUrl = newUrl.startsWith('localhost') ? `http://${url}` : `https://${url}`;
       setUrl(newUrl);
     }
     props.onUrlChanged(newUrl);
-    event.preventDefault();
   }
 
   return (
-    <StyledNavBar>
-      <div>
-        <img height='30px' width='30px' src='/assets/favicon.svg' alt='logo'/>
-        <img height='30px' width='170px' src='/assets/everysize-wordmark-dark.svg' alt='everypage'/>
-      </div>
-      <StyledForm onSubmit={onFormSubmitted}>
-        <StyledInput
-          value={url || ''}
-          onChange={onUrlChanged}
-        />
-        <GoButton type='submit'>GO</GoButton>
-      </StyledForm>
-      <div />
-      <TwitterButton onClick={onTwitterShareClicked}><TwitterIcon /></TwitterButton>
-    </StyledNavBar>
+    <ColorSettingView variant='inverse'>
+      <Box variant='navbar' zIndex={100}>
+        <Stack direction={Direction.Horizontal} childAlignment={Alignment.Center} paddingVertical={PaddingSize.Default} paddingHorizontal={PaddingSize.Wide}>
+          <Stack.Item shrinkFactor={1}>
+            <Box height='30px' isFullWidth={false}>
+              <Stack direction={Direction.Horizontal} isFullWidth={true} childAlignment={Alignment.Center}>
+                <Box width='30px'><Image source='/assets/favicon.svg' alternativeText='logo' isLazyLoadable={false} /></Box>
+                <Stack.Item shrinkFactor={1}>
+                  <Box maxWidth='170px'><Image source='/assets/everysize-wordmark-dark.svg' alternativeText='everysize' isLazyLoadable={false} /></Box>
+                </Stack.Item>
+              </Stack>
+            </Box>
+          </Stack.Item>
+          <Stack.Item growthFactor={1}><Spacing /></Stack.Item>
+          <Stack.Item growthFactor={1} shrinkFactor={1}>
+            <Box maxWidth='500px'>
+              <Form onFormSubmitted={onFormSubmitted}>
+                <Stack direction={Direction.Horizontal}>
+                  <Stack.Item growthFactor={1}>
+                    <SingleLineInput
+                      value={url || ''}
+                      onValueChanged={onUrlChanged}
+                    />
+                  </Stack.Item>
+                  <Button
+                    variant='tertiary'
+                    buttonType='submit'
+                    text='GO'
+                  />
+                </Stack>
+              </Form>
+            </Box>
+          </Stack.Item>
+          <Stack.Item growthFactor={1}><Spacing /></Stack.Item>
+          <IconButton
+            label='Share'
+            variant='tertiary'
+            icon={<KibaIcon iconId='ion-logo-twitter' />}
+            onClicked={onTwitterShareClicked}
+          />
+        </Stack>
+      </Box>
+    </ColorSettingView>
   );
 };

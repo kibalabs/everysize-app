@@ -1,35 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
-import { useBooleanLocalStorageState, useSizingRef, useLocalStorageState, useUrlQueryState, useStringListLocalStorageState, useValueSync } from '@kibalabs/core-react';
+import { useSizingRef, useLocalStorageState, useUrlQueryState, useStringListLocalStorageState, useValueSync } from '@kibalabs/core-react';
 import { usePageView, useTracker } from '@kibalabs/everyview-tracker-react';
+import { Box, Stack, Direction } from '@kibalabs/ui-react';
 
 import { NavBar } from './components/navBar';
 import { Grid } from './components/grid';
 import { IBox, deserializeBox, serializeBox, defaultLayout, createDefaultDevice } from './model';
 import { FloatingActionButton } from './components/floatingActionButton';
-import { EmailBanner } from './components/emailBanner';
 import { Footer } from './components/footer';
-
-
-const GridPageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-`;
-
-const NavbarWrapper = styled.div`
-  width: 100%;
-  flex-grow: 0;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-`;
-
-const GridWrapper = styled.div`
-  width: 100%;
-  flex-grow: 1;
-  overflow: auto;
-`;
 
 const boxListFromStringList = (stringList: string[] | null): IBox[] => {
   if (!stringList) {
@@ -51,13 +29,9 @@ export const useBoxListLocalStorageState = (name: string, delimiter: string = ',
 };
 
 export const GridPage = (): React.ReactElement => {
-  console.log('here');
   usePageView('grid');
-  console.log('here2');
   const tracker = useTracker();
-  console.log('here3');
   const [size, gridRef] = useSizingRef<HTMLDivElement>();
-  const [hideEmailBanner, setHideEmailBanner] = useBooleanLocalStorageState('hide_email_banner');
   const [boxes, setBoxes] = useBoxListLocalStorageState('boxes_v2');
   const [url, setUrl] = useUrlQueryState('url');
   const [storedUrl, setStoredUrl] = useLocalStorageState('url_v1', url);
@@ -73,12 +47,11 @@ export const GridPage = (): React.ReactElement => {
 
   React.useEffect((): void => {
     if (!url && !storedUrl) {
-      setUrl('https://www.kibalabs.com');
+      setUrl('https://www.everypagehq.com');
     }
     if (boxes.length === 0) {
       setBoxes(defaultLayout);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onUrlChanged = (url: string): void => {
@@ -127,43 +100,30 @@ export const GridPage = (): React.ReactElement => {
     }
   }, [size]);
 
-  const onEmailBannerCloseClicked = (): void => {
-    tracker.trackButtonClick('email_banner_close');
-    setHideEmailBanner(true);
-  }
-
-  const onEmailBannerSubmitted = (): void => {
-    tracker.trackFormSubmit('email_form');
-    setHideEmailBanner(true);
-  }
-
   return (
-    <React.Fragment>
-      <GridPageWrapper ref={gridRef}>
-        <NavbarWrapper>
-          <NavBar url={url!} onUrlChanged={onUrlChanged} onTwitterShareClicked={onTwitterShareClicked}/>
-        </NavbarWrapper>
-        <GridWrapper>
-          <Grid
-            rowHeight={rowHeight}
-            columnWidth={columnWidth}
-            paddingSize={paddingSize}
-            totalWidth={totalWidth}
-            minimumGridItemWidth={minimumGridItemWidth}
-            columnCount={columnCount}
-            url={url!}
-            boxes={boxes}
-            onBoxCloseClicked={onRemoveBoxClicked}
-            onBoxSizeChanged={onBoxSizeChanged}
-            onBoxPositionChanged={onBoxPositionChanged}
-          />
-        </GridWrapper>
-        { !hideEmailBanner && (
-          <EmailBanner onCloseClicked={onEmailBannerCloseClicked} onEmailSubmitted={onEmailBannerSubmitted}/>
-        )}
+    <Box height='100vh'>
+      <Stack direction={Direction.Vertical} isFullHeight={true} isFullWidth={true}>
+        <NavBar url={url!} onUrlChanged={onUrlChanged} onTwitterShareClicked={onTwitterShareClicked} />
+        <Stack.Item growthFactor={1} shrinkFactor={1}>
+          <Box ref={gridRef} isScrollableVertically={true}>
+            <Grid
+              rowHeight={rowHeight}
+              columnWidth={columnWidth}
+              paddingSize={paddingSize}
+              totalWidth={totalWidth}
+              minimumGridItemWidth={minimumGridItemWidth}
+              columnCount={columnCount}
+              url={url!}
+              boxes={boxes}
+              onBoxCloseClicked={onRemoveBoxClicked}
+              onBoxSizeChanged={onBoxSizeChanged}
+              onBoxPositionChanged={onBoxPositionChanged}
+            />
+          </Box>
+        </Stack.Item>
         <Footer />
-      </GridPageWrapper>
-      <FloatingActionButton onClicked={onAddClicked} bottomOffset={hideEmailBanner ? '20px' : '80px'} />
-    </React.Fragment>
+      </Stack>
+      <FloatingActionButton onClicked={onAddClicked} bottomOffset={'30px'} />
+    </Box>
   );
 }

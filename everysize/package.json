@@ -3,31 +3,30 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "build-react-app",
-    "start": "build-react-app --start",
-    "start-dev": "build-react-app --start --dev"
+    "build": "build-react-app --webpack-config-modifier ./config.webpack.js",
+    "start": "build-react-app --webpack-config-modifier ./config.webpack.js --start",
+    "start-dev": "build-react-app --webpack-config-modifier ./config.webpack.js --start --dev"
   },
   "dependencies": {
-    "@kibalabs/core": "0.3.10",
-    "@kibalabs/core-react": "0.3.9",
-    "@kibalabs/ui-react": "0.3.20",
+    "@kibalabs/core": "0.4.4",
+    "@kibalabs/core-react": "0.4.4",
+    "@kibalabs/ui-react": "0.7.3",
     "@kibalabs/everyview-tracker": "0.1.1",
     "@kibalabs/everyview-tracker-react": "0.1.1",
     "polished": "3.5.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-ga": "2.7.0",
     "react-grid-layout": "0.17.1",
     "react-helmet": "5.2.1",
-    "styled-components": "5.1.0"
+    "styled-components": "5.2.0"
   },
   "devDependencies": {
-    "@kibalabs/build": "0.2.13",
+    "@kibalabs/build": "0.3.2",
     "@types/node": "12.12.35",
     "@types/react": "16.9.34",
     "@types/react-dom": "16.9.6",
     "@types/react-grid-layout": "0.17.1",
     "@types/react-helmet": "5.0.15",
-    "@types/styled-components": "5.0.1"
+    "@types/styled-components": "5.1.3"
   }
 }

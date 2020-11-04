@@ -1,37 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Requester, RestMethod, KibaResponse } from '@kibalabs/core';
+import { Box, HidingView } from '@kibalabs/ui-react';
 import GridLayout, { Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 
 import { GridItem } from './gridItem';
 import { GridBackground } from './gridBackground';
 import { IBox } from '../model';
 
 const DRAG_HANDLE_CLASS = 'drag-handle';
-
-const StyledGrid = styled.div`
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-`;
-
-interface IStyledGridInnerProps {
-  totalWidth: number;
-}
-
-const StyledGridInner = styled.div<IStyledGridInnerProps>`
-  position: relative;
-  max-width: ${(props: IStyledGridInnerProps): string => `${props.totalWidth}px`};;
-`;
-
-const GridItemWrapper = styled.div`
-  overflow: hidden;
-  border-radius: 8px;
-  background-color: #333333;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-`;
 
 interface IGridProps {
   rowHeight: number;
@@ -85,8 +62,8 @@ export const Grid = (props: IGridProps): React.ReactElement => {
         x: box.positionX,
         y: box.positionY,
         w: getColumnCount(Math.max(box.width / box.zoom, props.minimumGridItemWidth)),
-        // TOTO(krish): remove hardcoded 50 (which is the height of the top bit of each grid item)
-        h: getRowCount((box.height / box.zoom) + 50),
+        // TOTO(krishan711): remove hardcoded 75 (which is the height of the title of each grid item)
+        h: getRowCount((box.height / box.zoom) + 75),
         isResizable: false,
       };
     });
@@ -111,44 +88,43 @@ export const Grid = (props: IGridProps): React.ReactElement => {
   }, [props.url]);
 
   return (
-    <StyledGrid>
-      <StyledGridInner totalWidth={props.totalWidth}>
-        {isDragging && (
-          <GridBackground paddingSize={props.paddingSize} rowHeight={props.rowHeight} columnWidth={props.columnWidth} />
-        )}
-        <GridLayout
-          cols={props.columnCount}
-          width={props.totalWidth}
-          rowHeight={props.rowHeight}
-          margin={[props.paddingSize, props.paddingSize]}
-          layout={getLayout()}
-          onLayoutChange={onLayoutChanged}
-          onDragStart={onDragStarted}
-          onDragStop={onDragStopped}
-          draggableHandle={`.${DRAG_HANDLE_CLASS}`}
-        >
-          { props.boxes.map((box: IBox): React.ReactElement => (
-            <GridItemWrapper key={box.itemId}>
-              <GridItem
-                itemId={box.itemId}
-                url={props.url}
-                isIframeBlocked={isIframeBlocked}
-                columnWidth={props.columnWidth}
-                rowHeight={props.rowHeight}
-                paddingSize={props.paddingSize}
-                initialHeight={box.height}
-                initialWidth={box.width}
-                initialZoom={box.zoom}
-                initialDeviceCode={box.deviceCode}
-                minimumWidth={props.minimumGridItemWidth}
-                onCloseClicked={onBoxCloseClicked}
-                onSizeChanged={onBoxSizeChanged}
-                dragHandleClass={DRAG_HANDLE_CLASS}
-              />
-            </GridItemWrapper>
-          ))}
-        </GridLayout>
-      </StyledGridInner>
-    </StyledGrid>
+    <Box isFullHeight={true} isFullWidth={true} maxWidth={`${props.totalWidth}px`}>
+      {isDragging && (
+        <GridBackground paddingSize={props.paddingSize} rowHeight={props.rowHeight} columnWidth={props.columnWidth} />
+      )}
+      <GridLayout
+        cols={props.columnCount}
+        width={props.totalWidth}
+        rowHeight={props.rowHeight}
+        margin={[props.paddingSize, props.paddingSize]}
+        layout={getLayout()}
+        onLayoutChange={onLayoutChanged}
+        onDragStart={onDragStarted}
+        onDragStop={onDragStopped}
+        draggableHandle={`.${DRAG_HANDLE_CLASS}`}
+      >
+        { props.boxes.map((box: IBox): React.ReactElement => (
+          // NOTE(krishan711): need div here are react-grid-layout adds styles directly
+          <div key={box.itemId}>
+            <GridItem
+              itemId={box.itemId}
+              url={props.url}
+              isIframeBlocked={isIframeBlocked}
+              columnWidth={props.columnWidth}
+              rowHeight={props.rowHeight}
+              paddingSize={props.paddingSize}
+              initialHeight={box.height}
+              initialWidth={box.width}
+              initialZoom={box.zoom}
+              initialDeviceCode={box.deviceCode}
+              minimumWidth={props.minimumGridItemWidth}
+              onCloseClicked={onBoxCloseClicked}
+              onSizeChanged={onBoxSizeChanged}
+              dragHandleClass={DRAG_HANDLE_CLASS}
+            />
+          </div>
+        ))}
+      </GridLayout>
+    </Box>
   );
 };

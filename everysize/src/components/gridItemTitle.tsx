@@ -1,17 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { getClassName } from '@kibalabs/core';
+import { Alignment, Stack, Direction, PaddingSize, IconButton, KibaIcon, Box } from '@kibalabs/ui-react';
 
 import { IDevice, devices, getDeviceByCode } from '../model/devices';
-import { CloseIcon, DragHandleIcon } from './icons';
 
-const DargHandle = styled.div`
-  width: 24px;
-  height: 44px;
-  color: rgba(255, 255, 255, 0.25);
-  margin-right: 5px;
-  flex-shrink: 0;
-`;
-
+// TODO(krishan711): replace the selects with one from ui-react once it's there.
 const StyledSelect = styled.select`
   background: none;
   appearance: none;
@@ -44,79 +38,6 @@ const StyledInput = styled.input`
   text-align: center;
   font-size: 12px;
   max-width: 5ch;
-`;
-
-const StyledGridItemTitle = styled.div`
-  width: 100%;
-  min-height: 50px;
-  flex-grow: 0;
-  display: flex;
-  flex-direction: row;
-  color: white;
-  align-items: center;
-  padding: 5px 10px;
-`;
-
-const StyledCloseButton = styled.button`
-  background-color: #393939;
-  color: #dddddd;
-  padding: 5px;
-  border-radius: 4px;
-  width: 25px;
-  height: 25px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  overflow: hidden;
-  outline: none;
-  transition: 0.3s;
-
-  :hover {
-    background-color: #292929;
-    color: white;
-  }
-
-  :active {
-    background-color: #191919;
-  }
-`;
-
-const LeftHolder = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  justify-content: left;
-  align-items: start;
-  flex-shrink: 1;
-  max-width: 70%;
-  overflow: hidden;
-`;
-
-const MiddleHolder = styled.div`
-  flex-grow: 1;
-`;
-
-const RightHolder = styled.div`
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-left: 15px;
-`;
-
-const LeftInnerHolder = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-top: 2px;
-`;
-
-const SizeHolder = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 interface IGridItemTitleProps {
@@ -182,18 +103,18 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
   }
 
   return (
-    <StyledGridItemTitle>
-      <DargHandle className={`${props.dragHandleClass ? props.dragHandleClass : ''}`}>
-        <DragHandleIcon />
-      </DargHandle>
-      <LeftHolder>
+    <Stack direction={Direction.Horizontal} childAlignment={Alignment.Center} isFullWidth={true} paddingHorizontal={PaddingSize.Default}>
+      <Box width={'30px'} className={getClassName(props.dragHandleClass)}>
+        <KibaIcon _color='rgba(255, 255, 255, 0.7)' iconId='mui-drag-indicator'/>
+      </Box>
+      <Stack direction={Direction.Vertical}>
         <StyledSelect value={device ? device.name : ''} onChange={onDeviceInputChanged}>
           <option value=''>Manual</option>
           {devices.map((device: IDevice): React.ReactElement => (
             <option value={device.name} key={device.name}>{device.name}</option>
           ))}
         </StyledSelect>
-        <LeftInnerHolder>
+        <Stack direction={Direction.Horizontal} childAlignment={Alignment.Center} contentAlignment={Alignment.Fill}>
           <StyledSelectSmall value={zoomInput} onChange={onZoomInputChanged}>
             <option value="1">100%</option>
             <option value="1.5">66%</option>
@@ -201,17 +122,15 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
             <option value="2.5">40%</option>
             <option value="5">20%</option>
           </StyledSelectSmall>
-          <SizeHolder>
-            <StyledInput value={widthInput} onChange={onWidthInputChanged} />
-            <div style={{width: '10px'}}><CloseIcon /></div>
-            <StyledInput value={heightInput} onChange={onHeightInputChanged} />
-          </SizeHolder>
-        </LeftInnerHolder>
-      </LeftHolder>
-      <MiddleHolder />
-      <RightHolder>
-        <StyledCloseButton onClick={onCloseClicked}><CloseIcon /></StyledCloseButton>
-      </RightHolder>
-    </StyledGridItemTitle>
+          <Stack.Item growthFactor={1} />
+          <StyledInput value={widthInput} onChange={onWidthInputChanged} />
+          <KibaIcon _color='rgba(255, 255, 255, 0.7)' variant='small' iconId='ion-close'/>
+          <StyledInput value={heightInput} onChange={onHeightInputChanged} />
+          <Stack.Item growthFactor={1} />
+        </Stack>
+      </Stack>
+      <Stack.Item growthFactor={1} />
+      <IconButton icon={<KibaIcon variant='small' iconId='ion-close'/>} onClicked={onCloseClicked} />
+    </Stack>
   );
 };
