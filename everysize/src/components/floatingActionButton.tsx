@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { darken } from 'polished';
 import { KibaIcon } from '@kibalabs/ui-react';
 
 interface IFloatingActionButtonProps {
@@ -27,11 +26,11 @@ const StyledButton = styled.button<IStyledButtonProps>`
   cursor: pointer;
 
   :hover {
-    background-color: ${darken(0.1, '#333333')};
+    background-color: #1a1a1a;
   }
 
   :active {
-    background-color: ${darken(0.2, '#333333')};
+    background-color: #000000;
   }
 `;
 

@@ -13,7 +13,6 @@
     "@kibalabs/ui-react": "0.7.3",
     "@kibalabs/everyview-tracker": "0.1.1",
     "@kibalabs/everyview-tracker-react": "0.1.1",
-    "polished": "3.5.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-grid-layout": "0.17.1",

@@ -15,6 +15,7 @@ const StyledSelect = styled.select`
   color: white;
   padding: 2px 5px;
   font-size: 14px;
+  white-space: nowrap;
 `;
 
 const StyledSelectSmall = styled.select`
@@ -107,28 +108,30 @@ export const GridItemTitle = (props: IGridItemTitleProps): React.ReactElement =>
       <Box width={'30px'} className={getClassName(props.dragHandleClass)}>
         <KibaIcon _color='rgba(255, 255, 255, 0.7)' iconId='mui-drag-indicator'/>
       </Box>
-      <Stack direction={Direction.Vertical}>
-        <StyledSelect value={device ? device.name : ''} onChange={onDeviceInputChanged}>
-          <option value=''>Manual</option>
-          {devices.map((device: IDevice): React.ReactElement => (
-            <option value={device.name} key={device.name}>{device.name}</option>
-          ))}
-        </StyledSelect>
-        <Stack direction={Direction.Horizontal} childAlignment={Alignment.Center} contentAlignment={Alignment.Fill}>
-          <StyledSelectSmall value={zoomInput} onChange={onZoomInputChanged}>
-            <option value="1">100%</option>
-            <option value="1.5">66%</option>
-            <option value="2">50%</option>
-            <option value="2.5">40%</option>
-            <option value="5">20%</option>
-          </StyledSelectSmall>
-          <Stack.Item growthFactor={1} />
-          <StyledInput value={widthInput} onChange={onWidthInputChanged} />
-          <KibaIcon _color='rgba(255, 255, 255, 0.7)' variant='small' iconId='ion-close'/>
-          <StyledInput value={heightInput} onChange={onHeightInputChanged} />
-          <Stack.Item growthFactor={1} />
+      <Stack.Item growthFactor={1} shrinkFactor={1}>
+        <Stack direction={Direction.Vertical}>
+          <StyledSelect value={device ? device.name : ''} onChange={onDeviceInputChanged}>
+            <option value=''>Manual</option>
+            {devices.map((device: IDevice): React.ReactElement => (
+              <option value={device.name} key={device.name}>{device.name}</option>
+            ))}
+          </StyledSelect>
+          <Stack direction={Direction.Horizontal} childAlignment={Alignment.Center} contentAlignment={Alignment.Fill}>
+            <StyledSelectSmall value={zoomInput} onChange={onZoomInputChanged}>
+              <option value="1">100%</option>
+              <option value="1.5">66%</option>
+              <option value="2">50%</option>
+              <option value="2.5">40%</option>
+              <option value="5">20%</option>
+            </StyledSelectSmall>
+            <Stack.Item growthFactor={1} />
+            <StyledInput value={widthInput} onChange={onWidthInputChanged} />
+            <KibaIcon _color='rgba(255, 255, 255, 0.7)' variant='small' iconId='ion-close'/>
+            <StyledInput value={heightInput} onChange={onHeightInputChanged} />
+            <Stack.Item growthFactor={1} />
+          </Stack>
         </Stack>
-      </Stack>
+      </Stack.Item>
       <Stack.Item growthFactor={1} />
       <IconButton icon={<KibaIcon variant='small' iconId='ion-close'/>} onClicked={onCloseClicked} />
     </Stack>
