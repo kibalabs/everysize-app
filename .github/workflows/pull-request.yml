@@ -6,7 +6,6 @@ env:
   DIRECTORY: ./everysize
 jobs:
   build-app:
-    name: Build app
     runs-on: ubuntu-latest
     steps:
     - name: Check out the repo
