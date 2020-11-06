@@ -2,7 +2,7 @@
 
 ### Check your responsive webpage looks great in every size 🖥 💻 📱 👀
 
-![watch a demo](https://everysize.kibalabs.com/assets/hero.mp4)
+![watch a demo](https://everysize.kibalabs.com/assets/hero.gif)
 
 Simple and easy-to-use browser solution for developers and designers. No more having to resize your window 🚀
 
