@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [ master ]
 env:
-  DIRECTORY: ./app
+  DIRECTORY: ./everysize
 jobs:
   build-app:
     name: Build app

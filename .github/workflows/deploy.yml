@@ -5,7 +5,7 @@ on:
 env:
   DOCKER_REPO: docker.pkg.github.com/${{ github.repository }}
   DOCKER_TAG: latest
-  DIRECTORY: ./app
+  DIRECTORY: ./everysize
 jobs:
   deploy-app:
     name: Build app image and push to docker registry
