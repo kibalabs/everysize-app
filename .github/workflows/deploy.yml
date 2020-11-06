@@ -3,7 +3,7 @@ on:
   push:
     branches: [ master ]
 env:
-  DOCKER_REPO: docker.pkg.github.com/${{ github.repository }}
+  DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/everysize-app
   DOCKER_TAG: latest
   DIRECTORY: ./everysize
 jobs:
@@ -16,9 +16,9 @@ jobs:
     - name: Login to GitHub Packages Docker Registry
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u ${{ github.repository_owner }} --password-stdin
     - name: Build docker image
-      run: docker build --tag $DOCKER_REPO/app:$DOCKER_TAG $DIRECTORY
+      run: docker build --tag $DOCKER_IMAGE:$DOCKER_TAG $DIRECTORY
     - name: Push to GitHub Packages
-      run: docker push $DOCKER_REPO/app:$DOCKER_TAG
+      run: docker push $DOCKER_IMAGE:$DOCKER_TAG
   run-app:
     needs: deploy-app
     runs-on: ubuntu-latest

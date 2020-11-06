@@ -3,7 +3,6 @@ on:
   pull_request:
     branches: [ master ]
 env:
-  DOCKER_REPO:
   DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/everysize-app
   DOCKER_TAG: latest
   DIRECTORY: ./everysize
