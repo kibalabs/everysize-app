@@ -16,9 +16,9 @@ jobs:
     - name: Login to GitHub Packages Docker Registry
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u ${{ github.repository_owner }} --password-stdin
     - name: Build docker image
-      run: docker build --tag $DOCKER_REPO:$DOCKER_TAG $DIRECTORY
+      run: docker build --tag $DOCKER_REPO/app:$DOCKER_TAG $DIRECTORY
     - name: Push to GitHub Packages
-      run: docker push $DOCKER_REPO:$DOCKER_TAG
+      run: docker push $DOCKER_REPO/app:$DOCKER_TAG
   run-app:
     needs: deploy-app
     runs-on: ubuntu-latest
