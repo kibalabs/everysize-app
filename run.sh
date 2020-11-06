@@ -3,7 +3,7 @@ set -e -o pipefail
 
 name="everysize-app"
 url="${name}.kibalabs.com"
-dockerImageName="docker.pkg.github.com/kibalabs/everysize-app/app"
+dockerImageName="docker.pkg.github.com/kibalabs/everysize-app/everysize-app"
 dockerTag="latest"
 dockerImage="${dockerImageName}:${dockerTag}"
 version="$(git rev-list --count HEAD)"
