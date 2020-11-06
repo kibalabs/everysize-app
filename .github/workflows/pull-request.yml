@@ -29,7 +29,7 @@ jobs:
     needs: deploy-app
     runs-on: ubuntu-latest
     env:
-      RUNNABLE_DIRECTORY: ./deployments/${{ github.repository }}/${{ github.sha }}
+      RUNNABLE_DIRECTORY: deployments/${{ github.repository }}/${{ github.sha }}
       REPOSITORY_URL: git@github.com:${{ github.repository }}
     steps:
       - name: executing remote ssh commands using password
@@ -38,9 +38,10 @@ jobs:
           host: ${{ secrets.FREEBOX_URL }}
           username: ${{ secrets.FREEBOX_USER }}
           key: ${{ secrets.FREEBOX_SSH_KEY }}
-          script_stop: true
           envs: REPOSITORY_URL,RUNNABLE_DIRECTORY
+          script_stop: true
           script: |
             rm -rf $RUNNABLE_DIRECTORY
             git clone $REPOSITORY_URL $RUNNABLE_DIRECTORY
-            cd $RUNNABLE_DIRECTORY && ./run.sh
+            cd $RUNNABLE_DIRECTORY
+            ./run.sh
