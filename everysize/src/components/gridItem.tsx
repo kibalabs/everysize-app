@@ -1,75 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { WebView } from './webView';
 import { GridItemTitle } from './gridItemTitle';
-import { LoadingIndicator } from './loadingIndicator';
-
-const ErrorView = styled.div`
-  width: 100%;
-  flex-grow: 10;
-  line-height: 2em;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  text-align: center;
-  flex-direction: column;
-`;
-
-const ErrorSpan = styled.span`
-  color: red;
-`;
-
-const LoadingView = styled.div`
-  width: 100%;
-  flex-grow: 1;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-interface IStyledGridItemProps {
-  minimumWidth: number;
-}
-
-const StyledGridItem = styled.div<IStyledGridItemProps>`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  min-width: ${(props: IStyledGridItemProps): string => `${props.minimumWidth}px`};
-  align-items: center;
-`;
+import { LoadingSpinner, Stack, Alignment, Box, Direction, HidingView, ColorSettingView, WebView, Text, PaddingSize, ResponsiveTextAlignmentView, TextAlignment } from '@kibalabs/ui-react';
 
 interface IGridItemChildrenHolderProps {
   height: number;
   width: number;
   zoom: number;
-  isWebViewLoaded: boolean;
 }
 
 const GridItemChildrenHolder = styled.div<IGridItemChildrenHolderProps>`
   height: ${(props: IGridItemChildrenHolderProps): string => `${props.height}px`};
-  /* Min and max set here to make it work in firefox :( */
+  width: ${(props: IGridItemChildrenHolderProps): string => `${props.width}px`};
+  transform: ${(props: IGridItemChildrenHolderProps): string => `scale(${props.zoom})`};
+  transform-origin: 0% 0%;
+  /* Min and max height set to make it work in firefox :( */
   min-height: ${(props: IGridItemChildrenHolderProps): string => `${props.height}px`};
   max-height: ${(props: IGridItemChildrenHolderProps): string => `${props.height}px`};
-  width: ${(props: IGridItemChildrenHolderProps): string => `${props.width}px`};
-  transform-origin: 50% 0%;
-  transform: ${(props: IGridItemChildrenHolderProps): string => `scale(${props.zoom})`};
-  display: ${(props: IGridItemChildrenHolderProps): string => props.isWebViewLoaded ? 'block' : 'none'};
-`;
-
-interface IGridItemChildrenHolderInnerProps {
-  heightOffset: number;
-  widthOffset: number;
-}
-
-const GridItemChildrenHolderInner = styled.div<IGridItemChildrenHolderInnerProps>`
-  height: ${(props: IGridItemChildrenHolderInnerProps): string => `calc(100% + ${props.heightOffset}px)`};
-  width: ${(props: IGridItemChildrenHolderInnerProps): string => `calc(100% + ${props.widthOffset}px)`};
-  overflow: hidden;
 `;
 
 interface IGridItemProps {
@@ -111,38 +59,54 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
   }
 
   return (
-    <StyledGridItem minimumWidth={props.minimumWidth}>
-      <GridItemTitle
-        initialHeight={props.initialHeight}
-        initialWidth={props.initialWidth}
-        initialDeviceCode={props.initialDeviceCode}
-        initialZoom={props.initialZoom}
-        onSizeChanged={onSizeChanged}
-        onCloseClicked={onCloseClicked}
-        dragHandleClass={props.dragHandleClass}
-      />
-      {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
-      { props.isIframeBlocked && <ErrorView><span><ErrorSpan>Oh no!</ErrorSpan><br /><br />{props.url} doesn't support iframes, which we use to ensure your privacy 🔒<br /><br />If you're developing it, use localhost and everything should work 👌</span></ErrorView>}
-      { !props.isIframeBlocked && !isWebViewLoaded && <LoadingView><LoadingIndicator /></LoadingView>}
-      { !props.isIframeBlocked && (
-        <GridItemChildrenHolder
-          width={width}
-          height={height}
-          zoom={1.0 / zoom}
-          isWebViewLoaded={isWebViewLoaded}
-        >
-          <GridItemChildrenHolderInner heightOffset={0} widthOffset={0}>
-            {props.url ? (
-              <WebView
-                url={props.url}
-                errorView={<div>Error</div>}
-                onLoaded={onWebViewLoaded}
-              />
-            ) : ''}
-          </GridItemChildrenHolderInner>
-        </GridItemChildrenHolder>
-      )}
-    </StyledGridItem>
+    <ColorSettingView variant='inverse'>
+      <Box variant='gridItem' isFullHeight={true} isFullWidth={true}>
+        <Stack isFullHeight={true} isFullWidth={true} direction={Direction.Vertical} contentAlignment={Alignment.Center} childAlignment={Alignment.Center}>
+          <Stack.Item growthFactor={0} shrinkFactor={0}>
+            <GridItemTitle
+              initialHeight={props.initialHeight}
+              initialWidth={props.initialWidth}
+              initialDeviceCode={props.initialDeviceCode}
+              initialZoom={props.initialZoom}
+              onSizeChanged={onSizeChanged}
+              onCloseClicked={onCloseClicked}
+              dragHandleClass={props.dragHandleClass}
+            />
+          </Stack.Item>
+          <Stack.Item growthFactor={1} />
+          <HidingView isHidden={!props.isIframeBlocked}>
+            <Box maxWidth='400px'>
+              <ResponsiveTextAlignmentView alignment={TextAlignment.Center}>
+                <Stack direction={Direction.Vertical} paddingHorizontal={PaddingSize.Wide3} defaultGutter={PaddingSize.Wide} contentAlignment={Alignment.Center} childAlignment={Alignment.Center} shouldAddGutters={true}>
+                  <Text variant='large-error'>Oh no!</Text>
+                  <Text variant='small'>{props.url} doesn't support iframes, which we use to ensure your privacy 🔒<br />If you're developing it, use localhost and everything should work 👌</Text>
+                </Stack>
+              </ResponsiveTextAlignmentView>
+            </Box>
+          </HidingView>
+          <HidingView isHidden={props.isIframeBlocked || isWebViewLoaded}>
+            <LoadingSpinner variant='light'/>
+          </HidingView>
+          <HidingView isHidden={props.isIframeBlocked}>
+            <Box isFullWidth={false} width={`calc(${width}px * 1.0 / ${zoom})`} height={isWebViewLoaded ? `calc(${height}px * 1.0 / ${zoom})` : '0'}>
+              <GridItemChildrenHolder
+                width={width}
+                height={height}
+                zoom={1.0 / zoom}
+              >
+                <WebView
+                  url={props.url}
+                  errorView={<div>Error</div>}
+                  shouldShowLoadingSpinner={false}
+                  onLoadingChanged={onWebViewLoaded}
+                />
+              </GridItemChildrenHolder>
+            </Box>
+          </HidingView>
+          <Stack.Item growthFactor={1} />
+        </Stack>
+      </Box>
+    </ColorSettingView>
   );
 }
 

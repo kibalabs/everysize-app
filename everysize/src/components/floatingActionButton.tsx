@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { darken } from 'polished';
-import { AddIcon } from './icons';
+import { KibaIcon } from '@kibalabs/ui-react';
 
 interface IFloatingActionButtonProps {
   bottomOffset: string;
@@ -12,13 +11,12 @@ interface IStyledButtonProps {
   bottomOffset: string;
 }
 
+// TODO(krishan711): think about how this can be represented in ui-react
 const StyledButton = styled.button<IStyledButtonProps>`
   color: white;
   background-color: #333333;
-  height: 50px;
-  width: 50px;
   padding: 10px;
-  border-radius: 25px;
+  border-radius: 50%;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   outline: none;
   position: absolute;
@@ -28,11 +26,11 @@ const StyledButton = styled.button<IStyledButtonProps>`
   cursor: pointer;
 
   :hover {
-    background-color: ${darken(0.1, '#333333')};
+    background-color: #1a1a1a;
   }
 
   :active {
-    background-color: ${darken(0.2, '#333333')};
+    background-color: #000000;
   }
 `;
 
@@ -43,7 +41,7 @@ export const FloatingActionButton = (props: IFloatingActionButtonProps): React.R
 
   return (
     <StyledButton bottomOffset={props.bottomOffset} onClick={onClicked}>
-      <AddIcon />
+      <KibaIcon variant='large' iconId='ion-add' />
     </StyledButton>
   );
 }

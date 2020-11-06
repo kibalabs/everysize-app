@@ -10,14 +10,10 @@ interface IStyledGridBackgroundProps {
 const StyledGridBackground = styled.div<IStyledGridBackgroundProps>`
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: fixed;
+  z-index: -1;
   transition: 0.3s;
   opacity: 0.4;
-`;
-
-const GridBackgroundInner = styled.div<IStyledGridBackgroundProps>`
-  height: 100%;
-  width: 100%;
   background-image: radial-gradient(circle, #aaa 1px, transparent 1px);
   background-size: ${(props: IStyledGridBackgroundProps): string => `${props.paddingSize}px ${props.paddingSize}px`};
   background-position: 4px 4px;
@@ -27,7 +23,7 @@ const GridBackgroundInner = styled.div<IStyledGridBackgroundProps>`
   background-color: white;
 `;
 
-const GridBackgroundInnerInner = styled.div<IStyledGridBackgroundProps>`
+const GridBackgroundInnerInner = styled.div`
   height: 100%;
   width: 100%;
   background-image: radial-gradient(circle, #fff 10px, transparent 0px);
@@ -44,9 +40,7 @@ interface IGridBackgroundProps {
 export const GridBackground = (props: IGridBackgroundProps): React.ReactElement => {
   return (
     <StyledGridBackground paddingSize={props.paddingSize} rowHeight={props.rowHeight} columnWidth={props.columnWidth}>
-      <GridBackgroundInner paddingSize={props.paddingSize} rowHeight={props.rowHeight} columnWidth={props.columnWidth}>
-        <GridBackgroundInnerInner paddingSize={props.paddingSize} rowHeight={props.rowHeight} columnWidth={props.columnWidth}></GridBackgroundInnerInner>
-      </GridBackgroundInner>
+      <GridBackgroundInnerInner />
     </StyledGridBackground>
   )
 };
