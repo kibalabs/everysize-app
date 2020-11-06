@@ -16,7 +16,6 @@ jobs:
       uses: actions/checkout@v2
     - name: Build docker image
       run: docker build $DIRECTORY
-jobs:
   deploy-app:
     name: Build app image and push to docker registry
     runs-on: ubuntu-latest
