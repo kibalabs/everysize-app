@@ -1,0 +1,40 @@
+name: Deploy
+on:
+  push:
+    branches: [ master ]
+env:
+  DOCKER_REPO: docker.pkg.github.com/${{ github.repository }}
+  DOCKER_TAG: latest
+  DIRECTORY: ./everysize
+jobs:
+  deploy-app:
+    name: Build app image and push to docker registry
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v2
+    - name: Login to GitHub Packages Docker Registry
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u ${{ github.repository_owner }} --password-stdin
+    - name: Build docker image
+      run: docker build --tag $DOCKER_REPO:$DOCKER_TAG $DIRECTORY
+    - name: Push to GitHub Packages
+      run: docker push $DOCKER_REPO:$DOCKER_TAG
+  run-app:
+    needs: deploy-app
+    runs-on: ubuntu-latest
+    env:
+      RUNNABLE_DIRECTORY: ~/deployments/${{ github.repository }}/${{ github.sha }}
+      REPOSITORY_URL: git@github.com:${{ github.repository }}
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.FREEBOX_URL }}
+          username: ${{ secrets.FREEBOX_USER }}
+          key: ${{ secrets.FREEBOX_SSH_KEY }}
+          script_stop: true
+          envs: REPOSITORY_URL,RUNNABLE_DIRECTORY
+          script: |
+            rm -rf $RUNNABLE_DIRECTORY
+            git clone $REPOSITORY_URL $RUNNABLE_DIRECTORY
+            cd $RUNNABLE_DIRECTORY && ./run.sh
