@@ -1,0 +1,14 @@
+name: Build
+on:
+  pull_request:
+    branches: [ master ]
+env:
+  DIRECTORY: ./everysize
+jobs:
+  build-app:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v2
+    - name: Build docker image
+      run: docker build $DIRECTORY
