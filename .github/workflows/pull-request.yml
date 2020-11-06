@@ -8,7 +8,6 @@ env:
   DIRECTORY: ./everysize
 jobs:
   build-app:
-    name: Build app
     runs-on: ubuntu-latest
     steps:
     - name: Check out the repo
@@ -16,7 +15,6 @@ jobs:
     - name: Build docker image
       run: docker build $DIRECTORY
   deploy-app:
-    name: Build app image and push to docker registry
     runs-on: ubuntu-latest
     steps:
     - name: Check out the repo
@@ -31,7 +29,7 @@ jobs:
     needs: deploy-app
     runs-on: ubuntu-latest
     env:
-      RUNNABLE_DIRECTORY: ~/deployments/${{ github.repository }}/${{ github.sha }}
+      RUNNABLE_DIRECTORY: ./deployments/${{ github.repository }}/${{ github.sha }}
       REPOSITORY_URL: git@github.com:${{ github.repository }}
     steps:
       - name: executing remote ssh commands using password
