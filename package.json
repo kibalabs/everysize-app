@@ -20,7 +20,7 @@
     "styled-components": "5.3.0"
   },
   "devDependencies": {
-    "@kibalabs/build": "0.6.5-next.8",
+    "@kibalabs/build": "0.6.5-next.9",
     "@types/node": "12.12.35",
     "@types/react": "17.0.9",
     "@types/react-dom": "17.0.6",
