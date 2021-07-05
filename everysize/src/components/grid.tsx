@@ -79,7 +79,7 @@ export const Grid = (props: IGridProps): React.ReactElement => {
 
   React.useEffect((): void => {
     setIsIframeBlocked(false);
-    new Requester().makeRequest(RestMethod.POST, 'https://api.kiba.dev/v1/retrieve-headers', {url: props.url}).then((response: KibaResponse) => {
+    new Requester().makeRequest(RestMethod.POST, 'https://everysize-api.kibalabs.com/v1/retrieve-headers', {url: props.url}).then((response: KibaResponse) => {
       const frameHeaders = JSON.parse(response.content).headers.filter((header: {key: string, value: string}): boolean => header.key === 'x-frame-options');
       setIsIframeBlocked(frameHeaders.length > 0 && !frameHeaders[0].value.includes('https://everysize-app.kibalabs.com'));
     }).catch((error: Error): void => {
