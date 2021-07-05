@@ -1,40 +1,51 @@
 name: Deploy
 on:
   push:
-    branches: [ master ]
-env:
-  DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/everysize-app
-  DOCKER_TAG: latest
-  DIRECTORY: ./everysize
+    branches: [ main ]
 jobs:
   deploy-app:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./everysize
+    env:
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
     steps:
-    - name: Check out the repo
-      uses: actions/checkout@v2
-    - name: Login to GitHub Packages Docker Registry
-      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u ${{ github.repository_owner }} --password-stdin
-    - name: Build docker image
-      run: docker build --tag $DOCKER_IMAGE:$DOCKER_TAG $DIRECTORY
-    - name: Push to GitHub Packages
-      run: docker push $DOCKER_IMAGE:$DOCKER_TAG
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Login to GitHub container registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+      - name: Build docker image
+        run: docker build --tag $DOCKER_IMAGE .
+      - name: Push to container registry
+        run: docker push $DOCKER_IMAGE
   run-app:
     needs: deploy-app
     runs-on: ubuntu-latest
     env:
-      RUNNABLE_DIRECTORY: deployments/${{ github.repository }}/${{ github.sha }}
-      REPOSITORY_URL: git@github.com:${{ github.repository }}
+      NAME: everysize-app
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
     steps:
-      - name: executing remote ssh commands using password
+      - name: executing remote ssh commands
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.FREEBOX_URL }}
           username: ${{ secrets.FREEBOX_USER }}
           key: ${{ secrets.FREEBOX_SSH_KEY }}
-          envs: REPOSITORY_URL,RUNNABLE_DIRECTORY
+          envs: DOCKER_IMAGE,NAME
           script_stop: true
           script: |
-            rm -rf $RUNNABLE_DIRECTORY
-            git clone $REPOSITORY_URL $RUNNABLE_DIRECTORY
-            cd $RUNNABLE_DIRECTORY
-            ./run.sh
+            url="everysize-app.kibalabs.com"
+            varsFile=~/.${NAME}.vars
+            docker pull ${DOCKER_IMAGE}
+            docker stop ${NAME} && docker rm ${NAME} || true
+            docker run \
+                --name ${NAME} \
+                --detach \
+                --publish-all \
+                --restart on-failure \
+                --env NAME=${NAME} \
+                --env VIRTUAL_HOST=${url} \
+                --env LETSENCRYPT_HOST=${url} \
+                --env-file ${varsFile} \
+                ${DOCKER_IMAGE}

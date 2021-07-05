@@ -4,6 +4,8 @@ import { useFavicon } from '@kibalabs/core-react';
 import { EveryviewTracker } from '@kibalabs/everyview-tracker';
 import { EveryviewProvider } from '@kibalabs/everyview-tracker-react';
 import { buildTheme, KibaApp } from '@kibalabs/ui-react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { hot } from 'react-hot-loader/root';
 
 import { GridPage } from './gridPage';
 
@@ -57,7 +59,7 @@ const theme = buildTheme({
   }
 });
 
-export const App = (): React.ReactElement => {
+export const App = hot((): React.ReactElement => {
   useFavicon('/assets/favicon.svg');
 
   return (
@@ -85,4 +87,4 @@ export const App = (): React.ReactElement => {
       </EveryviewProvider>
     </KibaApp>
   );
-}
+});
