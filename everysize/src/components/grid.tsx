@@ -1,6 +1,6 @@
 import React from 'react';
 import { Requester, RestMethod, KibaResponse } from '@kibalabs/core';
-import { Box, HidingView } from '@kibalabs/ui-react';
+import { Box } from '@kibalabs/ui-react';
 import GridLayout, { Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 

@@ -15,9 +15,11 @@ const GridItemChildrenHolder = styled.div<IGridItemChildrenHolderProps>`
   width: ${(props: IGridItemChildrenHolderProps): string => `${props.width}px`};
   transform: ${(props: IGridItemChildrenHolderProps): string => `scale(${props.zoom})`};
   transform-origin: 0% 0%;
-  /* Min and max height set to make it work in firefox :( */
+  /* Min and max height, width set to make it work :( */
   min-height: ${(props: IGridItemChildrenHolderProps): string => `${props.height}px`};
   max-height: ${(props: IGridItemChildrenHolderProps): string => `${props.height}px`};
+  min-width: ${(props: IGridItemChildrenHolderProps): string => `${props.width}px`};
+  max-width: ${(props: IGridItemChildrenHolderProps): string => `${props.width}px`};
 `;
 
 interface IGridItemProps {
@@ -88,7 +90,7 @@ export const GridItem = (props: IGridItemProps): React.ReactElement => {
             <LoadingSpinner variant='light'/>
           </HidingView>
           <HidingView isHidden={props.isIframeBlocked}>
-            <Box isFullWidth={false} width={`calc(${width}px * 1.0 / ${zoom})`} height={isWebViewLoaded ? `calc(${height}px * 1.0 / ${zoom})` : '0'}>
+            <Box isFullWidth={false} width={`calc(${width}px * 1.0 / ${zoom})`} height={isWebViewLoaded ? `calc(${height}px * 1.0 / ${zoom})` : '0'} shouldClipContent={true}>
               <GridItemChildrenHolder
                 width={width}
                 height={height}
